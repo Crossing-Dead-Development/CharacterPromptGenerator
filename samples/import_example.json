@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "categories": [
+    {
+      "id": "cat-occupation",
+      "name": "職業／身分",
+      "description": "",
+      "enabled": true,
+      "sortOrder": 8,
+      "defaultDrawCount": 1
+    },
+    {
+      "id": "cat-mood",
+      "name": "新的分類：情緒",
+      "description": "角色此刻的情緒狀態。",
+      "enabled": true,
+      "sortOrder": 20,
+      "defaultDrawCount": 1
+    }
+  ],
+  "entries": [
+    {
+      "id": "ex-occ-001",
+      "categoryId": "cat-occupation",
+      "text": "古書修復師",
+      "emoji": "📚",
+      "notes": "",
+      "tags": [
+        "工匠"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "ex-occ-002",
+      "categoryId": "cat-occupation",
+      "text": "鐘錶匠",
+      "emoji": null,
+      "notes": "示範：已存在的詞會被略過",
+      "tags": [],
+      "enabled": true
+    },
+    {
+      "id": "ex-mood-001",
+      "categoryId": "cat-mood",
+      "text": "剛睡醒",
+      "emoji": "😪",
+      "notes": "",
+      "tags": [],
+      "enabled": true
+    },
+    {
+      "id": "ex-mood-002",
+      "categoryId": "cat-mood",
+      "text": "強忍笑意",
+      "emoji": "🤭",
+      "notes": "",
+      "tags": [],
+      "enabled": true
+    },
+    {
+      "category": "核心意象與 Emoji",
+      "text": "紙鶴",
+      "emoji": "🕊️",
+      "notes": "也可以不寫 categoryId，直接用 category 名稱",
+      "tags": "摺紙|祈願"
+    }
+  ]
+}

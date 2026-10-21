@@ -1,0 +1,24 @@
+﻿<Application x:Class="CharacterPromptGenerator.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:infra="clr-namespace:CharacterPromptGenerator.App.Infrastructure"
+             xmlns:vm="clr-namespace:CharacterPromptGenerator.App.ViewModels"
+             xmlns:views="clr-namespace:CharacterPromptGenerator.App.Views"
+             ShutdownMode="OnMainWindowClose">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Themes/Dark.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+
+      <infra:NotEmptyToVisibilityConverter x:Key="NotEmptyToVis"/>
+      <infra:ScaleConverter x:Key="Scale"/>
+
+      <!-- 各頁面 ViewModel → View -->
+      <DataTemplate DataType="{x:Type vm:DrawViewModel}"><views:DrawView/></DataTemplate>
+      <DataTemplate DataType="{x:Type vm:EditorViewModel}"><views:EditorView/></DataTemplate>
+      <DataTemplate DataType="{x:Type vm:HistoryViewModel}"><views:HistoryView/></DataTemplate>
+      <DataTemplate DataType="{x:Type vm:DataViewModel}"><views:DataView/></DataTemplate>
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

@@ -1,0 +1,105 @@
+<Window x:Class="CharacterPromptGenerator.App.Views.DisplayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="clr-namespace:CharacterPromptGenerator.App.Controls"
+        Title="角色設計題目｜直播展示" Width="960" Height="640" MinWidth="420" MinHeight="300"
+        Background="{StaticResource BgApp}" WindowStartupLocation="CenterOwner"
+        Icon="pack://application:,,,/Assets/CharacterPromptGenerator.ico"
+        KeyDown="OnKeyDown">
+
+  <Window.InputBindings>
+    <KeyBinding Key="F5" Command="{Binding RerollUnlockedCommand}"/>
+    <KeyBinding Key="F5" Modifiers="Control" Command="{Binding GenerateAllCommand}"/>
+    <KeyBinding Key="C" Modifiers="Control+Shift" Command="{Binding CopyCommand}"/>
+    <KeyBinding Key="OemPlus" Modifiers="Control" Command="{Binding DisplayBiggerCommand}"/>
+    <KeyBinding Key="OemMinus" Modifiers="Control" Command="{Binding DisplaySmallerCommand}"/>
+  </Window.InputBindings>
+
+  <Window.ContextMenu>
+    <ContextMenu>
+      <MenuItem Header="顯示／隱藏控制列 (H)" Click="ToggleControls_Click"/>
+      <MenuItem Header="重抽未鎖定 (F5)" Command="{Binding RerollUnlockedCommand}"/>
+      <MenuItem Header="全部重新產生 (Ctrl+F5)" Command="{Binding GenerateAllCommand}"/>
+    </ContextMenu>
+  </Window.ContextMenu>
+
+  <DockPanel Margin="28,20">
+    <!-- 控制列（可隱藏，讓畫面乾淨） -->
+    <Border DockPanel.Dock="Top" Margin="0,0,0,14"
+            Visibility="{Binding DisplayShowControls, Converter={StaticResource BoolToVis}}">
+      <WrapPanel>
+        <Button Content="🔁 重抽未鎖定" Command="{Binding RerollUnlockedCommand}" Margin="0,0,6,4"/>
+        <Button Content="🎲 全部重新產生" Command="{Binding GenerateAllCommand}" Margin="0,0,6,4"/>
+        <Button Content="🔓 解除鎖定" Command="{Binding UnlockAllCommand}" Margin="0,0,16,4"/>
+        <Button Content="A−" Command="{Binding DisplaySmallerCommand}" Margin="0,0,4,4" ToolTip="Ctrl + -"/>
+        <Button Content="A＋" Command="{Binding DisplayBiggerCommand}" Margin="0,0,12,4" ToolTip="Ctrl + +"/>
+        <CheckBox Content="顯示備註" IsChecked="{Binding DisplayShowNotes}" Margin="0,0,12,4"/>
+        <Button Content="隱藏控制列 (H)" Click="ToggleControls_Click" Margin="0,0,0,4"/>
+      </WrapPanel>
+    </Border>
+
+    <TextBlock DockPanel.Dock="Top" Text="角色設計題目" FontWeight="Bold" Foreground="{StaticResource Accent}" Margin="0,0,0,10"
+               FontSize="{Binding DisplayFontSize, Converter={StaticResource Scale}, ConverterParameter=0.8}"/>
+
+    <Grid>
+      <TextBlock Text="等待抽題…" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                 FontSize="{Binding DisplayFontSize}"
+                 Visibility="{Binding HasResult, Converter={StaticResource NotEmptyToVis}, ConverterParameter=invert}"/>
+
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ItemsControl ItemsSource="{Binding Groups}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Margin="0,0,28,14">
+                <c:EmojiTextBlock Value="{Binding CategoryName}" Foreground="{StaticResource TextSecondary}"
+                           FontSize="{Binding DataContext.DisplayFontSize, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource Scale}, ConverterParameter=0.5}"/>
+                <ItemsControl ItemsSource="{Binding Items}">
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Border x:Name="slot" Background="{StaticResource BgCard}" CornerRadius="10" Padding="16,8" Margin="0,4,10,4"
+                              BorderThickness="2" BorderBrush="Transparent" Cursor="Hand" ToolTip="點一下鎖定／解除鎖定">
+                        <Border.InputBindings>
+                          <MouseBinding MouseAction="LeftClick" Command="{Binding ToggleLockCommand}"/>
+                        </Border.InputBindings>
+                        <StackPanel>
+                          <StackPanel Orientation="Horizontal">
+                            <c:EmojiTextBlock Value="{Binding Emoji}" IsEmojiField="True" EmojiScale="1.25" Margin="0,0,12,0" VerticalAlignment="Center"
+                                       FontSize="{Binding DataContext.DisplayFontSize, RelativeSource={RelativeSource AncestorType=Window}}"
+                                       Visibility="{Binding HasEmoji, Converter={StaticResource NotEmptyToVis}}"/>
+                            <c:EmojiTextBlock Value="{Binding Text}" FontWeight="SemiBold" VerticalAlignment="Center" TextWrapping="Wrap"
+                                       FontSize="{Binding DataContext.DisplayFontSize, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                            <TextBlock x:Name="lockIcon" Text="🔒" Margin="10,0,0,0" VerticalAlignment="Center" Visibility="Collapsed"
+                                       Foreground="{StaticResource Accent}"
+                                       FontSize="{Binding DataContext.DisplayFontSize, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource Scale}, ConverterParameter=0.5}"/>
+                          </StackPanel>
+                          <TextBlock x:Name="notes" Text="{Binding Notes}" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap"
+                                     FontSize="{Binding DataContext.DisplayFontSize, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource Scale}, ConverterParameter=0.45}"
+                                     Visibility="{Binding HasNotes, Converter={StaticResource NotEmptyToVis}}"/>
+                        </StackPanel>
+                      </Border>
+                      <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Locked}" Value="True">
+                          <Setter TargetName="slot" Property="BorderBrush" Value="{StaticResource Accent}"/>
+                          <Setter TargetName="lockIcon" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding DataContext.DisplayShowNotes, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                          <Setter TargetName="notes" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                      </DataTemplate.Triggers>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+    </Grid>
+  </DockPanel>
+</Window>

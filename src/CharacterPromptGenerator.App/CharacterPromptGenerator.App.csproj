@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>CharacterPromptGenerator</AssemblyName>
+    <RootNamespace>CharacterPromptGenerator.App</RootNamespace>
+    <Product>Character Design Prompt Generator</Product>
+    <Company>Crossing Dead Development</Company>
+    <Version>0.1.0</Version>
+    <Platforms>AnyCPU;x64</Platforms>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <ApplicationIcon>Assets\CharacterPromptGenerator.ico</ApplicationIcon>
+    <!-- 單一檔案發行時：WPF 原生 DLL 一起打包並壓縮（約 65 MB，免安裝 .NET） -->
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CharacterPromptGenerator.Core\CharacterPromptGenerator.Core.csproj" />
+  </ItemGroup>
+
+  <!-- 視窗標題列與工作列圖示（EXE 檔案圖示由上方的 ApplicationIcon 設定） -->
+  <ItemGroup>
+    <Resource Include="Assets\CharacterPromptGenerator.ico" />
+  </ItemGroup>
+
+  <!--
+    內建示範資料：放在 EXE 旁的 SeedData\（單一檔案發行時也不打包進 EXE，方便替換），
+    同時內嵌一份作為後備，避免資料夾遺失時首次啟動沒有範例。
+    這些檔案只在首次啟動時複製到使用者資料夾，之後不會再覆蓋使用者的詞庫。
+  -->
+  <ItemGroup>
+    <Content Include="SeedData\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <EmbeddedResource Include="SeedData\*.json" LogicalName="SeedData.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!--
+    Fluent Emoji 3D 圖庫（MIT，Microsoft）：放在 EXE 旁的 Emoji\，不打包進 EXE。
+    抽題結果與詞庫編輯器一律用這些圖片顯示 Emoji，不依賴 Windows 的 Segoe UI Emoji 字型。
+  -->
+  <ItemGroup>
+    <Content Include="Emoji\fluent-emoji-3d.zip;Emoji\LICENSE-fluentui-emoji.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Include="..\..\THIRD-PARTY-NOTICES.md" Link="THIRD-PARTY-NOTICES.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
+</Project>

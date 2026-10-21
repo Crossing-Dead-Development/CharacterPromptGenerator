@@ -1,0 +1,63 @@
+﻿<Window x:Class="CharacterPromptGenerator.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Character Design Prompt Generator｜角色設計題目產生器"
+        Height="760" Width="1240" MinHeight="560" MinWidth="960"
+        Background="{StaticResource BgApp}"
+        Icon="pack://application:,,,/Assets/CharacterPromptGenerator.ico"
+        WindowStartupLocation="CenterScreen">
+
+  <Window.InputBindings>
+    <KeyBinding Key="F5" Command="{Binding Draw.RerollUnlockedCommand}"/>
+    <KeyBinding Key="F5" Modifiers="Control" Command="{Binding Draw.GenerateAllCommand}"/>
+    <KeyBinding Key="C" Modifiers="Control+Shift" Command="{Binding Draw.CopyCommand}"/>
+  </Window.InputBindings>
+
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="190"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <!-- 側邊欄 -->
+    <Border Background="{StaticResource BgSidebar}">
+      <DockPanel Margin="10,16">
+        <StackPanel DockPanel.Dock="Top" Margin="8,0,8,16">
+          <TextBlock Text="角色設計" FontSize="20" FontWeight="Bold" Foreground="{StaticResource Accent}"/>
+          <TextBlock Text="題目產生器" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+          <TextBlock Text="Crossing Dead Development" FontSize="10" Foreground="{StaticResource TextMuted}" Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Margin="8,8,8,0">
+          <TextBlock Text="資料位置" Style="{StaticResource Muted}" FontSize="10"/>
+          <TextBlock Text="{Binding DataPathText}" Style="{StaticResource Muted}" FontSize="10" ToolTip="{Binding DataPathText}"/>
+          <TextBlock Text="{Binding VersionText}" Style="{StaticResource Muted}" FontSize="10" Margin="0,6,0,0"/>
+        </StackPanel>
+
+        <StackPanel>
+          <RadioButton Style="{StaticResource NavButton}" GroupName="nav" IsChecked="{Binding IsDrawPage}">
+            <TextBlock Text="🎲  抽題" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}"/>
+          </RadioButton>
+          <RadioButton Style="{StaticResource NavButton}" GroupName="nav" IsChecked="{Binding IsEditorPage}">
+            <TextBlock Text="📝  詞庫管理" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}"/>
+          </RadioButton>
+          <RadioButton Style="{StaticResource NavButton}" GroupName="nav" IsChecked="{Binding IsHistoryPage}">
+            <TextBlock Text="⭐  歷史與收藏" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}"/>
+          </RadioButton>
+          <RadioButton Style="{StaticResource NavButton}" GroupName="nav" IsChecked="{Binding IsDataPage}">
+            <TextBlock Text="💾  資料與備份" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}"/>
+          </RadioButton>
+
+          <TextBlock Style="{StaticResource Muted}" FontSize="11" Margin="8,24,8,0" LineHeight="18">
+            <Run Text="快捷鍵"/><LineBreak/>
+            <Run Text="F5　重抽未鎖定"/><LineBreak/>
+            <Run Text="Ctrl+F5　全部重新產生"/><LineBreak/>
+            <Run Text="Ctrl+Shift+C　複製題目"/>
+          </TextBlock>
+        </StackPanel>
+      </DockPanel>
+    </Border>
+
+    <ContentControl Grid.Column="1" Content="{Binding CurrentPage}" Margin="16"/>
+  </Grid>
+</Window>

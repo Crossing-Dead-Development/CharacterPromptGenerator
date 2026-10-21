@@ -1,0 +1,11 @@
+bin/
+obj/
+publish/
+dist/
+.vs/
+*.user
+TestResults/
+# 本機測試時建立的可攜模式資料
+src/**/Data/
+portable.flag
+publish_*/

@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CharacterPromptGenerator.App/CharacterPromptGenerator.App.csproj" />
+    <Project Path="src/CharacterPromptGenerator.Core/CharacterPromptGenerator.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CharacterPromptGenerator.Tests/CharacterPromptGenerator.Tests.csproj" />
+  </Folder>
+</Solution>
