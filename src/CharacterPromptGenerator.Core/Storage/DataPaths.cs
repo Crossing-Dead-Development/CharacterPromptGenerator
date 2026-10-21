@@ -1,3 +1,5 @@
+using CharacterPromptGenerator.Core.Localization;
+
 namespace CharacterPromptGenerator.Core.Storage;
 
 /// <summary>所有使用者資料的位置。預設在 %AppData%，可攜模式在 EXE 旁的 Data\。</summary>
@@ -36,7 +38,7 @@ public sealed class DataPaths
             if (CanWrite(dir)) return new DataPaths(dir, isPortable: true);
             return new DataPaths(DefaultAppDataDir)
             {
-                Notice = $"偵測到可攜模式標記，但無法寫入 {dir}，已改用 AppData 資料夾。",
+                Notice = L.F("Paths_PortableNotWritable", dir),
             };
         }
         return new DataPaths(DefaultAppDataDir);

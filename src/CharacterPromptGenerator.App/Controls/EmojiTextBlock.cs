@@ -7,6 +7,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using CharacterPromptGenerator.App.Infrastructure;
 using CharacterPromptGenerator.Core.Emoji;
+using CharacterPromptGenerator.Core.Localization;
 using Image = System.Windows.Controls.Image;
 
 namespace CharacterPromptGenerator.App.Controls;
@@ -139,8 +140,7 @@ public class EmojiTextBlock : TextBlock
                 Margin = new Thickness(size * 0.18),
                 Child = new TextBlock { Text = "?", FontWeight = FontWeights.Bold, Foreground = muted },
             },
-            ToolTip = $"找不到這個 Emoji 的圖片：{cluster}\n碼點：{EmojiText.Describe(cluster)}\n" +
-                      $"可以把 PNG 圖片命名為 {EmojiLibrary.OverrideFileName(key)}，放到資料夾的 EmojiOverrides\\ 中。",
+            ToolTip = L.F("Emoji_MissingTip", cluster, EmojiText.Describe(cluster), EmojiLibrary.OverrideFileName(key)),
         };
         box.SetBinding(WidthProperty, SizeBinding());
         box.SetBinding(HeightProperty, SizeBinding());

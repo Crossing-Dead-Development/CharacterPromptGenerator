@@ -1,6 +1,7 @@
 <UserControl x:Class="CharacterPromptGenerator.App.Views.DataView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="clr-namespace:CharacterPromptGenerator.App.Infrastructure">
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*"/>
@@ -12,12 +13,12 @@
       <StackPanel>
         <Border Style="{StaticResource Card}" Margin="0,0,0,12">
           <StackPanel>
-            <TextBlock Text="資料位置" Style="{StaticResource SectionTitle}"/>
+            <TextBlock Text="{l:T Main_DataLocation}" Style="{StaticResource SectionTitle}"/>
             <TextBox Text="{Binding DataDir, Mode=OneWay}" IsReadOnly="True"/>
             <TextBlock Text="{Binding ModeText}" Style="{StaticResource Muted}" Margin="0,6,0,0"/>
             <TextBlock Text="{Binding Stats}" Style="{StaticResource Muted}" Margin="0,4,0,0"/>
             <WrapPanel Margin="0,10,0,0">
-              <Button Content="📂 開啟資料夾" Command="{Binding OpenDataFolderCommand}" Margin="0,0,6,6"/>
+              <Button Content="{l:T Data_OpenFolder}" Command="{Binding OpenDataFolderCommand}" Margin="0,0,6,6"/>
               <Button Content="{Binding PortableButtonText}" Command="{Binding TogglePortableCommand}" Margin="0,0,0,6"/>
             </WrapPanel>
           </StackPanel>
@@ -25,35 +26,38 @@
 
         <Border Style="{StaticResource Card}" Margin="0,0,0,12">
           <StackPanel>
-            <TextBlock Text="匯入／匯出詞庫" Style="{StaticResource SectionTitle}"/>
+            <TextBlock Text="{l:T Data_ImportExportTitle}" Style="{StaticResource SectionTitle}"/>
             <TextBlock Style="{StaticResource Muted}" Margin="0,0,0,10">
-              <Run Text="JSON：完整詞庫（含分類設定與 ID），用於備份與跨電腦交換。"/><LineBreak/>
-              <Run Text="CSV：標頭 category,text,emoji,notes,tags，可用試算表編輯。"/><LineBreak/>
-              <Run Text="TXT：一行 [分類名稱]，下面每行一個詞條；# 開頭為註解。"/><LineBreak/>
-              <Run Text="匯入前會先預覽、檢查重複，並在套用前自動備份。"/>
+              <Run Text="{l:T Data_FormatJson}"/><LineBreak/>
+              <Run Text="{l:T Data_FormatCsv}"/><LineBreak/>
+              <Run Text="{l:T Data_FormatTxt}"/><LineBreak/>
+              <Run Text="{l:T Data_ImportNote}"/>
             </TextBlock>
             <WrapPanel>
-              <Button Content="📥 匯入詞庫" Style="{StaticResource PrimaryButton}" Command="{Binding ImportCommand}" Margin="0,0,6,6"/>
-              <Button Content="📤 匯出完整 JSON" Command="{Binding ExportJsonCommand}" Margin="0,0,6,6"/>
-              <Button Content="📤 匯出 CSV" Command="{Binding ExportCsvCommand}" Margin="0,0,0,6"/>
+              <Button Content="{l:T Common_Import}" Style="{StaticResource PrimaryButton}" Command="{Binding ImportCommand}" Margin="0,0,6,6"/>
+              <Button Content="{l:T Data_ExportJson}" Command="{Binding ExportJsonCommand}" Margin="0,0,6,6"/>
+              <Button Content="{l:T Common_ExportCsv}" Command="{Binding ExportCsvCommand}" Margin="0,0,0,6"/>
             </WrapPanel>
           </StackPanel>
         </Border>
 
         <Border Style="{StaticResource Card}" Margin="0,0,0,12">
           <StackPanel>
-            <TextBlock Text="Emoji 圖片" Style="{StaticResource SectionTitle}"/>
+            <TextBlock Text="{l:T Data_EmojiTitle}" Style="{StaticResource SectionTitle}"/>
             <TextBlock Text="{Binding EmojiStatus}" Style="{StaticResource Muted}"/>
             <TextBlock Style="{StaticResource Muted}" Margin="0,6,0,0"
-                       Text="缺少圖片的 Emoji 會顯示「?」。可以把 PNG 放進 EmojiOverrides 資料夾自行補圖或替換，檔名為碼點（例如 1fabc.png，詳見 README）。重新啟動後生效。"/>
-            <Button Content="📂 開啟 EmojiOverrides 資料夾" Command="{Binding OpenEmojiOverrideCommand}" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                       Text="{l:T Data_EmojiHint}"/>
+            <WrapPanel Margin="0,10,0,0">
+              <Button Content="{l:T Data_OpenEmojiFolder}" Command="{Binding OpenEmojiOverrideCommand}" Margin="0,0,6,6"/>
+              <Button Content="{l:T Data_Licenses}" Command="{Binding ShowLicensesCommand}" Margin="0,0,0,6"/>
+            </WrapPanel>
           </StackPanel>
         </Border>
 
         <Border Style="{StaticResource Card}" Background="{StaticResource WarningSoft}"
                 Visibility="{Binding LoadMessages, Converter={StaticResource NotEmptyToVis}}">
           <StackPanel>
-            <TextBlock Text="本次啟動的資料提醒" Style="{StaticResource SectionTitle}" Foreground="{StaticResource Warning}"/>
+            <TextBlock Text="{l:T Data_LoadNotesTitle}" Style="{StaticResource SectionTitle}" Foreground="{StaticResource Warning}"/>
             <TextBlock Text="{Binding LoadMessages}" TextWrapping="Wrap" Foreground="{StaticResource Warning}"/>
           </StackPanel>
         </Border>
@@ -62,20 +66,20 @@
 
     <Border Grid.Column="2" Style="{StaticResource Card}">
       <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Text="備份" Style="{StaticResource SectionTitle}"/>
+        <TextBlock DockPanel.Dock="Top" Text="{l:T Data_BackupsTitle}" Style="{StaticResource SectionTitle}"/>
         <TextBlock DockPanel.Dock="Top" Style="{StaticResource Muted}" Margin="0,0,0,10"
-                   Text="匯入、取代、還原、刪除分類前都會自動備份（自動備份保留最近 40 份）。手動備份永遠保留。"/>
+                   Text="{l:T Data_BackupsHint}"/>
         <WrapPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
-          <Button Content="💾 立即備份" Style="{StaticResource PrimaryButton}" Command="{Binding BackupNowCommand}" Margin="0,0,6,6"/>
-          <Button Content="↩ 還原選取的備份" Command="{Binding RestoreCommand}" Margin="0,0,6,6"/>
-          <Button Content="📂 備份資料夾" Command="{Binding OpenBackupFolderCommand}" Margin="0,0,6,6"/>
-          <Button Content="重新整理" Command="{Binding RefreshCommand}" Margin="0,0,0,6"/>
+          <Button Content="{l:T Data_BackupNow}" Style="{StaticResource PrimaryButton}" Command="{Binding BackupNowCommand}" Margin="0,0,6,6"/>
+          <Button Content="{l:T Data_Restore}" Command="{Binding RestoreCommand}" Margin="0,0,6,6"/>
+          <Button Content="{l:T Data_OpenBackupFolder}" Command="{Binding OpenBackupFolderCommand}" Margin="0,0,6,6"/>
+          <Button Content="{l:T Data_Refresh}" Command="{Binding RefreshCommand}" Margin="0,0,0,6"/>
         </WrapPanel>
         <DataGrid ItemsSource="{Binding Backups}" SelectedItem="{Binding SelectedBackup}" SelectionMode="Single">
           <DataGrid.Columns>
-            <DataGridTextColumn Header="時間" Binding="{Binding TimeText}" Width="150"/>
-            <DataGridTextColumn Header="原因" Binding="{Binding ReasonText}" Width="*"/>
-            <DataGridTextColumn Header="大小" Binding="{Binding SizeText}" Width="70"/>
+            <DataGridTextColumn Header="{l:T Common_Time}" Binding="{Binding TimeText}" Width="150"/>
+            <DataGridTextColumn Header="{l:T Common_Reason}" Binding="{Binding ReasonText}" Width="*"/>
+            <DataGridTextColumn Header="{l:T Data_Size}" Binding="{Binding SizeText}" Width="70"/>
           </DataGrid.Columns>
         </DataGrid>
       </DockPanel>

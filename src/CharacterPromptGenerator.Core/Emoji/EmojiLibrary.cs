@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using CharacterPromptGenerator.Core.Localization;
 
 namespace CharacterPromptGenerator.Core.Emoji;
 
@@ -10,7 +11,7 @@ public sealed record EmojiLookup(string Cluster, string? Key, EmojiImageSource S
 }
 
 /// <summary>
-/// 本機 Emoji 圖庫：EXE 旁的 fluent-emoji-3d.zip（Fluent Emoji 3D PNG），
+/// 本機 Emoji 圖庫：fluent-emoji-3d.zip（Fluent Emoji 3D PNG，發行版內嵌在 EXE 中），
 /// 加上使用者資料夾中的 EmojiOverrides\&lt;鍵&gt;.png（可自行補圖或替換，優先使用）。
 /// 圖庫不存在或損壞時不會丟例外，只是所有查詢都找不到（介面改顯示替代圖示）。
 /// </summary>
@@ -27,36 +28,44 @@ public sealed class EmojiLibrary : IDisposable
     public int PackCount => _entries.Count;
 
     public EmojiLibrary(string? packPath, string? overrideDir)
+        : this(packPath, packPath is null ? null : () => File.Exists(packPath)
+            ? new FileStream(packPath, FileMode.Open, FileAccess.Read, FileShare.Read)
+            : null, overrideDir)
+    {
+    }
+
+    /// <summary>從任意來源開啟圖庫（發行版用 EXE 內嵌的資源）。openPack 回傳 null 表示圖庫不存在。</summary>
+    public EmojiLibrary(string? packPath, Func<Stream?>? openPack, string? overrideDir)
     {
         PackPath = packPath;
         OverrideDir = overrideDir;
-        if (packPath is null) return;
+        if (openPack is null) return;
         try
         {
-            if (!File.Exists(packPath))
+            var stream = openPack();
+            if (stream is null)
             {
-                PackError = $"找不到 Emoji 圖庫：{packPath}";
+                PackError = L.F("Emoji_PackMissing", packPath);
                 return;
             }
-            var stream = new FileStream(packPath, FileMode.Open, FileAccess.Read, FileShare.Read);
             _zip = new ZipArchive(stream, ZipArchiveMode.Read);
             foreach (var entry in _zip.Entries)
             {
                 if (!entry.FullName.EndsWith(".png", StringComparison.OrdinalIgnoreCase)) continue;
                 _entries[entry.FullName[..^4].ToLowerInvariant()] = entry;
             }
-            if (_entries.Count == 0) PackError = $"Emoji 圖庫中沒有任何圖片：{packPath}";
+            if (_entries.Count == 0) PackError = L.F("Emoji_PackEmpty", packPath);
         }
         catch (Exception ex)
         {
             _zip?.Dispose();
             _zip = null;
             _entries.Clear();
-            PackError = $"Emoji 圖庫無法讀取（{ex.Message}）：{packPath}";
+            PackError = L.F("Emoji_PackUnreadable", ex.Message, packPath);
         }
     }
 
-    public static EmojiLibrary Empty { get; } = new(null, null);
+    public static EmojiLibrary Empty { get; } = new((string?)null, null);
 
     public static string OverrideFileName(string key) => key + ".png";
 

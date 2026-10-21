@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using CharacterPromptGenerator.App.Infrastructure;
 using CharacterPromptGenerator.Core.Library;
+using CharacterPromptGenerator.Core.Localization;
 
 namespace CharacterPromptGenerator.App.Views;
 
@@ -26,16 +27,19 @@ public partial class BulkAddWindow : Window
     void UpdatePreview()
     {
         _preview = LibraryEditor.PreviewBulkAdd(_session.Library, _categoryId, InputBox.Text);
-        PreviewText.Text = $"將新增 {_preview.ToAdd.Count} 筆";
+        PreviewText.Text = L.F("Bulk_WillAdd", _preview.ToAdd.Count);
         var dupParts = new List<string>();
         if (_preview.DuplicateExisting.Count > 0)
-            dupParts.Add($"⚠ 已存在而略過 {_preview.DuplicateExisting.Count} 筆：{string.Join("、", _preview.DuplicateExisting.Take(15))}{(_preview.DuplicateExisting.Count > 15 ? "…" : "")}");
+            dupParts.Add(L.F("Bulk_DupExisting", _preview.DuplicateExisting.Count, Sample(_preview.DuplicateExisting)));
         if (_preview.DuplicateInInput.Count > 0)
-            dupParts.Add($"⚠ 貼上內容中重複 {_preview.DuplicateInInput.Count} 筆：{string.Join("、", _preview.DuplicateInInput.Take(15))}{(_preview.DuplicateInInput.Count > 15 ? "…" : "")}");
+            dupParts.Add(L.F("Bulk_DupInput", _preview.DuplicateInInput.Count, Sample(_preview.DuplicateInInput)));
         DuplicateText.Text = string.Join("\n", dupParts);
         AddButton.IsEnabled = _preview.ToAdd.Count > 0;
-        AddButton.Content = _preview.ToAdd.Count > 0 ? $"新增 {_preview.ToAdd.Count} 筆" : "新增";
+        AddButton.Content = _preview.ToAdd.Count > 0 ? L.F("Bulk_AddCount", _preview.ToAdd.Count) : L.T("Bulk_Add");
     }
+
+    static string Sample(IReadOnlyList<string> items) =>
+        string.Join(L.T("Common_ListSep"), items.Take(15)) + (items.Count > 15 ? L.T("Common_Ellipsis") : "");
 
     void Add_Click(object sender, RoutedEventArgs e)
     {
@@ -45,7 +49,7 @@ public partial class BulkAddWindow : Window
         if (_session.TryMutate(lib => added = LibraryEditor.BulkAdd(lib, _categoryId, texts),
                 backupReason: texts.Count >= 50 ? "before-bulk-add" : null))
         {
-            Dialogs.Info($"已新增 {added} 筆詞條。");
+            Dialogs.Info(L.F("Bulk_Added", added));
             DialogResult = true;
         }
     }

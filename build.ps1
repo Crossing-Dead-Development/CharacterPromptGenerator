@@ -1,6 +1,7 @@
 # Build, test and package Character Design Prompt Generator for Windows x64.
 # Usage:  powershell -ExecutionPolicy Bypass -File build.ps1 [-SkipTests] [-Output publish]
-# Output: <Output>\CharacterPromptGenerator.exe  and  dist\CharacterPromptGenerator_v<version>_win-x64.zip
+# Output: <Output>\CharacterPromptGenerator.exe  and  dist\CharacterPromptGenerator_v<version>_win-x64.exe
+# The EXE is fully self-contained: .NET runtime, Emoji pack, licenses and seed data are all embedded.
 param([switch]$SkipTests, [string]$Output = 'publish')
 
 $ErrorActionPreference = 'Stop'
@@ -29,15 +30,12 @@ Invoke-Step 'Publish (win-x64, self-contained, single file)' {
     dotnet publish $app -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=none -o $Output
 }
 
-# Ship the docs and sample import files next to the EXE
-Copy-Item README.md $Output
-Copy-Item samples (Join-Path $Output 'samples') -Recurse
+$extra = Get-ChildItem $Output | Where-Object { $_.Name -ne 'CharacterPromptGenerator.exe' }
+if ($extra) { throw "Publish output should contain only the EXE, but also has: $($extra.Name -join ', ')" }
 
 New-Item -ItemType Directory -Force dist | Out-Null
-$zip = "dist\CharacterPromptGenerator_v${version}_win-x64.zip"
-if (Test-Path $zip) { Remove-Item $zip -Force }
-Compress-Archive -Path (Join-Path $Output '*') -DestinationPath $zip
+$exe = "dist\CharacterPromptGenerator_v${version}_win-x64.exe"
+Copy-Item (Join-Path $Output 'CharacterPromptGenerator.exe') $exe -Force
 
 Write-Host ''
-Write-Host "Done. EXE: $Output\CharacterPromptGenerator.exe" -ForegroundColor Green
-Write-Host "      ZIP: $zip" -ForegroundColor Green
+Write-Host "Done. EXE: $exe" -ForegroundColor Green

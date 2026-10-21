@@ -4,7 +4,7 @@ Character Design Prompt Generator 使用了以下第三方素材。
 
 ## Microsoft Fluent Emoji（3D 圖像）
 
-- 檔案：`Emoji\fluent-emoji-3d.zip`（3,145 張 PNG，縮放為 128×128）
+- 檔案：`Emoji\fluent-emoji-3d.zip`（3,145 張 PNG，縮放為 128×128；發行版內嵌在 EXE 中，本文件可在程式的「資料與備份 → 第三方授權」檢視）
 - 來源：
   - https://github.com/shuding/fluentui-emoji-unicode （commit `7a40f1a2d064d76e436813edc0f09b6c8cde5da8`，依 Unicode 碼點重新命名的 Fluent Emoji，2,980 張）
   - https://github.com/microsoft/fluentui-emoji （commit `1ffb34c752ecf5d402f04cfb4b392c77f57c54bc`，補上前者缺少的 165 張，例如 Emoji 15 新增的 🪼）

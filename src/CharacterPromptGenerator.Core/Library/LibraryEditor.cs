@@ -1,3 +1,4 @@
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Models;
 using CharacterPromptGenerator.Core.Text;
 
@@ -15,7 +16,7 @@ public static class LibraryEditor
     public static Category AddCategory(LibraryData lib, string name, string description = "", int defaultDrawCount = 1)
     {
         name = TextNormalizer.Clean(name);
-        if (name.Length == 0) throw new LibraryValidationException("分類名稱不可空白。");
+        if (name.Length == 0) throw new LibraryValidationException(L.T("Lib_CategoryNameEmpty"));
         EnsureCategoryNameFree(lib, name, null);
         var cat = new Category
         {
@@ -32,11 +33,11 @@ public static class LibraryEditor
 
     public static void UpdateCategory(LibraryData lib, string id, string name, string description, bool enabled, int defaultDrawCount)
     {
-        var cat = lib.FindCategory(id) ?? throw new LibraryValidationException("找不到這個分類，可能已被刪除。");
+        var cat = lib.FindCategory(id) ?? throw new LibraryValidationException(L.T("Lib_CategoryNotFound"));
         name = TextNormalizer.Clean(name);
-        if (name.Length == 0) throw new LibraryValidationException("分類名稱不可空白。");
+        if (name.Length == 0) throw new LibraryValidationException(L.T("Lib_CategoryNameEmpty"));
         EnsureCategoryNameFree(lib, name, id);
-        if (defaultDrawCount < 0) throw new LibraryValidationException("預設抽取數量不可為負數。");
+        if (defaultDrawCount < 0) throw new LibraryValidationException(L.T("Lib_NegativeCount"));
         cat.Name = name;
         cat.Description = description?.Trim() ?? "";
         cat.Enabled = enabled;
@@ -46,7 +47,7 @@ public static class LibraryEditor
     /// <summary>刪除分類及其所有詞條（不留孤兒），回傳一併刪除的詞條數。</summary>
     public static int DeleteCategory(LibraryData lib, string id)
     {
-        var cat = lib.FindCategory(id) ?? throw new LibraryValidationException("找不到這個分類，可能已被刪除。");
+        var cat = lib.FindCategory(id) ?? throw new LibraryValidationException(L.T("Lib_CategoryNotFound"));
         var removed = lib.Entries.RemoveAll(e => e.CategoryId == id);
         lib.Categories.Remove(cat);
         NormalizeSortOrder(lib);
@@ -76,7 +77,7 @@ public static class LibraryEditor
     {
         var key = TextNormalizer.Key(name);
         if (lib.Categories.Any(c => c.Id != exceptId && TextNormalizer.Key(c.Name) == key))
-            throw new LibraryValidationException($"已經有名為「{name}」的分類。");
+            throw new LibraryValidationException(L.F("Lib_CategoryExists", name));
     }
 
     // ── 詞條 ───────────────────────────────────────────────
@@ -84,11 +85,11 @@ public static class LibraryEditor
     public static Entry AddEntry(LibraryData lib, string categoryId, string text, string? emoji = null,
         string? notes = null, IEnumerable<string>? tags = null, bool enabled = true)
     {
-        if (lib.FindCategory(categoryId) is null) throw new LibraryValidationException("請先選擇一個存在的分類。");
+        if (lib.FindCategory(categoryId) is null) throw new LibraryValidationException(L.T("Lib_ChooseCategory"));
         text = TextNormalizer.Clean(text);
-        if (text.Length == 0) throw new LibraryValidationException("詞條內容不可空白。");
+        if (text.Length == 0) throw new LibraryValidationException(L.T("Lib_EntryEmpty"));
         var dup = FindDuplicate(lib, categoryId, text, null);
-        if (dup is not null) throw new LibraryValidationException($"此分類已經有相同的詞條「{dup.Text}」。");
+        if (dup is not null) throw new LibraryValidationException(L.F("Lib_EntryDup", dup.Text));
         var entry = new Entry
         {
             Id = IdGenerator.NewUnique("e", lib.Entries.Select(e => e.Id).ToHashSet()),
@@ -106,12 +107,12 @@ public static class LibraryEditor
     public static void UpdateEntry(LibraryData lib, string entryId, string categoryId, string text, string? emoji,
         string? notes, IEnumerable<string>? tags, bool enabled)
     {
-        var entry = lib.Entries.FirstOrDefault(e => e.Id == entryId) ?? throw new LibraryValidationException("找不到這個詞條，可能已被刪除。");
-        if (lib.FindCategory(categoryId) is null) throw new LibraryValidationException("目標分類不存在。");
+        var entry = lib.Entries.FirstOrDefault(e => e.Id == entryId) ?? throw new LibraryValidationException(L.T("Lib_EntryNotFound"));
+        if (lib.FindCategory(categoryId) is null) throw new LibraryValidationException(L.T("Lib_TargetMissing"));
         text = TextNormalizer.Clean(text);
-        if (text.Length == 0) throw new LibraryValidationException("詞條內容不可空白。");
+        if (text.Length == 0) throw new LibraryValidationException(L.T("Lib_EntryEmpty"));
         var dup = FindDuplicate(lib, categoryId, text, entryId);
-        if (dup is not null) throw new LibraryValidationException($"目標分類已經有相同的詞條「{dup.Text}」。");
+        if (dup is not null) throw new LibraryValidationException(L.F("Lib_TargetDup", dup.Text));
         entry.CategoryId = categoryId;
         entry.Text = text;
         entry.Emoji = TextNormalizer.CleanOptional(emoji);
@@ -141,7 +142,7 @@ public static class LibraryEditor
     /// <summary>把詞條移到另一分類；目標分類已有同名詞條者略過。</summary>
     public static (int Moved, int Skipped) MoveEntries(LibraryData lib, IEnumerable<string> ids, string targetCategoryId)
     {
-        if (lib.FindCategory(targetCategoryId) is null) throw new LibraryValidationException("目標分類不存在。");
+        if (lib.FindCategory(targetCategoryId) is null) throw new LibraryValidationException(L.T("Lib_TargetMissing"));
         var set = ids.ToHashSet();
         int moved = 0, skipped = 0;
         foreach (var e in lib.Entries.Where(e => set.Contains(e.Id)).ToList())

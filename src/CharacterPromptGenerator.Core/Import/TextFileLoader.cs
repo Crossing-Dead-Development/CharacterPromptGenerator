@@ -1,4 +1,5 @@
 using System.Text;
+using CharacterPromptGenerator.Core.Localization;
 
 namespace CharacterPromptGenerator.Core.Import;
 
@@ -14,20 +15,20 @@ public static class TextFileLoader
         try
         {
             var info = new FileInfo(path);
-            if (!info.Exists) return (null, "找不到檔案。");
-            if (info.Length > MaxBytes) return (null, $"檔案太大（{info.Length / 1024 / 1024} MB），上限為 50 MB。");
+            if (!info.Exists) return (null, L.T("File_NotFound"));
+            if (info.Length > MaxBytes) return (null, L.F("File_TooLarge", info.Length / 1024 / 1024));
             bytes = File.ReadAllBytes(path);
         }
         catch (Exception ex)
         {
-            return (null, $"無法讀取檔案：{ex.Message}");
+            return (null, L.F("File_Unreadable", ex.Message));
         }
         return Decode(bytes);
     }
 
     public static (string? Text, string? Error) Decode(byte[] bytes)
     {
-        if (bytes.Length == 0) return (null, "檔案是空的。");
+        if (bytes.Length == 0) return (null, L.T("File_Empty"));
 
         string text;
         if (bytes.Length >= 3 && bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
@@ -45,19 +46,17 @@ public static class TextFileLoader
         else
         {
             if (Array.IndexOf(bytes, (byte)0) >= 0)
-                return (null, "檔案含有二進位內容，看起來不是文字檔（若是 Excel 檔，請先另存為 CSV UTF-8）。");
+                return (null, L.T("File_Binary"));
             if (!TryStrictUtf8(bytes, out text)) return (null, EncodingError);
         }
 
-        if (string.IsNullOrWhiteSpace(text)) return (null, "檔案沒有任何內容。");
+        if (string.IsNullOrWhiteSpace(text)) return (null, L.T("File_NoContent"));
         if (text.Contains(ReplacementChar))
-            return (null, "檔案中含有無法辨識的字元（" + ReplacementChar + "），可能已經是亂碼。請確認來源檔案並以 UTF-8 重新存檔。");
+            return (null, L.F("File_ReplacementChar", ReplacementChar));
         return (text, null);
     }
 
-    const string EncodingError =
-        "檔案不是 UTF-8 編碼（可能是 Big5 或 ANSI），直接匯入會變成亂碼。\n" +
-        "請用記事本「另存新檔 → 編碼選 UTF-8」，或在 Excel 選「CSV UTF-8（逗號分隔）」後再匯入。";
+    static string EncodingError => L.T("File_NotUtf8");
 
     static bool TryStrictUtf8(ReadOnlySpan<byte> bytes, out string text)
     {

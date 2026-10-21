@@ -5,6 +5,7 @@ using CharacterPromptGenerator.App.Views;
 using CharacterPromptGenerator.Core.Drawing;
 using CharacterPromptGenerator.Core.Import;
 using CharacterPromptGenerator.Core.Library;
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Models;
 using CharacterPromptGenerator.Core.Storage;
 
@@ -65,7 +66,7 @@ public sealed class AppSession(AppStore store)
         }
         catch (Exception ex)
         {
-            Dialogs.Error($"儲存失敗，資料沒有被修改。\n\n{ex.Message}");
+            Dialogs.Error(L.F("Session_SaveFailed", ex.Message));
         }
         return false;
     }
@@ -79,7 +80,7 @@ public sealed class AppSession(AppStore store)
         }
         catch (Exception ex)
         {
-            Dialogs.Error($"{what}儲存失敗：{ex.Message}");
+            Dialogs.Error(L.F("Session_SaveWhatFailed", what, ex.Message));
             return false;
         }
     }
@@ -96,33 +97,49 @@ public sealed class AppSession(AppStore store)
 
     public void ExportJson()
     {
-        var path = Dialogs.SaveFile($"character-prompt-library_{DateTime.Now:yyyyMMdd}.json", "JSON 詞庫 (*.json)|*.json");
+        var path = Dialogs.SaveFile($"character-prompt-library_{DateTime.Now:yyyyMMdd}.json", L.T("Session_JsonFilter"));
         if (path is null) return;
         try
         {
             LibraryExporter.ExportJson(Library, path);
-            Dialogs.Info($"已匯出完整詞庫（{Library.Categories.Count} 個分類、{Library.Entries.Count} 筆詞條）：\n{path}");
+            Dialogs.Info(L.F("Session_ExportedJson", Library.Categories.Count, Library.Entries.Count, path));
         }
         catch (Exception ex)
         {
-            Dialogs.Error($"匯出失敗：{ex.Message}");
+            Dialogs.Error(L.F("Session_ExportFailed", ex.Message));
         }
     }
 
     public void ExportCsv()
     {
-        var path = Dialogs.SaveFile($"character-prompt-library_{DateTime.Now:yyyyMMdd}.csv", "CSV（UTF-8） (*.csv)|*.csv");
+        var path = Dialogs.SaveFile($"character-prompt-library_{DateTime.Now:yyyyMMdd}.csv", L.T("Session_CsvFilter"));
         if (path is null) return;
         try
         {
             LibraryExporter.ExportCsv(Library, path);
-            Dialogs.Info($"已匯出 {Library.Entries.Count} 筆詞條為 CSV：\n{path}\n\n" +
-                         "提示：CSV 不含分類說明與 ID；完整備份請使用「匯出 JSON」。");
+            Dialogs.Info(L.F("Session_ExportedCsv", Library.Entries.Count, path));
         }
         catch (Exception ex)
         {
-            Dialogs.Error($"匯出失敗：{ex.Message}");
+            Dialogs.Error(L.F("Session_ExportFailed", ex.Message));
         }
+    }
+
+    /// <summary>顯示內嵌在 EXE 中的第三方授權（Fluent Emoji 的 MIT 授權等）。</summary>
+    public static void ShowLicenses()
+    {
+        using var stream = typeof(AppSession).Assembly.GetManifestResourceStream("Licenses.THIRD-PARTY-NOTICES.md");
+        if (stream is null) return;
+        using var reader = new StreamReader(stream);
+        Dialogs.Info(reader.ReadToEnd().Trim(), L.T("Data_LicensesTitle"));
+    }
+
+    /// <summary>重新啟動程式（切換語言、資料位置後使用）。</summary>
+    public static void Restart()
+    {
+        var exe = Environment.ProcessPath;
+        if (exe is not null) Process.Start(new ProcessStartInfo(exe) { UseShellExecute = true });
+        System.Windows.Application.Current.Shutdown();
     }
 
     public static void OpenFolder(string path)
@@ -134,7 +151,7 @@ public sealed class AppSession(AppStore store)
         }
         catch (Exception ex)
         {
-            Dialogs.Error($"無法開啟資料夾：{ex.Message}");
+            Dialogs.Error(L.F("Session_OpenFolderFailed", ex.Message));
         }
     }
 }

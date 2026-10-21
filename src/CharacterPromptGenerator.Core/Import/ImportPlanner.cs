@@ -1,4 +1,5 @@
 using CharacterPromptGenerator.Core.Library;
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Models;
 using CharacterPromptGenerator.Core.Text;
 
@@ -74,7 +75,7 @@ public static class ImportPlanner
             {
                 target = sameId;
                 if (TextNormalizer.Key(sameId.Name) != key)
-                    plan.Warnings.Add(new ImportIssue(null, $"檔案中的分類「{name}」與現有分類「{sameId.Name}」ID 相同，視為同一分類（不會改名）。"));
+                    plan.Warnings.Add(new ImportIssue(null, L.F("Plan_SameId", name, sameId.Name)));
             }
             else if (byName.TryGetValue(key, out var sameName))
             {
@@ -125,20 +126,20 @@ public static class ImportPlanner
             var cat = Resolve(row.CategoryId, row.CategoryName, def);
             if (cat is null)
             {
-                plan.Skipped.Add(new SkippedRow(row.Line, row.CategoryName, row.Text, "分類不存在（未允許建立新分類）"));
+                plan.Skipped.Add(new SkippedRow(row.Line, row.CategoryName, row.Text, L.T("Plan_SkipNoCategory")));
                 continue;
             }
 
             var key = (cat.Id, TextNormalizer.Key(row.Text));
             if (fileKeys.Contains(key))
             {
-                plan.Skipped.Add(new SkippedRow(row.Line, cat.Name, row.Text, "檔案內重複"));
+                plan.Skipped.Add(new SkippedRow(row.Line, cat.Name, row.Text, L.T("Plan_SkipDupInFile")));
                 continue;
             }
             fileKeys.Add(key);
             if (existingKeys.Contains(key))
             {
-                plan.Skipped.Add(new SkippedRow(row.Line, cat.Name, row.Text, "詞庫中已有相同詞條"));
+                plan.Skipped.Add(new SkippedRow(row.Line, cat.Name, row.Text, L.T("Plan_SkipDupInLibrary")));
                 continue;
             }
 
@@ -172,16 +173,16 @@ public static class ImportPlanner
             plan.NewCategories.Add(new PlannedCategory(c.Id, c.Name, result.Entries.Count(e => e.CategoryId == id)));
         }
         if (plan.IdConflictsResolved > 0)
-            plan.Warnings.Add(new ImportIssue(null, $"有 {plan.IdConflictsResolved} 個 ID 與現有資料衝突，已自動改用新的 ID（內容不受影響）。"));
+            plan.Warnings.Add(new ImportIssue(null, L.F("Plan_IdConflicts", plan.IdConflictsResolved)));
 
         // 3. 套用前的完整性檢查
         var validation = LibraryValidator.Validate(result);
         if (validation.Count > 0)
-            plan.BlockReason = "匯入結果未通過資料完整性檢查：\n" + string.Join("\n", validation.Take(10));
+            plan.BlockReason = L.T("Plan_Invalid") + string.Join("\n", validation.Take(10));
         else if (mode == ImportMode.Replace && result.Entries.Count == 0)
-            plan.BlockReason = "取代後詞庫將沒有任何詞條。為保護資料，已阻止這次取代。";
+            plan.BlockReason = L.T("Plan_ReplaceEmpty");
         else if (mode == ImportMode.Merge && plan.Added.Count == 0 && plan.NewCategories.Count == 0)
-            plan.BlockReason = "沒有新的內容可以匯入（全部重複、被略過或有錯誤）。";
+            plan.BlockReason = L.T("Plan_NothingNew");
         return plan;
     }
 }

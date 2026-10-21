@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:l="clr-namespace:CharacterPromptGenerator.App.Infrastructure"
                     xmlns:controls="clr-namespace:CharacterPromptGenerator.App.Controls">
 
   <!-- ── 色彩：紫水晶主題（取自程式圖示），深色、高對比，適合 OBS 擷取。
@@ -188,19 +189,19 @@
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Foreground" Value="{StaticResource TextMuted}"/>
     <Setter Property="FontFamily" Value="{StaticResource UiFont}"/>
-    <Setter Property="ToolTip" Value="鎖定／解除鎖定（鎖定後重抽不會改變）"/>
+    <Setter Property="ToolTip" Value="{l:T Lock_Tip}"/>
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="ToggleButton">
           <Border x:Name="bd" Background="Transparent" CornerRadius="5" Padding="6,2">
-            <TextBlock x:Name="tx" Text="🔓 鎖定" FontSize="12" Foreground="{TemplateBinding Foreground}"/>
+            <TextBlock x:Name="tx" Text="{l:T Lock_Off}" FontSize="12" Foreground="{TemplateBinding Foreground}"/>
           </Border>
           <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
               <Setter TargetName="bd" Property="Background" Value="{StaticResource BgHover}"/>
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-              <Setter TargetName="tx" Property="Text" Value="🔒 已鎖定"/>
+              <Setter TargetName="tx" Property="Text" Value="{l:T Lock_On}"/>
               <Setter TargetName="tx" Property="Foreground" Value="{StaticResource Accent}"/>
               <Setter TargetName="tx" Property="FontWeight" Value="SemiBold"/>
             </Trigger>

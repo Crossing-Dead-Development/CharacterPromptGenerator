@@ -64,6 +64,8 @@ public sealed class AppSettings
     public bool DisplayShowNotes { get; set; } = true;
     public bool DisplayShowControls { get; set; } = true;
     public int HistoryLimit { get; set; } = 300;
+    /// <summary>介面語言（zh-TW／en）；null 表示跟隨 Windows 顯示語言。</summary>
+    public string? Language { get; set; }
 }
 
 public sealed class DrawSetting

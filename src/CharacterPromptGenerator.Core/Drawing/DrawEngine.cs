@@ -1,3 +1,4 @@
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Models;
 using CharacterPromptGenerator.Core.Text;
 
@@ -109,8 +110,8 @@ public sealed class DrawEngine(Random rng)
                 if (picks.Count < need)
                 {
                     outcome.Warnings.Add(pool.Count == 0
-                        ? $"「{cat.Name}」沒有可抽的詞條（需要 {need} 筆）。"
-                        : $"「{cat.Name}」需要 {need} 筆，但只有 {pool.Count} 筆可抽，已抽出 {picks.Count} 筆。");
+                        ? L.F("Engine_NoEntries", cat.Name, need)
+                        : L.F("Engine_NotEnough", cat.Name, need, pool.Count, picks.Count));
                 }
             }
 

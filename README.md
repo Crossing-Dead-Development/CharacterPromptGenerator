@@ -1,6 +1,6 @@
 # Character Design Prompt Generator｜角色設計題目產生器
 
-**Crossing Dead Development · v0.1.0（第一版 MVP）**
+**Crossing Dead Development · v0.2.0** · 介面支援繁體中文／English
 
 繪圖直播用的離線角色設計抽題工具：從可自訂的分類詞庫隨機抽出關鍵字與 Emoji，組成角色設計練習題目。可以鎖定喜歡的結果、局部重抽、自訂抽題方案、保存歷史與收藏，並透過程式介面或 JSON／CSV／TXT 檔案維護大型詞庫。
 
@@ -24,9 +24,15 @@
 
 ## 1. 快速開始
 
-1. 執行 `CharacterPromptGenerator.exe`（免安裝，不需要另外安裝 .NET）。
-2. 第一次啟動會自動建立示範詞庫（21 個分類、2111 筆詞條）與三組方案（輕鬆／標準／挑戰）。
-3. 在「🎲 抽題」頁按 **「產生角色題目」**。
+1. 從 [Releases](https://github.com/Crossing-Dead-Development/CharacterPromptGenerator/releases/latest) 下載 `CharacterPromptGenerator_v*_win-x64.exe`，直接執行（免安裝、只有一個檔案，不需要另外安裝 .NET）。
+2. 第一次啟動時詞庫是**空的**。從同一個 Release 下載詞庫檔，再匯入：
+   - 繁體中文：`Character_Design_Prompt_Library_v1_TW.csv`
+   - English：`Character_Design_Prompt_Library_v1_EN.csv`
+3. 按抽題頁中央的「📥 匯入詞庫」（或「詞庫管理」／「資料與備份」頁的同名按鈕），選擇下載的 CSV。
+4. 匯入預覽中選「合併匯入」，確認數量後按「✔ 套用匯入」。匯入前會自動備份，新詞條立刻可以抽到。
+5. 在「🎲 抽題」頁勾選分類、設定數量，按 **「產生角色題目」**。
+
+想換介面語言：左側欄下方的「🌐 介面語言 / Language」選單，重新啟動後生效。
 
 系統需求：Windows 10／11 x64。
 
@@ -82,20 +88,28 @@
 
 ### 2.5 💾 資料與備份
 
-顯示資料位置、匯入／匯出、備份清單、手動備份、還原、可攜模式切換、Emoji 圖庫狀態。見[第 4 節](#4-資料位置備份與還原)。
+顯示資料位置、匯入／匯出、備份清單、手動備份、還原、可攜模式切換、Emoji 圖庫狀態與第三方授權。見[第 4 節](#4-資料位置備份與還原)。
 
 ### 2.6 Emoji 顯示（Microsoft Fluent Emoji 3D）
 
 抽題結果、直播展示、詞庫表格、詞條表單預覽、匯入預覽、歷史列表中的 Emoji，**一律用 Fluent Emoji 3D 圖片（WPF `Image`）顯示，不使用 Windows 的 Segoe UI Emoji 字型**。因此 Windows 10 與 Windows 11 看到的是同一張圖，Windows 10 字型沒有的新 Emoji（🫧、🪞、🪼…）也能正常顯示。
 
 - **詞庫仍然只保存原始的 Unicode 字串**，圖片只用於顯示。複製題目、匯出、歷史紀錄都是原本的文字。
-- **圖庫在本機**：EXE 旁的 `Emoji\fluent-emoji-3d.zip`（3,145 張，128×128），離線即可使用，不需要網路。
+- **圖庫內嵌在 EXE 中**：`fluent-emoji-3d.zip`（3,145 張，128×128），離線即可使用，不需要網路或額外檔案。
 - **查圖規則**：以 Unicode 碼點序列找圖，比對時忽略變體選擇符（FE0E／FE0F），完整支援膚色修飾符與 ZWJ 組合（例如 🧑🏾‍🎨、🏳️‍🌈、#️⃣、國旗）。找不到某個膚色時改用預設膚色。
 - **圖庫沒有某個 ZWJ 組合時**（例如 👨‍👩‍👧），依 Unicode 建議改為並排顯示各組成元素（👨👩👧）。
 - **完全找不到圖片時**：顯示「?」替代圖示，滑鼠移上去會說明碼點與補圖用的檔名，程式不會當機。
 - **一般文字中的 Emoji** 也會換成圖片（例如 TXT 匯入的「🕯️ 蠟燭」），但 ©、®、™ 及沒有 FE0F 的文字樣式符號會維持文字，不會被誤換。
 - **自己新增的 Emoji** 走同一套機制。詞條表單的 Emoji 欄位右側會即時預覽實際顯示的圖片，下方會說明使用哪張圖、碼點，以及找不到時要補哪個檔名。輸入框本身仍是 Windows 文字輸入（WPF 文字框無法放圖片），以預覽為準。
 - **自行補圖或替換**：把 PNG 放到資料夾的 `EmojiOverrides\`（「資料與備份」頁有按鈕可開啟），檔名為「小寫十六進位碼點以 `-` 連接、去掉 fe0f」，例如 🫟 → `1fadf.png`、👨‍👩‍👧 → `1f468-200d-1f469-200d-1f467.png`。這裡的圖片優先於內建圖庫，重新啟動後生效。
+
+### 2.7 🌐 介面語言
+
+介面支援**繁體中文**與 **English**，在左側欄下方的「🌐 介面語言 / Language」切換。選擇後會存進 `settings.json`，並詢問是否立即重新啟動（提示同時以兩種語言顯示）。沒有設定過時，Windows 顯示語言是中文就用繁體中文，其他一律英文。
+
+- 切換語言**只改變介面文字**，不會翻譯詞庫內容。英文介面請搭配英文詞庫（`Character_Design_Prompt_Library_v1_EN.csv`）。
+- 介面文字放在 `src\CharacterPromptGenerator.Core\Localization\Strings.resx`（繁中）與 `Strings.en.resx`（英文）。XAML 用 `{l:T Key}`、程式用 `L.T("Key")`／`L.F("Key", 參數)` 取用；單元測試會檢查兩種語言的 key 與 `{0}` 參數一致，且原始碼用到的每個 key 都存在。
+- 匯入格式（CSV 標頭、TXT、JSON）與語言無關；CSV 標頭可用英文（`category,text,...`）或中文（`分類,詞條,...`）。
 
 ---
 
@@ -201,14 +215,14 @@ category,text,emoji,notes,tags
 | `library.json` | 詞庫（分類與詞條） |
 | `library.json.bak` | 上一次存檔前的版本（自動） |
 | `presets.json` | 抽題方案 |
-| `settings.json` | 主畫面分類設定、展示模式字體等 |
+| `settings.json` | 主畫面分類設定、展示模式字體、介面語言等 |
 | `history.json` | 歷史與收藏 |
 | `Backups\` | 時間戳記備份 |
 | `EmojiOverrides\` | （選用）自行補充或替換的 Emoji 圖片，見 2.6 節 |
 | `error.log` | 未預期錯誤的紀錄（有發生時才會出現） |
 
 - 資料與 EXE 分離：**更新程式只要替換 EXE，詞庫不會被覆蓋**。
-- `SeedData\` 中的示範詞庫只在**第一次啟動**（找不到 library.json 且沒有任何備份）時複製；之後不會再重置。
+- 第一次啟動（找不到 library.json 且沒有任何備份）時建立**空白詞庫**與空白方案；之後不會再重置。詞庫請自行匯入（見[第 1 節](#1-快速開始)）。
 - 可攜模式：在「資料與備份」頁按「切換為可攜模式」，程式會先檢查 EXE 資料夾能否寫入（Program Files 通常不行），再把目前資料複製過去並建立 `portable.flag`，重新啟動後生效。切回一般模式同理。原位置的資料都不會被刪除。
 
 ### 4.2 備份
@@ -224,7 +238,7 @@ category,text,emoji,notes,tags
 ### 4.4 檔案損壞時
 
 - `library.json` 無法讀取時：原檔另存為 `library.corrupt-日期.json`（不刪除），自動改從 `.bak` 或最新的備份還原，並在啟動時告知。
-- 找不到任何可用備份時：程式停止並告知，**不會**用示範詞庫覆蓋。
+- 找不到任何可用備份時：程式停止並告知，**不會**用空白詞庫覆蓋。
 - 詞庫檔由較新版程式寫入時（schemaVersion 較高）：拒絕開啟，不修改檔案。
 - 讀取時發現指向不存在分類的詞條：移到自動建立的「未分類（自動修復）」分類（預設停用），不會刪除。
 
@@ -234,16 +248,17 @@ category,text,emoji,notes,tags
 
 需要 [.NET 10 SDK](https://dotnet.microsoft.com/download)（Windows）。
 
-### 一鍵建置（建置 → 測試 → 發行 → 壓縮）
+### 一鍵建置（建置 → 測試 → 發行）
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File build.ps1
 ```
 
 產出：
-- `publish\CharacterPromptGenerator.exe`（約 65 MB，自含 .NET runtime，單一檔案）
-- `publish\SeedData\`（示範詞庫，首次啟動用）、`publish\Emoji\`（Fluent Emoji 圖庫與授權，約 42 MB）、`publish\THIRD-PARTY-NOTICES.md`、`publish\samples\`、`publish\README.md`
-- `dist\CharacterPromptGenerator_v0.1.0_win-x64.zip`（約 100 MB）
+- `publish\CharacterPromptGenerator.exe`（約 103 MB，**只有這一個檔案**）
+- `dist\CharacterPromptGenerator_v0.2.0_win-x64.exe`（同一個 EXE，發行用檔名）
+
+EXE 內嵌了 .NET runtime、英文語系資源、Fluent Emoji 圖庫、`THIRD-PARTY-NOTICES.md`（程式內「資料與備份 → 第三方授權」可檢視）與空白的預設資料。建置腳本會檢查輸出資料夾只有 EXE。
 
 ### 手動指令
 
@@ -256,7 +271,7 @@ dotnet publish src\CharacterPromptGenerator.App\CharacterPromptGenerator.App.csp
 
 如果 `publish\` 裡的 EXE 正在執行，建置腳本會停下來提示；請先關閉程式，或加上 `-Output 其他資料夾` 輸出到別處。
 
-發行時請保留 `SeedData\`、`Emoji\` 與 EXE 在同一層。`SeedData\` 遺失時會改用 EXE 內嵌的備份副本；`Emoji\` 遺失時程式仍可使用，但 Emoji 會顯示為「?」並在啟動時提示。
+發行時只需要提供 EXE。若要讓首次啟動自帶某份詞庫，可在 EXE 旁放 `SeedData\default_library.json`（與 `default_presets.json`），程式會優先使用它們，而不是內嵌的空白資料。
 
 ### 重新產生 Emoji 圖庫（選用）
 
@@ -292,17 +307,18 @@ CharacterPromptGenerator.slnx
 │  ├─ Import/        TextFileLoader（編碼）、CsvParser、ImportReader（JSON/CSV/TXT）、
 │  │                 ImportPlanner（預覽與合併）、LibraryExporter
 │  ├─ Storage/       AppStore（唯一資料入口）、AtomicFile、DataPaths、JSON 設定
+│  ├─ Localization/  L（取字串、語言選擇）、Strings.resx（繁中）、Strings.en.resx（英文）
 │  ├─ Emoji/         EmojiText（字素切分、碼點正規化、ZWJ 拆解）、EmojiLibrary（圖庫與自訂圖查詢）
 │  └─ Text/          TextNormalizer（重複判斷鍵）、IdGenerator
 ├─ src/CharacterPromptGenerator.App/       WPF 介面（net10.0-windows，MVVM）
 │  ├─ ViewModels/    Draw、Editor、History、Data、Import、Main
 │  ├─ Views/         各頁面、匯入預覽、直播展示、多行貼上、輸入對話框
 │  ├─ Controls/      EmojiTextBlock（以 Image 顯示 Emoji 的文字控制項）
-│  ├─ Infrastructure/AppSession、Dialogs、RelayCommand、EmojiImages（圖片解碼與快取）
+│  ├─ Infrastructure/AppSession、Dialogs、RelayCommand、EmojiImages（圖片解碼與快取）、TExtension（XAML 的 {l:T Key}）
 │  ├─ Themes/Dark.xaml
-│  ├─ Emoji/         fluent-emoji-3d.zip、LICENSE-fluentui-emoji.txt
-│  └─ SeedData/      default_library.json、default_presets.json（示範資料，非程式碼）
-├─ tests/CharacterPromptGenerator.Tests/   xUnit 測試（103 項）
+│  ├─ Emoji/         fluent-emoji-3d.zip、LICENSE-fluentui-emoji.txt（內嵌進 EXE）
+│  └─ SeedData/      default_library.json、default_presets.json（空白預設資料，內嵌進 EXE）
+├─ tests/CharacterPromptGenerator.Tests/   xUnit 測試（115 項）；Fixtures/ 是測試用詞庫（2111 筆）
 ├─ samples/                                 JSON／CSV／TXT 範例匯入檔與錯誤範例
 ├─ tools/BuildEmojiPack.cs                  產生 Emoji 圖庫的工具
 ├─ THIRD-PARTY-NOTICES.md                   第三方素材授權聲明
@@ -329,15 +345,17 @@ CharacterPromptGenerator.slnx
 8. **「全部重新產生」會清除鎖定**（有鎖定時先確認），「重抽未鎖定」才保留鎖定。重抽時優先抽與上一輪不同的詞。
 9. **刪除分類會一併刪除其詞條**（確認時顯示數量、事先備份），而不是保留孤兒詞條。
 10. **JSON 使用可閱讀的 UTF-8**：自訂 JSON 編碼器讓中文與 Emoji 原樣寫入（System.Text.Json 預設會把每個 Emoji 寫成兩組 \u 開頭的跳脫碼），方便日後直接閱讀或手寫詞庫。
-11. **Emoji 用圖片顯示，不靠字型**：Windows 10 的 Segoe UI Emoji 缺少 Emoji 13 以後的字，WPF 也不支援彩色字型，所以改用 Microsoft Fluent Emoji 3D PNG（MIT）。圖庫打包成一個 zip 放在 EXE 旁，不放進 EXE，也不拆成三千個小檔，方便更新與替換。比對時去掉 FE0E／FE0F，因為原始圖庫的檔名對變體選擇符的處理並不一致（例如 ❤️ 是 `2764`，但部分性別 ZWJ 序列保留 `fe0f`）。圖片為 128×128，以平衡清晰度與檔案大小（256×256 原圖約 113 MB）。
+11. **Emoji 用圖片顯示，不靠字型**：Windows 10 的 Segoe UI Emoji 缺少 Emoji 13 以後的字，WPF 也不支援彩色字型，所以改用 Microsoft Fluent Emoji 3D PNG（MIT）。圖庫打包成一個 zip 內嵌在 EXE 中（不拆成三千個小檔），發行只需要一個檔案；要替換個別圖片可用 `EmojiOverrides\`。比對時去掉 FE0E／FE0F，因為原始圖庫的檔名對變體選擇符的處理並不一致（例如 ❤️ 是 `2764`，但部分性別 ZWJ 序列保留 `fe0f`）。圖片為 128×128，以平衡清晰度與檔案大小（256×256 原圖約 113 MB）。
     - 開始改用圖片前已先確認：先前在 Windows 10 上看到的方框**不是資料損壞**。所有詞庫、備份、歷史檔案都是有效的 UTF-8，沒有 U+FFFD 替代字元，🫧（U+1FAE7）、🪞（U+1FA9E）的碼點完整保存，只是字型缺字。匯入時遇到 U+FFFD 本來就會拒絕；詞條表單若輸入含 U+FFFD 的內容也會警告。
-12. **務實的 MVVM**：ViewModel 直接呼叫 `Dialogs` 顯示訊息與檔案對話框，沒有再抽一層服務介面；核心邏輯全在 Core 專案並有測試。
+12. **預設詞庫為空白**：詞庫依語言分開發行（繁中／英文 CSV），由使用者自行匯入，EXE 不綁定任何一種語言的內容。
+13. **介面語言在啟動時決定**，切換後重新啟動，而不是即時切換：所有字串只需在建立畫面時取用一次，不必在每個 ViewModel 處理語言變更通知；語言設定在載入任何資料之前就先讀出，連資料載入的提示訊息也使用正確的語言。
+14. **務實的 MVVM**：ViewModel 直接呼叫 `Dialogs` 顯示訊息與檔案對話框，沒有再抽一層服務介面；核心邏輯全在 Core 專案並有測試。
 
 ---
 
 ## 8. 測試狀況
 
-### 8.1 自動化測試（`dotnet test`，103 項全部通過）
+### 8.1 自動化測試（`dotnet test`，115 項全部通過）
 
 | 範圍 | 驗證內容 |
 |---|---|
@@ -350,17 +368,18 @@ CharacterPromptGenerator.slnx
 | 編碼 | 空檔、全空白、Big5 被拒、UTF-8 BOM、UTF-16 |
 | 合併／取代 | 同檔重複合併不倍增、跨分類同名允許、不分大小寫重複、不允許新分類時略過、ID 衝突改發新 ID、不覆寫既有備註、取代成空詞庫被阻止、壞檔不改變詞庫 |
 | 可逆性 | JSON 匯出→匯入完全相同；CSV 匯出→匯入保留文字、Emoji、備註（含逗號換行引號）、標籤、啟用狀態 |
-| 持久性 | 首次啟動有 ≥150 筆示範、每類 ≥10 筆；第二次啟動不覆蓋；UI 層新增的詞條重開後存在且可抽到；Emoji 原樣寫入檔案並正確讀回 |
+| 持久性 | 發行版首次啟動為空白詞庫且無警告；測試詞庫首次啟動 ≥2000 筆、每類 ≥10 筆；第二次啟動不覆蓋；UI 層新增的詞條重開後存在且可抽到；Emoji 原樣寫入檔案並正確讀回 |
 | 防呆 | 修改中途失敗時記憶體與檔案都不變、library.json 損壞時從 .bak 還原並保留損壞檔、新版 schema 拒絕開啟、孤兒詞條被救回、預覽後詞庫變動則拒絕套用、備份與還原、歷史快照在分類刪除後仍完整、歷史只淘汰未收藏 |
-| 範例檔 | `samples\` 三個範例檔對示範詞庫實際匯入（含重複略過與冪等）、`samples\broken\` 各錯誤檔被正確拒絕且詞庫不變 |
+| 範例檔 | `samples\` 三個範例檔對測試詞庫實際匯入（含重複略過與冪等）、`samples\broken\` 各錯誤檔被正確拒絕且詞庫不變 |
 | Emoji 正規化 | FE0F 有無都對到同一張圖、ZWJ＋FE0F（🏳️‍🌈）、膚色＋ZWJ（🧑🏾‍🎨）、鍵帽（1️⃣ #️⃣）、國旗；缺少的膚色改用預設膚色；ZWJ 組合拆成元素 |
 | Emoji 切分 | ZWJ／膚色／國旗為單一 Emoji；切分後重新串接與原字串完全相同；©、沒有 FE0F 的 ☂、FE0E 文字樣式不被當成 Emoji；U+FFFD 不被當成 Emoji |
-| Emoji 圖庫 | 實際發行的圖庫有 ≥3000 張圖、MIT LICENSE 與 manifest；🫧 🪞 🪼 等 Windows 10 缺字的 Emoji 都有圖；示範詞庫與所有範例檔中的每個 Emoji 都有圖；自訂圖優先；圖庫遺失或損壞時回報錯誤而不丟例外 |
+| Emoji 圖庫 | 實際發行的圖庫有 ≥3000 張圖、MIT LICENSE 與 manifest；🫧 🪞 🪼 等 Windows 10 缺字的 Emoji 都有圖；測試詞庫與所有範例檔中的每個 Emoji 都有圖；可從資料流（內嵌資源）開啟；自訂圖優先；圖庫遺失或損壞時回報錯誤而不丟例外 |
+| 語系 | 繁中／英文 key 與 `{0}` 參數一致；原始碼用到的每個 key 都存在；英文附屬組件可載入；語言代碼解析；`settings.json` 的語言設定可在開啟資料前讀出、損壞時不丟例外 |
 
 ### 8.2 實際執行驗證（在本機 Windows 10 上）
 
-- `dotnet build` 全方案 0 錯誤 0 警告；`dotnet publish` 單一檔案 EXE 建置成功（約 65 MB）。
-- 發行版 EXE 在乾淨資料夾啟動：建立示範詞庫（21 類／2111 筆）、方案與設定，`library.json` 中 Emoji 原樣保存，無錯誤紀錄。
+- `dotnet build` 全方案 0 錯誤 0 警告；`dotnet publish` 輸出只有單一 EXE（約 103 MB），已確認內嵌 Emoji 圖庫、第三方授權、預設資料與英文語系資源。
+- 開發版以英文與繁中介面實際啟動並截圖檢查四個頁面（抽題、詞庫管理、歷史、資料與備份），英文文字沒有被截斷。
 - 開發版實際操作確認：主畫面抽題與結果顯示、直播展示視窗（大字體、隱藏控制列）、詞庫管理頁（分類列表與計數、表格、搜尋列、批次操作列、點選詞條載入表單）、匯入按鈕開啟檔案選擇視窗。
 - Emoji 圖片（Windows 10）：抽題結果、直播展示、詞庫表格與表單預覽中，🫧 🪞 🪼、🧑🏾‍🎨、🏳️‍🌈 都正確顯示為 3D 圖片；👨‍👩‍👧 並排顯示為三個元素；Emoji 16 的 🫟 顯示「?」替代圖示；文字中的 ☂️ 換成圖片而 ©2026 維持文字；表單的說明文字正確反映查圖結果。
 
@@ -372,6 +391,7 @@ CharacterPromptGenerator.slnx
 - 鎖定按鈕、「重抽此類」、方案的另存／覆寫／改名／刪除
 - 歷史頁的載入到抽題畫面、收藏切換
 - 資料頁的手動備份、還原、可攜模式切換與自動重新啟動
+- 側欄的語言切換與重新啟動提示、空白詞庫時抽題頁的匯入引導、「第三方授權」視窗
 - 多行貼上視窗、分類刪除確認、詞條移動
 
 ---
@@ -385,7 +405,7 @@ CharacterPromptGenerator.slnx
 - **Emoji 圖庫涵蓋到 Fluent Emoji 目前的範圍（約 Emoji 15.1）**。更新的 Emoji（例如 Emoji 16 的 🫟）與 Fluent 沒有的組合會顯示「?」，可以用 `EmojiOverrides\` 自行補圖。
 - **文字輸入框不能放圖片**（WPF 限制）：詞條表單、搜尋框、匯入預覽以外的文字框中，新 Emoji 在 Windows 10 仍可能顯示為方框，請以旁邊的預覽為準。側邊欄、按鈕上的介面圖示仍使用系統字型（單色）。
 - 歷史頁右側的完整內容是可選取複製的文字框，同樣使用系統字型；左側列表已改用圖片。
-- 介面文字目前直接寫在 XAML 與 ViewModel 中（繁體中文）。資料層已完整支援 Unicode 與任何語言的詞條，但介面多語系需要之後把字串移到資源檔。
+- 介面語言切換後需要重新啟動。詞庫內容不會隨介面語言翻譯。
 - 方案只記錄分類 ID；刪除分類後，方案中對應的設定會自動忽略。
 - 搜尋是單純的「包含」比對；大型詞庫（數萬筆）時每次修改會重建表格，可能有短暫延遲，尚未做效能調校。
 - 主畫面的單筆編輯沒有「復原」功能；請利用自動／手動備份。

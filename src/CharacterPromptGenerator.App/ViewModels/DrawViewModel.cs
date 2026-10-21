@@ -3,6 +3,7 @@ using System.Windows.Input;
 using CharacterPromptGenerator.App.Infrastructure;
 using CharacterPromptGenerator.Core.Drawing;
 using CharacterPromptGenerator.Core.Library;
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Models;
 using CharacterPromptGenerator.Core.Text;
 
@@ -37,11 +38,11 @@ public sealed class CategoryDrawRow : ObservableObject
     public int Total { get; }
     public int Drawable { get; }
 
-    public string AvailabilityText => !LibraryEnabled ? "分類已停用" : $"可抽 {Drawable}";
+    public string AvailabilityText => !LibraryEnabled ? L.T("Draw_CategoryDisabled") : L.F("Draw_Available", Drawable);
     public bool IsShort => LibraryEnabled && IsChecked && Count > Drawable;
     public string ToolTipText =>
         (string.IsNullOrWhiteSpace(Description) ? Name : $"{Name}\n{Description}") +
-        $"\n詞條 {Total} 筆，可抽 {Drawable} 筆" + (LibraryEnabled ? "" : "\n（此分類在詞庫中被停用，不會抽到）");
+        L.F("Draw_RowTooltipCounts", Total, Drawable) + (LibraryEnabled ? "" : L.T("Draw_RowTooltipDisabled"));
 
     public bool IsChecked
     {
@@ -124,6 +125,7 @@ public sealed class DrawViewModel : ObservableObject
     {
         _session = session;
         GenerateAllCommand = new RelayCommand(GenerateAll);
+        ImportCommand = new RelayCommand(session.RunImport);
         RerollUnlockedCommand = new RelayCommand(RerollUnlocked);
         UnlockAllCommand = new RelayCommand(UnlockAll, () => LockedCount > 0);
         CopyCommand = new RelayCommand(Copy, () => HasResult);
@@ -164,24 +166,28 @@ public sealed class DrawViewModel : ObservableObject
     }
 
     public bool HasResult => _slots.Count > 0;
+    /// <summary>詞庫沒有任何詞條（預設狀態）：結果區改顯示匯入引導。</summary>
+    public bool LibraryEmpty => _session.Library.Entries.Count == 0;
+    public bool ShowReadyHint => !HasResult && !LibraryEmpty;
     public int LockedCount => _slots.Count(s => s.Locked);
-    public string GenerateButtonText => HasResult ? "🎲 全部重新產生" : "🎲 產生角色題目";
+    public string GenerateButtonText => HasResult ? L.T("Draw_RegenerateAll") : L.T("Draw_Generate");
     public string StatusText => !HasResult
-        ? "尚未抽題。勾選左側分類並設定數量後，按「產生角色題目」。"
-        : $"共 {_slots.Count} 項，已鎖定 {LockedCount} 項 · {_generatedAt:HH:mm:ss} 產生" + (IsFavorite ? " · ⭐ 已收藏" : "");
+        ? L.T("Draw_StatusEmpty")
+        : L.F("Draw_Status", _slots.Count, LockedCount, _generatedAt) + (IsFavorite ? L.T("Draw_StatusFavorite") : "");
     public bool IsFavorite => _currentHistoryId is not null &&
                               _session.Store.History.FirstOrDefault(h => h.Id == _currentHistoryId)?.Favorite == true;
-    public string FavoriteButtonText => IsFavorite ? "⭐ 取消收藏" : "☆ 收藏";
+    public string FavoriteButtonText => IsFavorite ? L.T("Draw_Unfavorite") : L.T("Draw_Favorite");
     public string SelectionSummary
     {
         get
         {
             var active = Rows.Where(r => r.IsChecked && r.Count > 0 && r.LibraryEnabled).ToList();
-            return $"已選 {active.Count} 類，共 {active.Sum(r => r.Count)} 項";
+            return L.F("Draw_SelectionSummary", active.Count, active.Sum(r => r.Count));
         }
     }
 
     public ICommand GenerateAllCommand { get; }
+    public ICommand ImportCommand { get; }
     public ICommand RerollUnlockedCommand { get; }
     public ICommand UnlockAllCommand { get; }
     public ICommand CopyCommand { get; }
@@ -209,7 +215,7 @@ public sealed class DrawViewModel : ObservableObject
             if (Math.Abs(v - _session.Store.Settings.DisplayFontSize) < 0.1) return;
             _session.Store.Settings.DisplayFontSize = v;
             OnPropertyChanged();
-            _session.TrySave(_session.Store.SaveSettings, "設定");
+            _session.TrySave(_session.Store.SaveSettings, L.T("What_Settings"));
         }
     }
 
@@ -221,7 +227,7 @@ public sealed class DrawViewModel : ObservableObject
             if (_session.Store.Settings.DisplayShowNotes == value) return;
             _session.Store.Settings.DisplayShowNotes = value;
             OnPropertyChanged();
-            _session.TrySave(_session.Store.SaveSettings, "設定");
+            _session.TrySave(_session.Store.SaveSettings, L.T("What_Settings"));
         }
     }
 
@@ -233,7 +239,7 @@ public sealed class DrawViewModel : ObservableObject
             if (_session.Store.Settings.DisplayShowControls == value) return;
             _session.Store.Settings.DisplayShowControls = value;
             OnPropertyChanged();
-            _session.TrySave(_session.Store.SaveSettings, "設定");
+            _session.TrySave(_session.Store.SaveSettings, L.T("What_Settings"));
         }
     }
 
@@ -249,6 +255,8 @@ public sealed class DrawViewModel : ObservableObject
             Rows.Add(new CategoryDrawRow(cat, total, drawable, _session.Store.GetDrawSetting(cat), OnRowChanged));
         }
         OnPropertyChanged(nameof(SelectionSummary));
+        OnPropertyChanged(nameof(LibraryEmpty));
+        OnPropertyChanged(nameof(ShowReadyHint));
     }
 
     void OnRowChanged(CategoryDrawRow row)
@@ -256,7 +264,7 @@ public sealed class DrawViewModel : ObservableObject
         OnPropertyChanged(nameof(SelectionSummary));
         if (_suppressSettingSave) return;
         _session.Store.Settings.DrawSettings[row.Id] = new DrawSetting { Enabled = row.IsChecked, Count = row.Count };
-        _session.TrySave(_session.Store.SaveSettings, "設定");
+        _session.TrySave(_session.Store.SaveSettings, L.T("What_Settings"));
     }
 
     void SetAllChecked(bool value)
@@ -265,7 +273,7 @@ public sealed class DrawViewModel : ObservableObject
         foreach (var r in Rows) r.IsChecked = value;
         _suppressSettingSave = false;
         foreach (var r in Rows) _session.Store.Settings.DrawSettings[r.Id] = new DrawSetting { Enabled = r.IsChecked, Count = r.Count };
-        _session.TrySave(_session.Store.SaveSettings, "設定");
+        _session.TrySave(_session.Store.SaveSettings, L.T("What_Settings"));
     }
 
     List<DrawRequest> Requests() =>
@@ -285,19 +293,19 @@ public sealed class DrawViewModel : ObservableObject
     {
         if (SelectedPreset is null) return;
         _session.Store.ApplyPresetToSettings(SelectedPreset);
-        _session.TrySave(_session.Store.SaveSettings, "設定");
+        _session.TrySave(_session.Store.SaveSettings, L.T("What_Settings"));
         RebuildRows();
     }
 
     void SavePresetAs()
     {
-        var name = Dialogs.Prompt("另存為新方案", "方案名稱：", SelectedPreset is null ? "我的方案" : SelectedPreset.Name + " 副本");
+        var name = Dialogs.Prompt(L.T("Draw_SavePresetTitle"), L.T("Draw_PresetNameLabel"), SelectedPreset is null ? L.T("Draw_DefaultPresetName") : SelectedPreset.Name + L.T("Draw_PresetCopySuffix"));
         name = TextNormalizer.Clean(name);
         if (name.Length == 0) return;
         var preset = _session.Store.PresetFromSettings(IdGenerator.New("preset"), name);
         _session.Store.Presets.Add(preset);
         _session.Store.Settings.LastPresetId = preset.Id;
-        if (!_session.TrySave(_session.Store.SavePresets, "方案")) _session.Store.Presets.Remove(preset);
+        if (!_session.TrySave(_session.Store.SavePresets, L.T("What_Presets"))) _session.Store.Presets.Remove(preset);
         RebuildPresets();
         SelectedPreset = Presets.FirstOrDefault(p => p.Id == preset.Id);
     }
@@ -305,13 +313,13 @@ public sealed class DrawViewModel : ObservableObject
     void OverwritePreset()
     {
         if (SelectedPreset is not { } p) return;
-        if (!Dialogs.Confirm($"用目前左側的分類設定覆寫方案「{p.Name}」？")) return;
+        if (!Dialogs.Confirm(L.F("Draw_OverwritePreset", p.Name))) return;
         var updated = _session.Store.PresetFromSettings(p.Id, p.Name);
         var idx = _session.Store.Presets.FindIndex(x => x.Id == p.Id);
         if (idx < 0) return;
         var old = _session.Store.Presets[idx];
         _session.Store.Presets[idx] = updated;
-        if (!_session.TrySave(_session.Store.SavePresets, "方案")) _session.Store.Presets[idx] = old;
+        if (!_session.TrySave(_session.Store.SavePresets, L.T("What_Presets"))) _session.Store.Presets[idx] = old;
         RebuildPresets();
         SelectedPreset = Presets.FirstOrDefault(x => x.Id == p.Id);
     }
@@ -319,11 +327,11 @@ public sealed class DrawViewModel : ObservableObject
     void RenamePreset()
     {
         if (SelectedPreset is not { } p) return;
-        var name = TextNormalizer.Clean(Dialogs.Prompt("重新命名方案", "新名稱：", p.Name));
+        var name = TextNormalizer.Clean(Dialogs.Prompt(L.T("Draw_RenamePresetTitle"), L.T("Draw_NewNameLabel"), p.Name));
         if (name.Length == 0 || name == p.Name) return;
         var old = p.Name;
         p.Name = name;
-        if (!_session.TrySave(_session.Store.SavePresets, "方案")) p.Name = old;
+        if (!_session.TrySave(_session.Store.SavePresets, L.T("What_Presets"))) p.Name = old;
         RebuildPresets();
         SelectedPreset = Presets.FirstOrDefault(x => x.Id == p.Id);
     }
@@ -331,11 +339,11 @@ public sealed class DrawViewModel : ObservableObject
     void DeletePreset()
     {
         if (SelectedPreset is not { } p) return;
-        if (!Dialogs.Confirm($"刪除方案「{p.Name}」？（不影響詞庫）")) return;
+        if (!Dialogs.Confirm(L.F("Draw_DeletePreset", p.Name))) return;
         var idx = _session.Store.Presets.FindIndex(x => x.Id == p.Id);
         if (idx < 0) return;
         _session.Store.Presets.RemoveAt(idx);
-        if (!_session.TrySave(_session.Store.SavePresets, "方案")) _session.Store.Presets.Insert(idx, p);
+        if (!_session.TrySave(_session.Store.SavePresets, L.T("What_Presets"))) _session.Store.Presets.Insert(idx, p);
         RebuildPresets();
     }
 
@@ -344,7 +352,7 @@ public sealed class DrawViewModel : ObservableObject
     public void GenerateAll()
     {
         var locked = LockedCount;
-        if (locked > 0 && !Dialogs.Confirm($"目前有 {locked} 個鎖定的項目。\n全部重新產生會清除鎖定，要繼續嗎？\n\n（只想換掉沒鎖定的項目，請用「重抽未鎖定」）"))
+        if (locked > 0 && !Dialogs.Confirm(L.F("Draw_ConfirmRegenerate", locked)))
             return;
         Apply(_session.Engine.Generate(_session.Library, Requests()));
     }
@@ -372,7 +380,7 @@ public sealed class DrawViewModel : ObservableObject
         }
         if (_session.Library.FindCategory(categoryId) is null)
         {
-            Dialogs.Info("這個分類已經從詞庫刪除，無法重抽。可以解除鎖定後再重抽其他項目。");
+            Dialogs.Info(L.T("Draw_CategoryDeleted"));
             return;
         }
         Apply(_session.Engine.Reroll(_session.Library, reqs, _slots, categoryId));
@@ -382,7 +390,7 @@ public sealed class DrawViewModel : ObservableObject
     {
         var warnings = new List<string>(outcome.Warnings);
         if (Requests().Count == 0 && outcome.Slots.Count == 0)
-            warnings.Insert(0, "沒有勾選任何分類，或抽取數量都是 0。");
+            warnings.Insert(0, L.T("Draw_NothingSelected"));
         Warnings = string.Join("\n", warnings);
 
         _slots = outcome.Slots;
@@ -394,7 +402,7 @@ public sealed class DrawViewModel : ObservableObject
         {
             var snap = PromptFormatter.Snapshot(_slots, _generatedAt.Value);
             _currentHistoryId = snap.Id;
-            _session.TrySave(() => _session.Store.AddHistory(snap), "歷史紀錄");
+            _session.TrySave(() => _session.Store.AddHistory(snap), L.T("What_History"));
             _session.RaiseHistoryChanged();
         }
         NotifyResultChanged();
@@ -414,7 +422,7 @@ public sealed class DrawViewModel : ObservableObject
         }).ToList();
         _generatedAt = saved.CreatedAt;
         _currentHistoryId = saved.Id;
-        Warnings = "已從歷史紀錄載入，所有項目先設為鎖定。解除想換掉的項目後按「重抽未鎖定」。";
+        Warnings = L.T("Draw_LoadedFromHistory");
         RebuildGroups();
         NotifyResultChanged();
     }
@@ -449,7 +457,7 @@ public sealed class DrawViewModel : ObservableObject
     void Copy()
     {
         if (Dialogs.CopyToClipboard(PromptFormatter.ToText(_slots, _generatedAt)))
-            Warnings = "已複製題目到剪貼簿。";
+            Warnings = L.T("Draw_Copied");
     }
 
     void ToggleFavorite()
@@ -463,12 +471,12 @@ public sealed class DrawViewModel : ObservableObject
             record = PromptFormatter.Snapshot(_slots, _generatedAt ?? DateTime.Now);
             record.Favorite = true;
             _currentHistoryId = record.Id;
-            _session.TrySave(() => store.AddHistory(record), "收藏");
+            _session.TrySave(() => store.AddHistory(record), L.T("What_Favorites"));
         }
         else
         {
             record.Favorite = !record.Favorite;
-            if (!_session.TrySave(store.SaveHistory, "收藏")) record.Favorite = !record.Favorite;
+            if (!_session.TrySave(store.SaveHistory, L.T("What_Favorites"))) record.Favorite = !record.Favorite;
         }
         _session.RaiseHistoryChanged();
         NotifyResultChanged();
@@ -477,6 +485,7 @@ public sealed class DrawViewModel : ObservableObject
     void NotifyResultChanged()
     {
         OnPropertyChanged(nameof(HasResult));
+        OnPropertyChanged(nameof(ShowReadyHint));
         OnPropertyChanged(nameof(LockedCount));
         OnPropertyChanged(nameof(StatusText));
         OnPropertyChanged(nameof(GenerateButtonText));

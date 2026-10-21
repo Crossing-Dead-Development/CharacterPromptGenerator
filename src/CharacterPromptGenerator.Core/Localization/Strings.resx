@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  介面文字：繁體中文（預設語言）
+  key 依畫面／模組分組；{0}、{1} 是 string.Format 參數，兩種語言的參數必須一致（有單元測試檢查）。
+-->
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Common_ListSep" xml:space="preserve"><value>、</value></data>
+  <data name="Common_Ellipsis" xml:space="preserve"><value>…</value></data>
+  <data name="Engine_NoEntries" xml:space="preserve"><value>「{0}」沒有可抽的詞條（需要 {1} 筆）。</value></data>
+  <data name="Engine_NotEnough" xml:space="preserve"><value>「{0}」需要 {1} 筆，但只有 {2} 筆可抽，已抽出 {3} 筆。</value></data>
+  <data name="Prompt_Header" xml:space="preserve"><value>【角色設計題目】</value></data>
+  <data name="Prompt_CategorySep" xml:space="preserve"><value>：</value></data>
+  <data name="Emoji_PackMissing" xml:space="preserve"><value>找不到 Emoji 圖庫：{0}</value></data>
+  <data name="Emoji_PackEmpty" xml:space="preserve"><value>Emoji 圖庫中沒有任何圖片：{0}</value></data>
+  <data name="Emoji_PackUnreadable" xml:space="preserve"><value>Emoji 圖庫無法讀取（{0}）：{1}</value></data>
+  <data name="Csv_BadQuote" xml:space="preserve"><value>第 {0} 行：引號位置不正確。欄位內含引號時，整個欄位要用引號包住，且內部的 " 要寫成 ""。</value></data>
+  <data name="Csv_AfterQuote" xml:space="preserve"><value>第 {0} 行：引號結束後出現多餘的字元。</value></data>
+  <data name="Csv_Unclosed" xml:space="preserve"><value>第 {0} 行開始的引號一直沒有結束，檔案可能不完整。</value></data>
+  <data name="Plan_SameId" xml:space="preserve"><value>檔案中的分類「{0}」與現有分類「{1}」ID 相同，視為同一分類（不會改名）。</value></data>
+  <data name="Plan_SkipNoCategory" xml:space="preserve"><value>分類不存在（未允許建立新分類）</value></data>
+  <data name="Plan_SkipDupInFile" xml:space="preserve"><value>檔案內重複</value></data>
+  <data name="Plan_SkipDupInLibrary" xml:space="preserve"><value>詞庫中已有相同詞條</value></data>
+  <data name="Plan_IdConflicts" xml:space="preserve"><value>有 {0} 個 ID 與現有資料衝突，已自動改用新的 ID（內容不受影響）。</value></data>
+  <data name="Plan_Invalid" xml:space="preserve"><value>匯入結果未通過資料完整性檢查：
+</value></data>
+  <data name="Plan_ReplaceEmpty" xml:space="preserve"><value>取代後詞庫將沒有任何詞條。為保護資料，已阻止這次取代。</value></data>
+  <data name="Plan_NothingNew" xml:space="preserve"><value>沒有新的內容可以匯入（全部重複、被略過或有錯誤）。</value></data>
+  <data name="Reader_BadExtension" xml:space="preserve"><value>不支援的副檔名，請選擇 .json、.csv 或 .txt 檔案。</value></data>
+  <data name="Reader_JsonErrorAt" xml:space="preserve"><value>JSON 格式錯誤（第 {0} 行附近），檔案可能損壞或不完整。</value></data>
+  <data name="Reader_JsonError" xml:space="preserve"><value>JSON 格式錯誤，檔案可能損壞或不完整。</value></data>
+  <data name="Reader_JsonNotObject" xml:space="preserve"><value>JSON 最外層必須是物件（{ ... }），包含 schemaVersion、categories、entries。</value></data>
+  <data name="Reader_NoSchema" xml:space="preserve"><value>檔案沒有 schemaVersion，以版本 1 的格式讀取。</value></data>
+  <data name="Reader_BadSchema" xml:space="preserve"><value>schemaVersion 必須是正整數。</value></data>
+  <data name="Reader_NewerSchema" xml:space="preserve"><value>這個檔案的格式版本為 {0}，比目前程式支援的 {1} 還新，請先更新程式。</value></data>
+  <data name="Reader_NoEntries" xml:space="preserve"><value>找不到 entries 陣列。這看起來不是詞庫檔（可能是歷史紀錄或設定檔）。</value></data>
+  <data name="Reader_CategoriesNotArray" xml:space="preserve"><value>categories 必須是陣列。</value></data>
+  <data name="Reader_CategoryAt" xml:space="preserve"><value>categories 第 {0} 項</value></data>
+  <data name="Reader_CategoryNotObject" xml:space="preserve"><value>{0}不是物件，已略過。</value></data>
+  <data name="Reader_CategoryNoName" xml:space="preserve"><value>{0}缺少 name，已略過。</value></data>
+  <data name="Reader_CategoryDupId" xml:space="preserve"><value>{0}「{1}」的 id {2} 與前面的分類重複，已略過。</value></data>
+  <data name="Reader_EntryNotObject" xml:space="preserve"><value>entries 第 {0} 項不是物件。</value></data>
+  <data name="Reader_EntryNoText" xml:space="preserve"><value>entries 第 {0} 項缺少 text。</value></data>
+  <data name="Reader_EntryNoCategory" xml:space="preserve"><value>entries 第 {0} 項「{1}」沒有 categoryId 或 category。</value></data>
+  <data name="Reader_EntryUnknownCategory" xml:space="preserve"><value>entries 第 {0} 項「{1}」的 categoryId {2} 不在 categories 裡。</value></data>
+  <data name="Reader_CsvEmpty" xml:space="preserve"><value>CSV 沒有任何內容。</value></data>
+  <data name="Reader_CsvDupColumn" xml:space="preserve"><value>欄位 {0} 重複出現，只使用第一個。</value></data>
+  <data name="Reader_CsvUnknownColumn" xml:space="preserve"><value>忽略不認識的欄位「{0}」。</value></data>
+  <data name="Reader_CsvBadHeader" xml:space="preserve"><value>CSV 第一行必須是標頭，且包含 category 與 text 欄位。
+目前讀到的標頭：{0}
+正確範例：category,text,emoji,notes,tags</value></data>
+  <data name="Reader_CsvTooManyFields" xml:space="preserve"><value>欄位數（{0}）比標頭（{1}）多，可能有沒加引號的逗號。</value></data>
+  <data name="Reader_CsvNoCategory" xml:space="preserve"><value>category 欄位是空的。</value></data>
+  <data name="Reader_CsvNoText" xml:space="preserve"><value>text 欄位是空的。</value></data>
+  <data name="Reader_CsvBadEnabled" xml:space="preserve"><value>enabled 欄位「{0}」看不懂，請填 true 或 false。</value></data>
+  <data name="Reader_TxtEmptyCategory" xml:space="preserve"><value>分類名稱是空的：[]。</value></data>
+  <data name="Reader_TxtNoCategory" xml:space="preserve"><value>「{0}」前面沒有 [分類名稱]，不知道要放到哪個分類。</value></data>
+  <data name="Reader_TxtEmpty" xml:space="preserve"><value>TXT 中沒有任何詞條。格式：先寫一行 [分類名稱]，下面每行一個詞條。</value></data>
+  <data name="File_NotFound" xml:space="preserve"><value>找不到檔案。</value></data>
+  <data name="File_TooLarge" xml:space="preserve"><value>檔案太大（{0} MB），上限為 50 MB。</value></data>
+  <data name="File_Unreadable" xml:space="preserve"><value>無法讀取檔案：{0}</value></data>
+  <data name="File_Empty" xml:space="preserve"><value>檔案是空的。</value></data>
+  <data name="File_Binary" xml:space="preserve"><value>檔案含有二進位內容，看起來不是文字檔（若是 Excel 檔，請先另存為 CSV UTF-8）。</value></data>
+  <data name="File_NoContent" xml:space="preserve"><value>檔案沒有任何內容。</value></data>
+  <data name="File_ReplacementChar" xml:space="preserve"><value>檔案中含有無法辨識的字元（{0}），可能已經是亂碼。請確認來源檔案並以 UTF-8 重新存檔。</value></data>
+  <data name="File_NotUtf8" xml:space="preserve"><value>檔案不是 UTF-8 編碼（可能是 Big5 或 ANSI），直接匯入會變成亂碼。
+請用記事本「另存新檔 → 編碼選 UTF-8」，或在 Excel 選「CSV UTF-8（逗號分隔）」後再匯入。</value></data>
+  <data name="Lib_CategoryNameEmpty" xml:space="preserve"><value>分類名稱不可空白。</value></data>
+  <data name="Lib_CategoryNotFound" xml:space="preserve"><value>找不到這個分類，可能已被刪除。</value></data>
+  <data name="Lib_NegativeCount" xml:space="preserve"><value>預設抽取數量不可為負數。</value></data>
+  <data name="Lib_CategoryExists" xml:space="preserve"><value>已經有名為「{0}」的分類。</value></data>
+  <data name="Lib_ChooseCategory" xml:space="preserve"><value>請先選擇一個存在的分類。</value></data>
+  <data name="Lib_EntryEmpty" xml:space="preserve"><value>詞條內容不可空白。</value></data>
+  <data name="Lib_EntryDup" xml:space="preserve"><value>此分類已經有相同的詞條「{0}」。</value></data>
+  <data name="Lib_EntryNotFound" xml:space="preserve"><value>找不到這個詞條，可能已被刪除。</value></data>
+  <data name="Lib_TargetMissing" xml:space="preserve"><value>目標分類不存在。</value></data>
+  <data name="Lib_TargetDup" xml:space="preserve"><value>目標分類已經有相同的詞條「{0}」。</value></data>
+  <data name="Valid_Schema" xml:space="preserve"><value>schemaVersion 應為 {0}，實際為 {1}。</value></data>
+  <data name="Valid_CategoryNoId" xml:space="preserve"><value>分類「{0}」缺少 ID。</value></data>
+  <data name="Valid_CategoryDupId" xml:space="preserve"><value>分類 ID 重複：{0}</value></data>
+  <data name="Valid_CategoryNoName" xml:space="preserve"><value>分類 {0} 缺少名稱。</value></data>
+  <data name="Valid_CategoryDupName" xml:space="preserve"><value>分類名稱重複：{0}</value></data>
+  <data name="Valid_CategoryNegative" xml:space="preserve"><value>分類「{0}」的預設抽取數量不可為負數。</value></data>
+  <data name="Valid_EntryNoId" xml:space="preserve"><value>詞條「{0}」缺少 ID。</value></data>
+  <data name="Valid_EntryDupId" xml:space="preserve"><value>詞條 ID 重複：{0}</value></data>
+  <data name="Valid_EntryBadCategory" xml:space="preserve"><value>詞條「{0}」指向不存在的分類 {1}。</value></data>
+  <data name="Valid_EntryEmpty" xml:space="preserve"><value>詞條 {0} 內容為空。</value></data>
+  <data name="Valid_EntryNullTags" xml:space="preserve"><value>詞條 {0} 的 tags 為 null。</value></data>
+  <data name="Valid_Failed" xml:space="preserve"><value>詞庫資料驗證失敗，已取消寫入：
+</value></data>
+  <data name="Repair_Unnamed" xml:space="preserve"><value>未命名分類</value></data>
+  <data name="Repair_UnnamedNote" xml:space="preserve"><value>發現未命名分類，已暫時命名為「未命名分類」。</value></data>
+  <data name="Repair_DupId" xml:space="preserve"><value>分類「{0}」的 ID {1} 重複，已改為 {2}。</value></data>
+  <data name="Repair_DupName" xml:space="preserve"><value>分類名稱「{0}」重複，已改名為「{1}」。</value></data>
+  <data name="Repair_RescueName" xml:space="preserve"><value>未分類（自動修復）</value></data>
+  <data name="Repair_RescueDescription" xml:space="preserve"><value>載入時發現指向不存在分類的詞條，已集中到這裡。</value></data>
+  <data name="Repair_RemovedEmpty" xml:space="preserve"><value>移除了 {0} 筆內容為空的詞條。</value></data>
+  <data name="Repair_Rescued" xml:space="preserve"><value>有 {0} 筆詞條指向不存在的分類，已移到「{1}」（預設停用）。</value></data>
+  <data name="Store_LibraryUnreadable" xml:space="preserve"><value>詞庫檔無法讀取（{0}）。原檔已保留為 {1}。</value></data>
+  <data name="Store_LibraryCorrupt" xml:space="preserve"><value>詞庫檔 library.json 損壞，且找不到可用的備份。
+
+錯誤：{0}
+
+原檔已複製為：{1}
+請手動檢查資料夾：{2}</value></data>
+  <data name="Store_RestoringFromBackup" xml:space="preserve"><value>找不到 library.json，但有備份存在，嘗試從備份還原。</value></data>
+  <data name="Store_NoLibraryNoBackup" xml:space="preserve"><value>找不到 library.json，備份也無法讀取。請檢查資料夾：{0}</value></data>
+  <data name="Store_NoSeed" xml:space="preserve"><value>找不到內建示範詞庫或格式錯誤，已建立空白詞庫。</value></data>
+  <data name="Store_NewerSchema" xml:space="preserve"><value>詞庫檔的格式版本為 {0}，比這個程式支援的 {1} 還新。
+請改用較新版的程式開啟。為保護資料，本程式不會修改這個檔案。</value></data>
+  <data name="Store_FileEmpty" xml:space="preserve"><value>檔案內容為空</value></data>
+  <data name="Store_Repaired" xml:space="preserve"><value>讀取 {0} 時做了自動修復：</value></data>
+  <data name="Store_Bullet" xml:space="preserve"><value>・</value></data>
+  <data name="Store_Restored" xml:space="preserve"><value>已從備份還原詞庫：{0}</value></data>
+  <data name="Store_PlanNotApplicable" xml:space="preserve"><value>這份匯入計畫無法套用。</value></data>
+  <data name="Store_ChangedSincePreview" xml:space="preserve"><value>詞庫在預覽之後已被修改，請重新匯入以產生新的預覽。</value></data>
+  <data name="Store_BackupUnreadable" xml:space="preserve"><value>備份檔無法讀取：{0}</value></data>
+  <data name="Store_PresetsUnreadable" xml:space="preserve"><value>方案檔無法讀取（{0}），已保留為 {1} 並改用內建方案。</value></data>
+  <data name="Store_SettingsUnreadable" xml:space="preserve"><value>設定檔無法讀取（{0}），已改用預設設定。</value></data>
+  <data name="Store_HistoryUnreadable" xml:space="preserve"><value>歷史紀錄檔無法讀取（{0}），已保留為 {1}。</value></data>
+  <data name="Paths_PortableNotWritable" xml:space="preserve"><value>偵測到可攜模式標記，但無法寫入 {0}，已改用 AppData 資料夾。</value></data>
+  <data name="App_CannotOpenTitle" xml:space="preserve"><value>無法開啟詞庫</value></data>
+  <data name="App_StartFailed" xml:space="preserve"><value>程式啟動失敗：{0}</value></data>
+  <data name="App_StartFailedTitle" xml:space="preserve"><value>啟動失敗</value></data>
+  <data name="App_EmojiFallback" xml:space="preserve"><value>
+Emoji 會以「?」替代圖示顯示，詞庫內容不受影響。</value></data>
+  <data name="App_LoadNotes" xml:space="preserve"><value>開啟資料時有以下狀況：
+
+</value></data>
+  <data name="App_LoadNotesTitle" xml:space="preserve"><value>資料載入提醒</value></data>
+  <data name="App_Unexpected" xml:space="preserve"><value>發生未預期的錯誤，操作已取消：
+{0}
+
+詳細內容已記錄在 error.log。</value></data>
+  <data name="Common_Error" xml:space="preserve"><value>錯誤</value></data>
+  <data name="Session_SaveFailed" xml:space="preserve"><value>儲存失敗，資料沒有被修改。
+
+{0}</value></data>
+  <data name="Session_SaveWhatFailed" xml:space="preserve"><value>{0}儲存失敗：{1}</value></data>
+  <data name="Session_JsonFilter" xml:space="preserve"><value>JSON 詞庫 (*.json)|*.json</value></data>
+  <data name="Session_ExportedJson" xml:space="preserve"><value>已匯出完整詞庫（{0} 個分類、{1} 筆詞條）：
+{2}</value></data>
+  <data name="Session_ExportFailed" xml:space="preserve"><value>匯出失敗：{0}</value></data>
+  <data name="Session_CsvFilter" xml:space="preserve"><value>CSV（UTF-8） (*.csv)|*.csv</value></data>
+  <data name="Session_ExportedCsv" xml:space="preserve"><value>已匯出 {0} 筆詞條為 CSV：
+{1}
+
+提示：CSV 不含分類說明與 ID；完整備份請使用「匯出 JSON」。</value></data>
+  <data name="Session_OpenFolderFailed" xml:space="preserve"><value>無法開啟資料夾：{0}</value></data>
+  <data name="What_Settings" xml:space="preserve"><value>設定</value></data>
+  <data name="What_Presets" xml:space="preserve"><value>方案</value></data>
+  <data name="What_History" xml:space="preserve"><value>歷史紀錄</value></data>
+  <data name="What_Favorites" xml:space="preserve"><value>收藏</value></data>
+  <data name="App_Title" xml:space="preserve"><value>角色設計題目產生器</value></data>
+  <data name="Dialog_Confirm" xml:space="preserve"><value>確認</value></data>
+  <data name="Dialog_ImportTitle" xml:space="preserve"><value>選擇要匯入的詞庫檔</value></data>
+  <data name="Dialog_ImportFilter" xml:space="preserve"><value>詞庫檔 (*.json;*.csv;*.txt)|*.json;*.csv;*.txt|JSON (*.json)|*.json|CSV (*.csv)|*.csv|文字檔 (*.txt)|*.txt</value></data>
+  <data name="Dialog_ClipboardBusy" xml:space="preserve"><value>剪貼簿暫時被其他程式佔用，請再試一次。</value></data>
+  <data name="Main_WindowTitle" xml:space="preserve"><value>Character Design Prompt Generator｜角色設計題目產生器</value></data>
+  <data name="Main_BrandTop" xml:space="preserve"><value>角色設計</value></data>
+  <data name="Main_BrandBottom" xml:space="preserve"><value>題目產生器</value></data>
+  <data name="Main_DataLocation" xml:space="preserve"><value>資料位置</value></data>
+  <data name="Nav_Draw" xml:space="preserve"><value>🎲  抽題</value></data>
+  <data name="Nav_Editor" xml:space="preserve"><value>📝  詞庫管理</value></data>
+  <data name="Nav_History" xml:space="preserve"><value>⭐  歷史與收藏</value></data>
+  <data name="Nav_Data" xml:space="preserve"><value>💾  資料與備份</value></data>
+  <data name="Main_Shortcuts" xml:space="preserve"><value>快捷鍵</value></data>
+  <data name="Main_ShortcutReroll" xml:space="preserve"><value>F5　重抽未鎖定</value></data>
+  <data name="Main_ShortcutRegenerate" xml:space="preserve"><value>Ctrl+F5　全部重新產生</value></data>
+  <data name="Main_ShortcutCopy" xml:space="preserve"><value>Ctrl+Shift+C　複製題目</value></data>
+  <data name="Main_PortablePrefix" xml:space="preserve"><value>可攜模式 · </value></data>
+  <data name="Draw_CategoryDisabled" xml:space="preserve"><value>分類已停用</value></data>
+  <data name="Draw_Available" xml:space="preserve"><value>可抽 {0}</value></data>
+  <data name="Draw_RowTooltipCounts" xml:space="preserve"><value>
+詞條 {0} 筆，可抽 {1} 筆</value></data>
+  <data name="Draw_RowTooltipDisabled" xml:space="preserve"><value>
+（此分類在詞庫中被停用，不會抽到）</value></data>
+  <data name="Draw_RegenerateAll" xml:space="preserve"><value>🎲 全部重新產生</value></data>
+  <data name="Draw_Generate" xml:space="preserve"><value>🎲 產生角色題目</value></data>
+  <data name="Draw_StatusEmpty" xml:space="preserve"><value>尚未抽題。勾選左側分類並設定數量後，按「產生角色題目」。</value></data>
+  <data name="Draw_Status" xml:space="preserve"><value>共 {0} 項，已鎖定 {1} 項 · {2:HH:mm:ss} 產生</value></data>
+  <data name="Draw_StatusFavorite" xml:space="preserve"><value> · ⭐ 已收藏</value></data>
+  <data name="Draw_Unfavorite" xml:space="preserve"><value>⭐ 取消收藏</value></data>
+  <data name="Draw_Favorite" xml:space="preserve"><value>☆ 收藏</value></data>
+  <data name="Draw_SelectionSummary" xml:space="preserve"><value>已選 {0} 類，共 {1} 項</value></data>
+  <data name="Draw_SavePresetTitle" xml:space="preserve"><value>另存為新方案</value></data>
+  <data name="Draw_PresetNameLabel" xml:space="preserve"><value>方案名稱：</value></data>
+  <data name="Draw_DefaultPresetName" xml:space="preserve"><value>我的方案</value></data>
+  <data name="Draw_PresetCopySuffix" xml:space="preserve"><value> 副本</value></data>
+  <data name="Draw_OverwritePreset" xml:space="preserve"><value>用目前左側的分類設定覆寫方案「{0}」？</value></data>
+  <data name="Draw_RenamePresetTitle" xml:space="preserve"><value>重新命名方案</value></data>
+  <data name="Draw_NewNameLabel" xml:space="preserve"><value>新名稱：</value></data>
+  <data name="Draw_DeletePreset" xml:space="preserve"><value>刪除方案「{0}」？（不影響詞庫）</value></data>
+  <data name="Draw_ConfirmRegenerate" xml:space="preserve"><value>目前有 {0} 個鎖定的項目。
+全部重新產生會清除鎖定，要繼續嗎？
+
+（只想換掉沒鎖定的項目，請用「重抽未鎖定」）</value></data>
+  <data name="Draw_CategoryDeleted" xml:space="preserve"><value>這個分類已經從詞庫刪除，無法重抽。可以解除鎖定後再重抽其他項目。</value></data>
+  <data name="Draw_NothingSelected" xml:space="preserve"><value>沒有勾選任何分類，或抽取數量都是 0。</value></data>
+  <data name="Draw_LoadedFromHistory" xml:space="preserve"><value>已從歷史紀錄載入，所有項目先設為鎖定。解除想換掉的項目後按「重抽未鎖定」。</value></data>
+  <data name="Draw_Copied" xml:space="preserve"><value>已複製題目到剪貼簿。</value></data>
+  <data name="Draw_PresetsTitle" xml:space="preserve"><value>抽題方案</value></data>
+  <data name="Draw_Apply" xml:space="preserve"><value>套用</value></data>
+  <data name="Draw_ApplyTip" xml:space="preserve"><value>把方案的分類與數量套用到下方</value></data>
+  <data name="Draw_SaveAs" xml:space="preserve"><value>另存新方案</value></data>
+  <data name="Draw_Overwrite" xml:space="preserve"><value>覆寫</value></data>
+  <data name="Draw_OverwriteTip" xml:space="preserve"><value>用下方目前的設定覆寫選取的方案</value></data>
+  <data name="Draw_Rename" xml:space="preserve"><value>改名</value></data>
+  <data name="Common_Delete" xml:space="preserve"><value>刪除</value></data>
+  <data name="Draw_CategoriesTitle" xml:space="preserve"><value>分類與數量</value></data>
+  <data name="Draw_CheckAll" xml:space="preserve"><value>全選</value></data>
+  <data name="Draw_CheckNone" xml:space="preserve"><value>全不選</value></data>
+  <data name="Draw_RerollUnlocked" xml:space="preserve"><value>🔁 重抽未鎖定</value></data>
+  <data name="Draw_UnlockAll" xml:space="preserve"><value>🔓 解除全部鎖定</value></data>
+  <data name="Draw_Copy" xml:space="preserve"><value>📋 複製題目</value></data>
+  <data name="Draw_OpenDisplay" xml:space="preserve"><value>📺 直播展示模式</value></data>
+  <data name="Draw_OpenDisplayTip" xml:space="preserve"><value>開啟大字體的獨立視窗，適合 OBS 視窗擷取</value></data>
+  <data name="Draw_Ready" xml:space="preserve"><value>🎨 準備好了嗎？按「產生角色題目」開始。</value></data>
+  <data name="Draw_RerollCategory" xml:space="preserve"><value>🎲 重抽此類</value></data>
+  <data name="Draw_RerollCategoryTip" xml:space="preserve"><value>只重抽這個分類中未鎖定的項目</value></data>
+  <data name="Draw_LockToggleName" xml:space="preserve"><value>鎖定切換</value></data>
+  <data name="Lock_Tip" xml:space="preserve"><value>鎖定／解除鎖定（鎖定後重抽不會改變）</value></data>
+  <data name="Lock_Off" xml:space="preserve"><value>🔓 鎖定</value></data>
+  <data name="Lock_On" xml:space="preserve"><value>🔒 已鎖定</value></data>
+  <data name="Display_WindowTitle" xml:space="preserve"><value>角色設計題目｜直播展示</value></data>
+  <data name="Display_ToggleControlsMenu" xml:space="preserve"><value>顯示／隱藏控制列 (H)</value></data>
+  <data name="Display_RerollMenu" xml:space="preserve"><value>重抽未鎖定 (F5)</value></data>
+  <data name="Display_RegenerateMenu" xml:space="preserve"><value>全部重新產生 (Ctrl+F5)</value></data>
+  <data name="Display_Unlock" xml:space="preserve"><value>🔓 解除鎖定</value></data>
+  <data name="Display_Bigger" xml:space="preserve"><value>A＋</value></data>
+  <data name="Display_ShowNotes" xml:space="preserve"><value>顯示備註</value></data>
+  <data name="Display_HideControls" xml:space="preserve"><value>隱藏控制列 (H)</value></data>
+  <data name="Display_Heading" xml:space="preserve"><value>角色設計題目</value></data>
+  <data name="Display_Waiting" xml:space="preserve"><value>等待抽題…</value></data>
+  <data name="Display_SlotTip" xml:space="preserve"><value>點一下鎖定／解除鎖定</value></data>
+  <data name="Editor_StatusDisabled" xml:space="preserve"><value>停用</value></data>
+  <data name="Editor_StatusEnabled" xml:space="preserve"><value>啟用</value></data>
+  <data name="Editor_StatusCategoryOff" xml:space="preserve"><value>分類停用</value></data>
+  <data name="Editor_CountSummary" xml:space="preserve"><value>顯示 {0} 筆 / 詞庫共 {1} 筆</value></data>
+  <data name="Editor_NewEntryTitle" xml:space="preserve"><value>新增詞條</value></data>
+  <data name="Editor_EditEntryTitle" xml:space="preserve"><value>編輯詞條</value></data>
+  <data name="Editor_Add" xml:space="preserve"><value>➕ 新增</value></data>
+  <data name="Editor_SaveChanges" xml:space="preserve"><value>💾 儲存修改</value></data>
+  <data name="Editor_EmojiFffd" xml:space="preserve"><value>⚠ 含有 U+FFFD 替代字元（原本的字已經遺失），請重新輸入正確的 Emoji。</value></data>
+  <data name="Editor_EmojiPack" xml:space="preserve"><value>✓ Fluent 3D 圖片（{0}）</value></data>
+  <data name="Editor_EmojiOverride" xml:space="preserve"><value>✓ 自訂圖片 EmojiOverrides\{0}（{1}）</value></data>
+  <data name="Editor_EmojiZwj" xml:space="preserve"><value>✓ 圖庫沒有這個組合，改為並排顯示 {0} 個組成元素（{1}）</value></data>
+  <data name="Editor_EmojiMissing" xml:space="preserve"><value>⚠ 沒有圖片（{0}），會顯示「?」。可放 EmojiOverrides\{1} 補圖。</value></data>
+  <data name="Editor_EmojiNotEmoji" xml:space="preserve"><value>「{0}」不是 Emoji，會以文字顯示（{1}）</value></data>
+  <data name="Editor_DupWarning" xml:space="preserve"><value>⚠ 此分類已有相同詞條「{0}」</value></data>
+  <data name="Editor_NoneSelected" xml:space="preserve"><value>未選取詞條</value></data>
+  <data name="Editor_OneSelected" xml:space="preserve"><value>已選取 1 筆</value></data>
+  <data name="Editor_ManySelected" xml:space="preserve"><value>已選取 {0} 筆（可批次操作）</value></data>
+  <data name="Editor_AllCategories" xml:space="preserve"><value>📚 全部分類</value></data>
+  <data name="Editor_NewCategoryTitle" xml:space="preserve"><value>新增分類</value></data>
+  <data name="Editor_CategoryNameLabel" xml:space="preserve"><value>分類名稱：</value></data>
+  <data name="Editor_DeleteEmptyCategory" xml:space="preserve"><value>刪除分類「{0}」？</value></data>
+  <data name="Editor_DeleteCategory" xml:space="preserve"><value>刪除分類「{0}」會一併刪除其中的 {1} 筆詞條。
+
+刪除前會自動備份，必要時可以在「資料與備份」頁還原。
+若想保留詞條，請先選取詞條並「移到分類」。
+
+確定要刪除嗎？</value></data>
+  <data name="Editor_DeleteCategoryTitle" xml:space="preserve"><value>刪除分類</value></data>
+  <data name="Editor_ChooseEntryCategory" xml:space="preserve"><value>請先選擇詞條所屬的分類。</value></data>
+  <data name="Editor_DeleteEntry" xml:space="preserve"><value>刪除詞條「{0}」？</value></data>
+  <data name="Editor_DeleteEntries" xml:space="preserve"><value>刪除選取的 {0} 筆詞條？</value></data>
+  <data name="Editor_DeleteEntriesNote" xml:space="preserve"><value>
+
+（已存在的歷史紀錄與收藏不受影響）</value></data>
+  <data name="Editor_DeleteEntryTitle" xml:space="preserve"><value>刪除詞條</value></data>
+  <data name="Editor_Moved" xml:space="preserve"><value>已移動 {0} 筆；{1} 筆因目標分類已有相同詞條而略過。</value></data>
+  <data name="Editor_ChooseBulkCategory" xml:space="preserve"><value>請先在左側選擇要加入的分類。</value></data>
+  <data name="Common_Category" xml:space="preserve"><value>分類</value></data>
+  <data name="Editor_AddCategory" xml:space="preserve"><value>＋ 新增分類</value></data>
+  <data name="Editor_CategoryName" xml:space="preserve"><value>分類名稱</value></data>
+  <data name="Editor_Description" xml:space="preserve"><value>說明</value></data>
+  <data name="Editor_EnabledCheck" xml:space="preserve"><value>啟用（可被抽到）</value></data>
+  <data name="Editor_DefaultCount" xml:space="preserve"><value>預設數量</value></data>
+  <data name="Editor_SaveCategory" xml:space="preserve"><value>💾 儲存分類</value></data>
+  <data name="Editor_MoveUp" xml:space="preserve"><value>往上移</value></data>
+  <data name="Editor_MoveDown" xml:space="preserve"><value>往下移</value></data>
+  <data name="Editor_CountTip" xml:space="preserve"><value>可抽數 / 總數</value></data>
+  <data name="Common_Import" xml:space="preserve"><value>📥 匯入詞庫</value></data>
+  <data name="Editor_ExportJson" xml:space="preserve"><value>📤 匯出 JSON</value></data>
+  <data name="Common_ExportCsv" xml:space="preserve"><value>📤 匯出 CSV</value></data>
+  <data name="Editor_SearchName" xml:space="preserve"><value>搜尋詞條</value></data>
+  <data name="Editor_ClearSearch" xml:space="preserve"><value>清除搜尋</value></data>
+  <data name="Editor_FilterAll" xml:space="preserve"><value>全部狀態</value></data>
+  <data name="Editor_FilterEnabled" xml:space="preserve"><value>只看啟用</value></data>
+  <data name="Editor_FilterDisabled" xml:space="preserve"><value>只看停用</value></data>
+  <data name="Editor_Enable" xml:space="preserve"><value>啟用</value></data>
+  <data name="Editor_Disable" xml:space="preserve"><value>停用</value></data>
+  <data name="Editor_MoveTargetTip" xml:space="preserve"><value>移動目標分類</value></data>
+  <data name="Editor_Move" xml:space="preserve"><value>移到分類</value></data>
+  <data name="Editor_DeleteSelected" xml:space="preserve"><value>🗑 刪除選取</value></data>
+  <data name="Common_Entry" xml:space="preserve"><value>詞條</value></data>
+  <data name="Common_Notes" xml:space="preserve"><value>備註</value></data>
+  <data name="Common_Tags" xml:space="preserve"><value>標籤</value></data>
+  <data name="Editor_Status" xml:space="preserve"><value>狀態</value></data>
+  <data name="Editor_TextLabel" xml:space="preserve"><value>詞條文字（必填）</value></data>
+  <data name="Editor_EmojiLabel" xml:space="preserve"><value>Emoji（選填，Win + . 可開啟表情面板）</value></data>
+  <data name="Editor_EmojiInputName" xml:space="preserve"><value>Emoji 輸入</value></data>
+  <data name="Editor_EmojiPreviewTip" xml:space="preserve"><value>預覽：抽題結果中實際顯示的圖片</value></data>
+  <data name="Editor_EmojiPreviewName" xml:space="preserve"><value>Emoji 預覽</value></data>
+  <data name="Editor_TagsLabel" xml:space="preserve"><value>標籤（以 | 或逗號分隔）</value></data>
+  <data name="Editor_NewEntry" xml:space="preserve"><value>清空／改為新增</value></data>
+  <data name="Editor_BulkTitle" xml:space="preserve"><value>大量新增</value></data>
+  <data name="Editor_BulkHint" xml:space="preserve"><value>把很多詞貼進來，每行一個，一次加入左側選取的分類。</value></data>
+  <data name="Editor_BulkButton" xml:space="preserve"><value>📋 多行貼上新增</value></data>
+  <data name="Editor_ImportHint" xml:space="preserve"><value>更大量的詞庫請用上方「匯入詞庫」，支援 JSON / CSV / TXT，匯入前會先預覽並自動備份。</value></data>
+  <data name="Bulk_WindowTitle" xml:space="preserve"><value>多行貼上新增詞條</value></data>
+  <data name="Bulk_CategoryLabel" xml:space="preserve"><value>加入分類：</value></data>
+  <data name="Bulk_Hint" xml:space="preserve"><value>每行一個詞條，整行就是詞條內容（Emoji 可以直接寫在文字裡）。空行會被略過；與此分類已有詞條或貼上內容中重複的行不會加入。</value></data>
+  <data name="Bulk_Add" xml:space="preserve"><value>新增</value></data>
+  <data name="Common_Cancel" xml:space="preserve"><value>取消</value></data>
+  <data name="Bulk_WillAdd" xml:space="preserve"><value>將新增 {0} 筆</value></data>
+  <data name="Bulk_DupExisting" xml:space="preserve"><value>⚠ 已存在而略過 {0} 筆：{1}</value></data>
+  <data name="Bulk_DupInput" xml:space="preserve"><value>⚠ 貼上內容中重複 {0} 筆：{1}</value></data>
+  <data name="Bulk_AddCount" xml:space="preserve"><value>新增 {0} 筆</value></data>
+  <data name="Bulk_Added" xml:space="preserve"><value>已新增 {0} 筆詞條。</value></data>
+  <data name="History_More" xml:space="preserve"><value>…（共 {0} 項）</value></data>
+  <data name="History_SelectHint" xml:space="preserve"><value>選擇左側的一筆紀錄以檢視內容。</value></data>
+  <data name="History_Summary" xml:space="preserve"><value>共 {0} 筆紀錄，其中收藏 {1} 筆。未收藏的紀錄最多保留 {2} 筆。</value></data>
+  <data name="History_DeleteFavorite" xml:space="preserve"><value>這是一筆收藏，確定要刪除嗎？</value></data>
+  <data name="History_Clear" xml:space="preserve"><value>清除 {0} 筆未收藏的歷史紀錄？收藏會保留。</value></data>
+  <data name="History_Title" xml:space="preserve"><value>歷史與收藏</value></data>
+  <data name="History_FavoritesOnly" xml:space="preserve"><value>只看收藏 ⭐</value></data>
+  <data name="History_ClearButton" xml:space="preserve"><value>清除未收藏紀錄</value></data>
+  <data name="Common_Time" xml:space="preserve"><value>時間</value></data>
+  <data name="History_Content" xml:space="preserve"><value>內容</value></data>
+  <data name="History_Copy" xml:space="preserve"><value>📋 複製</value></data>
+  <data name="History_ToggleFavorite" xml:space="preserve"><value>⭐ 收藏／取消</value></data>
+  <data name="History_Load" xml:space="preserve"><value>↩ 載入到抽題畫面</value></data>
+  <data name="History_LoadTip" xml:space="preserve"><value>載入後所有項目先鎖定，可解除部分鎖定後重抽</value></data>
+  <data name="History_SnapshotNote" xml:space="preserve"><value>紀錄保存的是抽題當下的文字快照：之後修改或刪除詞條，舊紀錄也不會改變。</value></data>
+  <data name="Import_ReadError" xml:space="preserve"><value>讀取檔案時發生錯誤：{0}</value></data>
+  <data name="Import_FormatJson" xml:space="preserve"><value>JSON（完整詞庫格式）</value></data>
+  <data name="Import_FormatCsv" xml:space="preserve"><value>CSV（category,text,emoji,notes,tags）</value></data>
+  <data name="Import_FormatTxt" xml:space="preserve"><value>TXT（[分類] + 每行一個詞條）</value></data>
+  <data name="Import_CannotImport" xml:space="preserve"><value>檔案無法匯入。</value></data>
+  <data name="Import_Summary" xml:space="preserve"><value>讀到 {0} 筆詞條 → 將新增 {1} 筆、建立 {2} 個新分類、略過 {3} 筆（重複或不允許的分類）、錯誤 {4} 列。</value></data>
+  <data name="Import_ReplaceWarning" xml:space="preserve"><value>⚠ 取代模式會刪除目前詞庫的全部 {0} 筆詞條與所有分類，換成檔案內容。套用前會自動備份。</value></data>
+  <data name="Import_NotePrefix" xml:space="preserve"><value>（提醒）</value></data>
+  <data name="Import_NewCategoriesTab" xml:space="preserve"><value>新分類 ({0})</value></data>
+  <data name="Import_AddedTab" xml:space="preserve"><value>將新增 ({0})</value></data>
+  <data name="Import_SkippedTab" xml:space="preserve"><value>略過 ({0})</value></data>
+  <data name="Import_ProblemsTab" xml:space="preserve"><value>錯誤與提醒 ({0})</value></data>
+  <data name="Import_ConfirmErrors" xml:space="preserve"><value>有 {0} 列格式錯誤，這些列不會被匯入。
+其他 {1} 筆仍要匯入嗎？</value></data>
+  <data name="Import_ConfirmTitle" xml:space="preserve"><value>匯入確認</value></data>
+  <data name="Import_ConfirmReplace1" xml:space="preserve"><value>確定要「取代整個詞庫」嗎？
+
+目前詞庫：{0} 個分類、{1} 筆詞條
+取代後：{2} 個分類、{3} 筆詞條</value></data>
+  <data name="Import_ConfirmReplace1Title" xml:space="preserve"><value>取代整個詞庫（第 1 次確認）</value></data>
+  <data name="Import_ConfirmReplace2" xml:space="preserve"><value>最後確認：目前的詞庫會先自動備份，然後被完全取代。
+要繼續嗎？</value></data>
+  <data name="Import_ConfirmReplace2Title" xml:space="preserve"><value>取代整個詞庫（第 2 次確認）</value></data>
+  <data name="Import_Failed" xml:space="preserve"><value>匯入沒有完成，目前詞庫保持原狀。
+
+{0}</value></data>
+  <data name="Import_Done" xml:space="preserve"><value>匯入完成！
+
+新增詞條：{0} 筆
+新建分類：{1} 個
+略過（重複等）：{2} 筆
+失敗（格式錯誤）：{3} 列
+
+</value></data>
+  <data name="Import_DoneBackup" xml:space="preserve"><value>匯入前的詞庫已備份為：
+{0}
+
+</value></data>
+  <data name="Import_DoneTail" xml:space="preserve"><value>新詞條已經可以抽到，不需重新啟動。</value></data>
+  <data name="Import_DoneTitle" xml:space="preserve"><value>匯入完成</value></data>
+  <data name="Import_WindowTitle" xml:space="preserve"><value>匯入詞庫｜預覽</value></data>
+  <data name="Import_FormatLabel" xml:space="preserve"><value>格式：</value></data>
+  <data name="Import_Merge" xml:space="preserve"><value>合併匯入（建議：保留現有詞庫，只加入新詞）</value></data>
+  <data name="Import_Replace" xml:space="preserve"><value>取代整個詞庫</value></data>
+  <data name="Import_AllowNewCategories" xml:space="preserve"><value>允許建立檔案中出現的新分類（取消勾選時，這些詞條會被略過）</value></data>
+  <data name="Import_Parsing" xml:space="preserve"><value>解析中…</value></data>
+  <data name="Import_Fatal" xml:space="preserve"><value>❌ 無法匯入這個檔案（目前詞庫不受影響）</value></data>
+  <data name="Import_Apply" xml:space="preserve"><value>✔ 套用匯入</value></data>
+  <data name="Import_Line" xml:space="preserve"><value>行</value></data>
+  <data name="Import_NewCategoryColumn" xml:space="preserve"><value>新分類</value></data>
+  <data name="Import_WillCreate" xml:space="preserve"><value>將建立新分類</value></data>
+  <data name="Import_EntryCount" xml:space="preserve"><value>詞條數</value></data>
+  <data name="Common_Reason" xml:space="preserve"><value>原因</value></data>
+  <data name="Import_Message" xml:space="preserve"><value>說明</value></data>
+  <data name="Common_Ok" xml:space="preserve"><value>確定</value></data>
+  <data name="Backup_Manual" xml:space="preserve"><value>手動備份</value></data>
+  <data name="Backup_BeforeImport" xml:space="preserve"><value>合併匯入前</value></data>
+  <data name="Backup_BeforeReplace" xml:space="preserve"><value>取代詞庫前</value></data>
+  <data name="Backup_BeforeRestore" xml:space="preserve"><value>還原備份前</value></data>
+  <data name="Backup_BeforeDeleteCategory" xml:space="preserve"><value>刪除分類前</value></data>
+  <data name="Backup_BeforeBulkDelete" xml:space="preserve"><value>大量刪除前</value></data>
+  <data name="Backup_BeforeBulkAdd" xml:space="preserve"><value>大量新增前</value></data>
+  <data name="Backup_BeforeRepair" xml:space="preserve"><value>自動修復前</value></data>
+  <data name="Data_ModePortable" xml:space="preserve"><value>可攜模式：資料存放在 EXE 旁的 Data 資料夾。</value></data>
+  <data name="Data_ModeNormal" xml:space="preserve"><value>一般模式：資料存放在使用者的 AppData 資料夾，更新或移動程式都不會影響詞庫。</value></data>
+  <data name="Data_ToNormal" xml:space="preserve"><value>切換回一般模式（AppData）</value></data>
+  <data name="Data_ToPortable" xml:space="preserve"><value>切換為可攜模式（EXE 旁 Data\）</value></data>
+  <data name="Data_Stats" xml:space="preserve"><value>分類 {0} 個 · 詞條 {1} 筆（啟用 {2}）· 方案 {3} 組 · 歷史 {4} 筆</value></data>
+  <data name="Data_EmojiFallback" xml:space="preserve"><value>
+Emoji 目前以「?」替代圖示顯示。</value></data>
+  <data name="Data_EmojiStatus" xml:space="preserve"><value>Microsoft Fluent Emoji 3D：{0} 張圖片（MIT 授權，見 THIRD-PARTY-NOTICES.md）。
+不使用 Windows 字型，所以 Windows 10 與 11 顯示相同。</value></data>
+  <data name="Data_BackedUp" xml:space="preserve"><value>已備份目前詞庫：
+{0}
+
+手動備份不會被自動清除。</value></data>
+  <data name="Data_BackupFailed" xml:space="preserve"><value>備份失敗：{0}</value></data>
+  <data name="Data_ConfirmRestore" xml:space="preserve"><value>用這份備份取代目前的詞庫？
+
+備份時間：{0}（{1}）
+備份內容：{2} 個分類、{3} 筆詞條
+目前詞庫：{4} 個分類、{5} 筆詞條
+
+還原前會先自動備份目前的詞庫。</value></data>
+  <data name="Data_RestoreTitle" xml:space="preserve"><value>還原備份</value></data>
+  <data name="Data_Restored" xml:space="preserve"><value>已還原。</value></data>
+  <data name="Data_RestoreFailed" xml:space="preserve"><value>還原失敗，目前詞庫沒有被修改：{0}</value></data>
+  <data name="Data_CannotWrite" xml:space="preserve"><value>無法寫入 {0}。
+程式放在 Program Files 等受保護的位置時無法使用可攜模式，請把整個程式資料夾移到其他位置。</value></data>
+  <data name="Data_SwitchToNormal" xml:space="preserve"><value>切換回一般模式。
+</value></data>
+  <data name="Data_SwitchToPortable" xml:space="preserve"><value>切換為可攜模式。
+</value></data>
+  <data name="Data_NewLocation" xml:space="preserve"><value>新的資料位置：{0}
+
+</value></data>
+  <data name="Data_TargetHasData" xml:space="preserve"><value>新位置已經有詞庫資料，將直接使用那份資料（不會覆蓋）。目前位置的資料保持不動。</value></data>
+  <data name="Data_WillCopy" xml:space="preserve"><value>會把目前的詞庫、方案、設定、歷史與備份複製過去。目前位置的資料保持不動。</value></data>
+  <data name="Data_RestartNeeded" xml:space="preserve"><value>
+
+切換後需要重新啟動程式。要繼續嗎？</value></data>
+  <data name="Data_SwitchTitle" xml:space="preserve"><value>切換資料位置</value></data>
+  <data name="Data_FlagContent" xml:space="preserve"><value>此檔案存在時，程式會把資料存放在同一層的 Data 資料夾。刪除即可恢復一般模式。</value></data>
+  <data name="Data_SwitchFailed" xml:space="preserve"><value>切換失敗：{0}</value></data>
+  <data name="Data_RestartNow" xml:space="preserve"><value>已完成設定。現在重新啟動程式嗎？</value></data>
+  <data name="Data_OpenFolder" xml:space="preserve"><value>📂 開啟資料夾</value></data>
+  <data name="Data_ImportExportTitle" xml:space="preserve"><value>匯入／匯出詞庫</value></data>
+  <data name="Data_FormatJson" xml:space="preserve"><value>JSON：完整詞庫（含分類設定與 ID），用於備份與跨電腦交換。</value></data>
+  <data name="Data_FormatCsv" xml:space="preserve"><value>CSV：標頭 category,text,emoji,notes,tags，可用試算表編輯。</value></data>
+  <data name="Data_FormatTxt" xml:space="preserve"><value>TXT：一行 [分類名稱]，下面每行一個詞條；# 開頭為註解。</value></data>
+  <data name="Data_ImportNote" xml:space="preserve"><value>匯入前會先預覽、檢查重複，並在套用前自動備份。</value></data>
+  <data name="Data_ExportJson" xml:space="preserve"><value>📤 匯出完整 JSON</value></data>
+  <data name="Data_EmojiTitle" xml:space="preserve"><value>Emoji 圖片</value></data>
+  <data name="Data_EmojiHint" xml:space="preserve"><value>缺少圖片的 Emoji 會顯示「?」。可以把 PNG 放進 EmojiOverrides 資料夾自行補圖或替換，檔名為碼點（例如 1fabc.png，詳見 README）。重新啟動後生效。</value></data>
+  <data name="Data_OpenEmojiFolder" xml:space="preserve"><value>📂 開啟 EmojiOverrides 資料夾</value></data>
+  <data name="Data_LoadNotesTitle" xml:space="preserve"><value>本次啟動的資料提醒</value></data>
+  <data name="Data_BackupsTitle" xml:space="preserve"><value>備份</value></data>
+  <data name="Data_BackupsHint" xml:space="preserve"><value>匯入、取代、還原、刪除分類前都會自動備份（自動備份保留最近 40 份）。手動備份永遠保留。</value></data>
+  <data name="Data_BackupNow" xml:space="preserve"><value>💾 立即備份</value></data>
+  <data name="Data_Restore" xml:space="preserve"><value>↩ 還原選取的備份</value></data>
+  <data name="Data_OpenBackupFolder" xml:space="preserve"><value>📂 備份資料夾</value></data>
+  <data name="Data_Refresh" xml:space="preserve"><value>重新整理</value></data>
+  <data name="Data_Size" xml:space="preserve"><value>大小</value></data>
+  <data name="Emoji_MissingTip" xml:space="preserve"><value>找不到這個 Emoji 的圖片：{0}
+碼點：{1}
+可以把 PNG 圖片命名為 {2}，放到資料夾的 EmojiOverrides\ 中。</value></data>
+  <data name="Main_LanguageLabel" xml:space="preserve"><value>🌐 介面語言 / Language</value></data>
+  <data name="Main_LanguageTitle" xml:space="preserve"><value>介面語言</value></data>
+  <data name="Main_LanguageRestart" xml:space="preserve"><value>介面語言已儲存，重新啟動後生效。現在重新啟動程式嗎？</value></data>
+  <data name="Draw_EmptyTitle" xml:space="preserve"><value>📥 詞庫是空的</value></data>
+  <data name="Draw_EmptyHint" xml:space="preserve"><value>先匯入詞庫檔（CSV／JSON／TXT）再開始抽題。可以到 GitHub Release 下載現成的詞庫，或用「詞庫管理」自己新增。</value></data>
+  <data name="Data_Licenses" xml:space="preserve"><value>📄 第三方授權</value></data>
+  <data name="Data_LicensesTitle" xml:space="preserve"><value>第三方授權</value></data>
+</root>

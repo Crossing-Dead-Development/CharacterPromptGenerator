@@ -1,3 +1,4 @@
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Models;
 using CharacterPromptGenerator.Core.Text;
 
@@ -12,27 +13,27 @@ public static class LibraryValidator
     {
         var errors = new List<string>();
         if (lib.SchemaVersion != LibraryData.CurrentSchemaVersion)
-            errors.Add($"schemaVersion 應為 {LibraryData.CurrentSchemaVersion}，實際為 {lib.SchemaVersion}。");
+            errors.Add(L.F("Valid_Schema", LibraryData.CurrentSchemaVersion, lib.SchemaVersion));
 
         var catIds = new HashSet<string>();
         var catNames = new HashSet<string>();
         foreach (var c in lib.Categories)
         {
-            if (string.IsNullOrWhiteSpace(c.Id)) errors.Add($"分類「{c.Name}」缺少 ID。");
-            else if (!catIds.Add(c.Id)) errors.Add($"分類 ID 重複：{c.Id}");
-            if (string.IsNullOrWhiteSpace(c.Name)) errors.Add($"分類 {c.Id} 缺少名稱。");
-            else if (!catNames.Add(TextNormalizer.Key(c.Name))) errors.Add($"分類名稱重複：{c.Name}");
-            if (c.DefaultDrawCount < 0) errors.Add($"分類「{c.Name}」的預設抽取數量不可為負數。");
+            if (string.IsNullOrWhiteSpace(c.Id)) errors.Add(L.F("Valid_CategoryNoId", c.Name));
+            else if (!catIds.Add(c.Id)) errors.Add(L.F("Valid_CategoryDupId", c.Id));
+            if (string.IsNullOrWhiteSpace(c.Name)) errors.Add(L.F("Valid_CategoryNoName", c.Id));
+            else if (!catNames.Add(TextNormalizer.Key(c.Name))) errors.Add(L.F("Valid_CategoryDupName", c.Name));
+            if (c.DefaultDrawCount < 0) errors.Add(L.F("Valid_CategoryNegative", c.Name));
         }
 
         var entryIds = new HashSet<string>();
         foreach (var e in lib.Entries)
         {
-            if (string.IsNullOrWhiteSpace(e.Id)) errors.Add($"詞條「{e.Text}」缺少 ID。");
-            else if (!entryIds.Add(e.Id)) errors.Add($"詞條 ID 重複：{e.Id}");
-            if (!catIds.Contains(e.CategoryId)) errors.Add($"詞條「{e.Text}」指向不存在的分類 {e.CategoryId}。");
-            if (string.IsNullOrWhiteSpace(e.Text)) errors.Add($"詞條 {e.Id} 內容為空。");
-            if (e.Tags is null) errors.Add($"詞條 {e.Id} 的 tags 為 null。");
+            if (string.IsNullOrWhiteSpace(e.Id)) errors.Add(L.F("Valid_EntryNoId", e.Text));
+            else if (!entryIds.Add(e.Id)) errors.Add(L.F("Valid_EntryDupId", e.Id));
+            if (!catIds.Contains(e.CategoryId)) errors.Add(L.F("Valid_EntryBadCategory", e.Text, e.CategoryId));
+            if (string.IsNullOrWhiteSpace(e.Text)) errors.Add(L.F("Valid_EntryEmpty", e.Id));
+            if (e.Tags is null) errors.Add(L.F("Valid_EntryNullTags", e.Id));
         }
         return errors;
     }
@@ -41,7 +42,7 @@ public static class LibraryValidator
     {
         var errors = Validate(lib);
         if (errors.Count > 0)
-            throw new LibraryValidationException("詞庫資料驗證失敗，已取消寫入：\n" + string.Join("\n", errors.Take(20)));
+            throw new LibraryValidationException(L.T("Valid_Failed") + string.Join("\n", errors.Take(20)));
     }
 
     /// <summary>
@@ -61,7 +62,7 @@ public static class LibraryValidator
         {
             c.Name = TextNormalizer.Clean(c.Name);
             c.Description ??= "";
-            if (c.Name.Length == 0) { c.Name = "未命名分類"; notes.Add("發現未命名分類，已暫時命名為「未命名分類」。"); }
+            if (c.Name.Length == 0) { c.Name = L.T("Repair_Unnamed"); notes.Add(L.T("Repair_UnnamedNote")); }
             if (string.IsNullOrWhiteSpace(c.Id) || !catIds.Add(c.Id))
             {
                 var old = c.Id;
@@ -70,7 +71,7 @@ public static class LibraryValidator
                 if (!string.IsNullOrWhiteSpace(old))
                 {
                     // 重複的分類 ID：之後指向舊 ID 的詞條仍歸第一個分類，避免改動使用者資料過多
-                    notes.Add($"分類「{c.Name}」的 ID {old} 重複，已改為 {c.Id}。");
+                    notes.Add(L.F("Repair_DupId", c.Name, old, c.Id));
                 }
             }
             if (c.DefaultDrawCount < 0) c.DefaultDrawCount = 0;
@@ -83,7 +84,7 @@ public static class LibraryValidator
             var baseName = c.Name;
             var n = 2;
             while (!names.Add(TextNormalizer.Key(c.Name))) c.Name = $"{baseName} ({n++})";
-            if (c.Name != baseName) notes.Add($"分類名稱「{baseName}」重複，已改名為「{c.Name}」。");
+            if (c.Name != baseName) notes.Add(L.F("Repair_DupName", baseName, c.Name));
         }
 
         var entryIds = new HashSet<string>();
@@ -108,8 +109,8 @@ public static class LibraryValidator
                     rescue = new Category
                     {
                         Id = IdGenerator.NewUnique("cat", catIds),
-                        Name = UniqueName(lib, "未分類（自動修復）"),
-                        Description = "載入時發現指向不存在分類的詞條，已集中到這裡。",
+                        Name = UniqueName(lib, L.T("Repair_RescueName")),
+                        Description = L.T("Repair_RescueDescription"),
                         Enabled = false,
                         SortOrder = lib.Categories.Count == 0 ? 0 : lib.Categories.Max(c => c.SortOrder) + 1,
                         DefaultDrawCount = 0,
@@ -120,9 +121,9 @@ public static class LibraryValidator
                 e.CategoryId = rescue.Id;
             }
         }
-        if (removedEmpty > 0) notes.Add($"移除了 {removedEmpty} 筆內容為空的詞條。");
+        if (removedEmpty > 0) notes.Add(L.F("Repair_RemovedEmpty", removedEmpty));
         if (rescue is not null)
-            notes.Add($"有 {lib.Entries.Count(x => x.CategoryId == rescue.Id)} 筆詞條指向不存在的分類，已移到「{rescue.Name}」（預設停用）。");
+            notes.Add(L.F("Repair_Rescued", lib.Entries.Count(x => x.CategoryId == rescue.Id), rescue.Name));
         return notes;
     }
 

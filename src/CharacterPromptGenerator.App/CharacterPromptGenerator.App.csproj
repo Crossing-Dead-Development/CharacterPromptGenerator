@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -10,11 +10,11 @@
     <RootNamespace>CharacterPromptGenerator.App</RootNamespace>
     <Product>Character Design Prompt Generator</Product>
     <Company>Crossing Dead Development</Company>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Platforms>AnyCPU;x64</Platforms>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <ApplicationIcon>Assets\CharacterPromptGenerator.ico</ApplicationIcon>
-    <!-- 單一檔案發行時：WPF 原生 DLL 一起打包並壓縮（約 65 MB，免安裝 .NET） -->
+    <!-- 單一檔案發行時：WPF 原生 DLL 與內嵌資源一起打包並壓縮（免安裝 .NET） -->
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
   </PropertyGroup>
@@ -29,34 +29,15 @@
   </ItemGroup>
 
   <!--
-    內建示範資料：放在 EXE 旁的 SeedData\（單一檔案發行時也不打包進 EXE，方便替換），
-    同時內嵌一份作為後備，避免資料夾遺失時首次啟動沒有範例。
-    這些檔案只在首次啟動時複製到使用者資料夾，之後不會再覆蓋使用者的詞庫。
+    發行版只有一個 EXE：以下資源全部內嵌。
+    - SeedData\：首次啟動用的預設詞庫與方案（空白；詞庫由使用者自行匯入）。EXE 旁若有 SeedData\ 資料夾則優先使用。
+    - Emoji\fluent-emoji-3d.zip：Fluent Emoji 3D 圖庫（MIT，Microsoft），不依賴 Windows 的 Emoji 字型。
+    - THIRD-PARTY-NOTICES.md（含 MIT 授權全文）：在「資料與備份」頁的「第三方授權」顯示。
   -->
   <ItemGroup>
-    <Content Include="SeedData\*.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
     <EmbeddedResource Include="SeedData\*.json" LogicalName="SeedData.%(Filename)%(Extension)" />
-  </ItemGroup>
-
-  <!--
-    Fluent Emoji 3D 圖庫（MIT，Microsoft）：放在 EXE 旁的 Emoji\，不打包進 EXE。
-    抽題結果與詞庫編輯器一律用這些圖片顯示 Emoji，不依賴 Windows 的 Segoe UI Emoji 字型。
-  -->
-  <ItemGroup>
-    <Content Include="Emoji\fluent-emoji-3d.zip;Emoji\LICENSE-fluentui-emoji.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Include="..\..\THIRD-PARTY-NOTICES.md" Link="THIRD-PARTY-NOTICES.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
+    <EmbeddedResource Include="Emoji\fluent-emoji-3d.zip" LogicalName="Emoji.fluent-emoji-3d.zip" />
+    <EmbeddedResource Include="..\..\THIRD-PARTY-NOTICES.md" LogicalName="Licenses.THIRD-PARTY-NOTICES.md" />
   </ItemGroup>
 
 </Project>

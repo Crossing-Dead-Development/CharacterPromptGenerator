@@ -1,6 +1,7 @@
 <UserControl x:Class="CharacterPromptGenerator.App.Views.DrawView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="clr-namespace:CharacterPromptGenerator.App.Infrastructure"
              xmlns:c="clr-namespace:CharacterPromptGenerator.App.Controls">
   <Grid>
     <Grid.ColumnDefinitions>
@@ -13,29 +14,29 @@
     <Border Style="{StaticResource Card}">
       <DockPanel>
         <StackPanel DockPanel.Dock="Top">
-          <TextBlock Text="抽題方案" Style="{StaticResource SectionTitle}"/>
+          <TextBlock Text="{l:T Draw_PresetsTitle}" Style="{StaticResource SectionTitle}"/>
           <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" DisplayMemberPath="Name"/>
-            <Button Grid.Column="1" Content="套用" Style="{StaticResource PrimaryButton}" Margin="6,0,0,0"
-                    Command="{Binding ApplyPresetCommand}" ToolTip="把方案的分類與數量套用到下方"/>
+            <Button Grid.Column="1" Content="{l:T Draw_Apply}" Style="{StaticResource PrimaryButton}" Margin="6,0,0,0"
+                    Command="{Binding ApplyPresetCommand}" ToolTip="{l:T Draw_ApplyTip}"/>
           </Grid>
           <WrapPanel Margin="0,6,0,0">
-            <Button Content="另存新方案" Style="{StaticResource SmallButton}" Margin="0,0,4,4" Command="{Binding SavePresetAsCommand}"/>
-            <Button Content="覆寫" Style="{StaticResource SmallButton}" Margin="0,0,4,4" Command="{Binding OverwritePresetCommand}"
-                    ToolTip="用下方目前的設定覆寫選取的方案"/>
-            <Button Content="改名" Style="{StaticResource SmallButton}" Margin="0,0,4,4" Command="{Binding RenamePresetCommand}"/>
-            <Button Content="刪除" Style="{StaticResource SmallButton}" Margin="0,0,4,4" Command="{Binding DeletePresetCommand}"/>
+            <Button Content="{l:T Draw_SaveAs}" Style="{StaticResource SmallButton}" Margin="0,0,4,4" Command="{Binding SavePresetAsCommand}"/>
+            <Button Content="{l:T Draw_Overwrite}" Style="{StaticResource SmallButton}" Margin="0,0,4,4" Command="{Binding OverwritePresetCommand}"
+                    ToolTip="{l:T Draw_OverwriteTip}"/>
+            <Button Content="{l:T Draw_Rename}" Style="{StaticResource SmallButton}" Margin="0,0,4,4" Command="{Binding RenamePresetCommand}"/>
+            <Button Content="{l:T Common_Delete}" Style="{StaticResource SmallButton}" Margin="0,0,4,4" Command="{Binding DeletePresetCommand}"/>
           </WrapPanel>
 
           <Grid Margin="0,12,0,6">
-            <TextBlock Text="分類與數量" Style="{StaticResource SectionTitle}" Margin="0" VerticalAlignment="Center"/>
+            <TextBlock Text="{l:T Draw_CategoriesTitle}" Style="{StaticResource SectionTitle}" Margin="0" VerticalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-              <Button Content="全選" Style="{StaticResource SmallButton}" Margin="0,0,4,0" Command="{Binding CheckAllCommand}"/>
-              <Button Content="全不選" Style="{StaticResource SmallButton}" Margin="0" Command="{Binding CheckNoneCommand}"/>
+              <Button Content="{l:T Draw_CheckAll}" Style="{StaticResource SmallButton}" Margin="0,0,4,0" Command="{Binding CheckAllCommand}"/>
+              <Button Content="{l:T Draw_CheckNone}" Style="{StaticResource SmallButton}" Margin="0" Command="{Binding CheckNoneCommand}"/>
             </StackPanel>
           </Grid>
         </StackPanel>
@@ -86,12 +87,12 @@
       <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,10">
         <Button Content="{Binding GenerateButtonText}" Style="{StaticResource PrimaryButton}" FontSize="15" Padding="18,9"
                 Margin="0,0,8,6" Command="{Binding GenerateAllCommand}" ToolTip="Ctrl+F5"/>
-        <Button Content="🔁 重抽未鎖定" FontSize="14" Padding="14,9" Margin="0,0,8,6" Command="{Binding RerollUnlockedCommand}" ToolTip="F5"/>
-        <Button Content="🔓 解除全部鎖定" Padding="12,9" Margin="0,0,8,6" Command="{Binding UnlockAllCommand}"/>
-        <Button Content="📋 複製題目" Padding="12,9" Margin="0,0,8,6" Command="{Binding CopyCommand}" ToolTip="Ctrl+Shift+C"/>
+        <Button Content="{l:T Draw_RerollUnlocked}" FontSize="14" Padding="14,9" Margin="0,0,8,6" Command="{Binding RerollUnlockedCommand}" ToolTip="F5"/>
+        <Button Content="{l:T Draw_UnlockAll}" Padding="12,9" Margin="0,0,8,6" Command="{Binding UnlockAllCommand}"/>
+        <Button Content="{l:T Draw_Copy}" Padding="12,9" Margin="0,0,8,6" Command="{Binding CopyCommand}" ToolTip="Ctrl+Shift+C"/>
         <Button Content="{Binding FavoriteButtonText}" Padding="12,9" Margin="0,0,8,6" Command="{Binding FavoriteCommand}"/>
-        <Button Content="📺 直播展示模式" Padding="12,9" Margin="0,0,8,6" Command="{Binding OpenDisplayCommand}"
-                ToolTip="開啟大字體的獨立視窗，適合 OBS 視窗擷取"/>
+        <Button Content="{l:T Draw_OpenDisplay}" Padding="12,9" Margin="0,0,8,6" Command="{Binding OpenDisplayCommand}"
+                ToolTip="{l:T Draw_OpenDisplayTip}"/>
       </WrapPanel>
 
       <Border DockPanel.Dock="Top" Background="{StaticResource WarningSoft}" CornerRadius="8" Padding="12,8" Margin="0,0,0,10"
@@ -102,9 +103,19 @@
       <TextBlock DockPanel.Dock="Bottom" Text="{Binding StatusText}" Style="{StaticResource Muted}" Margin="2,8,0,0"/>
 
       <Grid>
-        <TextBlock Text="🎨 準備好了嗎？按「產生角色題目」開始。" FontSize="18" Foreground="{StaticResource TextMuted}"
+        <TextBlock Text="{l:T Draw_Ready}" FontSize="18" Foreground="{StaticResource TextMuted}"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Visibility="{Binding HasResult, Converter={StaticResource NotEmptyToVis}, ConverterParameter=invert}"/>
+                   Visibility="{Binding ShowReadyHint, Converter={StaticResource NotEmptyToVis}}"/>
+
+        <!-- 詞庫是空的（預設狀態）：引導使用者匯入詞庫檔 -->
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="560"
+                    Visibility="{Binding LibraryEmpty, Converter={StaticResource NotEmptyToVis}}">
+          <TextBlock Text="{l:T Draw_EmptyTitle}" FontSize="20" FontWeight="SemiBold" TextAlignment="Center"/>
+          <TextBlock Text="{l:T Draw_EmptyHint}" Style="{StaticResource Muted}" FontSize="14" TextAlignment="Center"
+                     TextWrapping="Wrap" Margin="0,8,0,16"/>
+          <Button Content="{l:T Common_Import}" Style="{StaticResource PrimaryButton}" FontSize="15" Padding="18,9"
+                  HorizontalAlignment="Center" Command="{Binding ImportCommand}"/>
+        </StackPanel>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
           <ItemsControl ItemsSource="{Binding Groups}">
@@ -118,9 +129,9 @@
                     <Grid Margin="0,0,0,6">
                       <c:EmojiTextBlock Value="{Binding CategoryName}" FontSize="13" FontWeight="SemiBold"
                                         Foreground="{StaticResource TextSecondary}" VerticalAlignment="Center"/>
-                      <Button Content="🎲 重抽此類" Style="{StaticResource SmallButton}" HorizontalAlignment="Right" Margin="0"
+                      <Button Content="{l:T Draw_RerollCategory}" Style="{StaticResource SmallButton}" HorizontalAlignment="Right" Margin="0"
                               Command="{Binding RerollCommand}" CommandParameter="{Binding CategoryId}"
-                              ToolTip="只重抽這個分類中未鎖定的項目"/>
+                              ToolTip="{l:T Draw_RerollCategoryTip}"/>
                     </Grid>
                     <ItemsControl ItemsSource="{Binding Items}">
                       <ItemsControl.ItemsPanel>
@@ -140,7 +151,7 @@
                               </StackPanel>
                               <TextBlock Text="{Binding Notes}" Style="{StaticResource Muted}" MaxWidth="420" Margin="0,2,0,0"
                                          Visibility="{Binding HasNotes, Converter={StaticResource NotEmptyToVis}}"/>
-                              <ToggleButton Style="{StaticResource LockToggle}" IsChecked="{Binding Locked}" AutomationProperties.Name="鎖定切換"
+                              <ToggleButton Style="{StaticResource LockToggle}" IsChecked="{Binding Locked}" AutomationProperties.Name="{l:T Draw_LockToggleName}"
                                             HorizontalAlignment="Left" Margin="-6,4,0,0"/>
                             </StackPanel>
                           </Border>

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Models;
 using CharacterPromptGenerator.Core.Text;
 
@@ -19,7 +20,7 @@ public static class ImportReader
     {
         var format = DetectFormat(path);
         if (format is null)
-            return ImportDocument.Fatal(ImportFormat.Txt, "不支援的副檔名，請選擇 .json、.csv 或 .txt 檔案。");
+            return ImportDocument.Fatal(ImportFormat.Txt, L.T("Reader_BadExtension"));
         var (text, error) = TextFileLoader.Read(path);
         var doc = error is not null
             ? ImportDocument.Fatal(format.Value, error)
@@ -48,55 +49,56 @@ public static class ImportReader
         }
         catch (JsonException ex)
         {
-            var line = ex.LineNumber is { } l ? $"第 {l + 1} 行附近" : "";
-            return ImportDocument.Fatal(ImportFormat.Json, $"JSON 格式錯誤{(line.Length > 0 ? "（" + line + "）" : "")}，檔案可能損壞或不完整。");
+            return ImportDocument.Fatal(ImportFormat.Json, ex.LineNumber is { } l
+                ? L.F("Reader_JsonErrorAt", l + 1)
+                : L.T("Reader_JsonError"));
         }
 
         using (json)
         {
             var root = json.RootElement;
             if (root.ValueKind != JsonValueKind.Object)
-                return ImportDocument.Fatal(ImportFormat.Json, "JSON 最外層必須是物件（{ ... }），包含 schemaVersion、categories、entries。");
+                return ImportDocument.Fatal(ImportFormat.Json, L.T("Reader_JsonNotObject"));
 
             var doc = new ImportDocument { Format = ImportFormat.Json };
 
             if (!TryGet(root, "schemaVersion", out var ver))
             {
-                doc.Warnings.Add(new ImportIssue(null, "檔案沒有 schemaVersion，以版本 1 的格式讀取。"));
+                doc.Warnings.Add(new ImportIssue(null, L.T("Reader_NoSchema")));
             }
             else if (ver.ValueKind != JsonValueKind.Number || !ver.TryGetInt32(out var v) || v < 1)
             {
-                return ImportDocument.Fatal(ImportFormat.Json, "schemaVersion 必須是正整數。");
+                return ImportDocument.Fatal(ImportFormat.Json, L.T("Reader_BadSchema"));
             }
             else if (v > LibraryData.CurrentSchemaVersion)
             {
                 return ImportDocument.Fatal(ImportFormat.Json,
-                    $"這個檔案的格式版本為 {v}，比目前程式支援的 {LibraryData.CurrentSchemaVersion} 還新，請先更新程式。");
+                    L.F("Reader_NewerSchema", v, LibraryData.CurrentSchemaVersion));
             }
 
             if (!TryGet(root, "entries", out var entries) || entries.ValueKind != JsonValueKind.Array)
             {
                 return ImportDocument.Fatal(ImportFormat.Json,
-                    "找不到 entries 陣列。這看起來不是詞庫檔（可能是歷史紀錄或設定檔）。");
+                    L.T("Reader_NoEntries"));
             }
 
             var fileCats = new Dictionary<string, ImportCategory>();
             if (TryGet(root, "categories", out var cats))
             {
                 if (cats.ValueKind != JsonValueKind.Array)
-                    return ImportDocument.Fatal(ImportFormat.Json, "categories 必須是陣列。");
+                    return ImportDocument.Fatal(ImportFormat.Json, L.T("Reader_CategoriesNotArray"));
                 var i = 0;
                 foreach (var c in cats.EnumerateArray())
                 {
                     i++;
-                    var where = $"categories 第 {i} 項";
-                    if (c.ValueKind != JsonValueKind.Object) { doc.Errors.Add(new ImportIssue(null, $"{where}不是物件，已略過。")); continue; }
+                    var where = L.F("Reader_CategoryAt", i);
+                    if (c.ValueKind != JsonValueKind.Object) { doc.Errors.Add(new ImportIssue(null, L.F("Reader_CategoryNotObject", where))); continue; }
                     var name = TextNormalizer.Clean(GetString(c, "name"));
-                    if (name.Length == 0) { doc.Errors.Add(new ImportIssue(null, $"{where}缺少 name，已略過。")); continue; }
+                    if (name.Length == 0) { doc.Errors.Add(new ImportIssue(null, L.F("Reader_CategoryNoName", where))); continue; }
                     var id = TextNormalizer.CleanOptional(GetString(c, "id"));
                     if (id is not null && fileCats.ContainsKey(id))
                     {
-                        doc.Errors.Add(new ImportIssue(null, $"{where}「{name}」的 id {id} 與前面的分類重複，已略過。"));
+                        doc.Errors.Add(new ImportIssue(null, L.F("Reader_CategoryDupId", where, name, id)));
                         continue;
                     }
                     var ic = new ImportCategory
@@ -117,10 +119,10 @@ public static class ImportReader
             foreach (var e in entries.EnumerateArray())
             {
                 index++;
-                if (e.ValueKind != JsonValueKind.Object) { doc.Errors.Add(new ImportIssue(index, $"entries 第 {index} 項不是物件。")); continue; }
+                if (e.ValueKind != JsonValueKind.Object) { doc.Errors.Add(new ImportIssue(index, L.F("Reader_EntryNotObject", index))); continue; }
 
                 var textValue = TextNormalizer.Clean(GetString(e, "text"));
-                if (textValue.Length == 0) { doc.Errors.Add(new ImportIssue(index, $"entries 第 {index} 項缺少 text。")); continue; }
+                if (textValue.Length == 0) { doc.Errors.Add(new ImportIssue(index, L.F("Reader_EntryNoText", index))); continue; }
 
                 var catId = TextNormalizer.CleanOptional(GetString(e, "categoryId"));
                 var catName = TextNormalizer.Clean(GetString(e, "category"));
@@ -131,8 +133,8 @@ public static class ImportReader
                 else if (catName.Length == 0)
                 {
                     doc.Errors.Add(new ImportIssue(index, catId is null
-                        ? $"entries 第 {index} 項「{textValue}」沒有 categoryId 或 category。"
-                        : $"entries 第 {index} 項「{textValue}」的 categoryId {catId} 不在 categories 裡。"));
+                        ? L.F("Reader_EntryNoCategory", index, textValue)
+                        : L.F("Reader_EntryUnknownCategory", index, textValue, catId)));
                     continue;
                 }
                 else
@@ -233,7 +235,7 @@ public static class ImportReader
         {
             return ImportDocument.Fatal(ImportFormat.Csv, ex.Message);
         }
-        if (records.Count == 0) return ImportDocument.Fatal(ImportFormat.Csv, "CSV 沒有任何內容。");
+        if (records.Count == 0) return ImportDocument.Fatal(ImportFormat.Csv, L.T("Reader_CsvEmpty"));
 
         var doc = new ImportDocument { Format = ImportFormat.Csv };
         var header = records[0];
@@ -244,19 +246,17 @@ public static class ImportReader
             if (HeaderAliases.TryGetValue(name, out var canonical))
             {
                 if (!columns.TryAdd(canonical, i))
-                    doc.Warnings.Add(new ImportIssue(header.Line, $"欄位 {canonical} 重複出現，只使用第一個。"));
+                    doc.Warnings.Add(new ImportIssue(header.Line, L.F("Reader_CsvDupColumn", canonical)));
             }
             else if (name.Length > 0)
             {
-                doc.Warnings.Add(new ImportIssue(header.Line, $"忽略不認識的欄位「{header.Fields[i]}」。"));
+                doc.Warnings.Add(new ImportIssue(header.Line, L.F("Reader_CsvUnknownColumn", header.Fields[i])));
             }
         }
         if (!columns.ContainsKey("category") || !columns.ContainsKey("text"))
         {
             return ImportDocument.Fatal(ImportFormat.Csv,
-                "CSV 第一行必須是標頭，且包含 category 與 text 欄位。\n" +
-                $"目前讀到的標頭：{string.Join(", ", header.Fields)}\n" +
-                "正確範例：category,text,emoji,notes,tags");
+                L.F("Reader_CsvBadHeader", string.Join(", ", header.Fields)));
         }
 
         string Field(CsvRecord r, string col) =>
@@ -267,18 +267,18 @@ public static class ImportReader
             if (r.Fields.All(string.IsNullOrWhiteSpace)) continue;
             if (r.Fields.Count > header.Fields.Count)
             {
-                doc.Errors.Add(new ImportIssue(r.Line, $"欄位數（{r.Fields.Count}）比標頭（{header.Fields.Count}）多，可能有沒加引號的逗號。"));
+                doc.Errors.Add(new ImportIssue(r.Line, L.F("Reader_CsvTooManyFields", r.Fields.Count, header.Fields.Count)));
                 continue;
             }
             var cat = TextNormalizer.Clean(Field(r, "category"));
             var txt = TextNormalizer.Clean(Field(r, "text"));
-            if (cat.Length == 0) { doc.Errors.Add(new ImportIssue(r.Line, "category 欄位是空的。")); continue; }
-            if (txt.Length == 0) { doc.Errors.Add(new ImportIssue(r.Line, "text 欄位是空的。")); continue; }
+            if (cat.Length == 0) { doc.Errors.Add(new ImportIssue(r.Line, L.T("Reader_CsvNoCategory"))); continue; }
+            if (txt.Length == 0) { doc.Errors.Add(new ImportIssue(r.Line, L.T("Reader_CsvNoText"))); continue; }
             var enabledRaw = Field(r, "enabled");
             var enabled = ParseBool(enabledRaw);
             if (enabled is null && !string.IsNullOrWhiteSpace(enabledRaw))
             {
-                doc.Errors.Add(new ImportIssue(r.Line, $"enabled 欄位「{enabledRaw}」看不懂，請填 true 或 false。"));
+                doc.Errors.Add(new ImportIssue(r.Line, L.F("Reader_CsvBadEnabled", enabledRaw)));
                 continue;
             }
             doc.Rows.Add(new ImportRow
@@ -313,7 +313,7 @@ public static class ImportReader
                 var name = TextNormalizer.Clean(line[1..^1]);
                 if (name.Length == 0)
                 {
-                    doc.Errors.Add(new ImportIssue(lineNo, "分類名稱是空的：[]。"));
+                    doc.Errors.Add(new ImportIssue(lineNo, L.T("Reader_TxtEmptyCategory")));
                     current = null;
                 }
                 else current = name;
@@ -321,13 +321,13 @@ public static class ImportReader
             }
             if (current is null)
             {
-                doc.Errors.Add(new ImportIssue(lineNo, $"「{TextNormalizer.Clean(line)}」前面沒有 [分類名稱]，不知道要放到哪個分類。"));
+                doc.Errors.Add(new ImportIssue(lineNo, L.F("Reader_TxtNoCategory", TextNormalizer.Clean(line))));
                 continue;
             }
             doc.Rows.Add(new ImportRow { Line = lineNo, CategoryName = current, Text = TextNormalizer.Clean(line) });
         }
         if (doc.Rows.Count == 0 && doc.Errors.Count == 0)
-            return ImportDocument.Fatal(ImportFormat.Txt, "TXT 中沒有任何詞條。格式：先寫一行 [分類名稱]，下面每行一個詞條。");
+            return ImportDocument.Fatal(ImportFormat.Txt, L.T("Reader_TxtEmpty"));
         return doc;
     }
 }

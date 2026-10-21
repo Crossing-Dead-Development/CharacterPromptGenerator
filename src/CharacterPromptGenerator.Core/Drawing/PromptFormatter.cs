@@ -1,4 +1,5 @@
 using System.Text;
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Models;
 
 namespace CharacterPromptGenerator.Core.Drawing;
@@ -12,11 +13,11 @@ public static class PromptFormatter
     public static string ToText(IEnumerable<(string CategoryName, string Text, string? Emoji)> items, DateTime? time = null)
     {
         var sb = new StringBuilder();
-        sb.Append("【角色設計題目】");
+        sb.Append(L.T("Prompt_Header"));
         if (time is { } t) sb.Append(' ').Append(t.ToString("yyyy-MM-dd HH:mm"));
         sb.AppendLine();
         foreach (var group in items.GroupBy(i => i.CategoryName))
-            sb.Append(group.Key).Append('：').AppendLine(string.Join("、", group.Select(i => ItemText(i.Text, i.Emoji))));
+            sb.Append(group.Key).Append(L.T("Prompt_CategorySep")).AppendLine(string.Join(L.T("Common_ListSep"), group.Select(i => ItemText(i.Text, i.Emoji))));
         return sb.ToString().TrimEnd();
     }
 

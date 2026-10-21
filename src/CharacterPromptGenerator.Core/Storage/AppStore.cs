@@ -1,6 +1,7 @@
 using System.Globalization;
 using CharacterPromptGenerator.Core.Import;
 using CharacterPromptGenerator.Core.Library;
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Models;
 
 namespace CharacterPromptGenerator.Core.Storage;
@@ -73,18 +74,17 @@ public sealed class AppStore
                 return;
             }
             var corrupt = PreserveCorrupt(file);
-            LoadMessages.Add($"詞庫檔無法讀取（{error}）。原檔已保留為 {Path.GetFileName(corrupt)}。");
+            LoadMessages.Add(L.F("Store_LibraryUnreadable", error, Path.GetFileName(corrupt)));
             if (TryRecoverFromBackups()) return;
             throw new StoreLoadException(
-                $"詞庫檔 library.json 損壞，且找不到可用的備份。\n\n錯誤：{error}\n\n" +
-                $"原檔已複製為：{corrupt}\n請手動檢查資料夾：{Paths.DataDir}");
+                L.F("Store_LibraryCorrupt", error, corrupt, Paths.DataDir));
         }
 
         if (File.Exists(file + ".bak") || ListBackups().Count > 0)
         {
-            LoadMessages.Add("找不到 library.json，但有備份存在，嘗試從備份還原。");
+            LoadMessages.Add(L.T("Store_RestoringFromBackup"));
             if (TryRecoverFromBackups()) return;
-            throw new StoreLoadException($"找不到 library.json，備份也無法讀取。請檢查資料夾：{Paths.DataDir}");
+            throw new StoreLoadException(L.F("Store_NoLibraryNoBackup", Paths.DataDir));
         }
 
         // 真正的首次啟動
@@ -94,7 +94,7 @@ public sealed class AppStore
         var parsed = json is null ? null : ImportReader.ReadJson(json);
         if (parsed is null || parsed.IsFatal)
         {
-            LoadMessages.Add("找不到內建示範詞庫或格式錯誤，已建立空白詞庫。");
+            LoadMessages.Add(L.T("Store_NoSeed"));
             seedLib = new LibraryData();
         }
         else
@@ -122,12 +122,11 @@ public sealed class AppStore
                 {
                     // 新版程式寫的資料：不可降級覆寫
                     throw new StoreLoadException(
-                        $"詞庫檔的格式版本為 {ver}，比這個程式支援的 {LibraryData.CurrentSchemaVersion} 還新。\n" +
-                        "請改用較新版的程式開啟。為保護資料，本程式不會修改這個檔案。");
+                        L.F("Store_NewerSchema", ver, LibraryData.CurrentSchemaVersion));
                 }
             }
             lib = JsonOptions.Deserialize<LibraryData>(json);
-            if (lib is null) { error = "檔案內容為空"; return false; }
+            if (lib is null) { error = L.T("Store_FileEmpty"); return false; }
             return true;
         }
         catch (StoreLoadException) { throw; }
@@ -145,8 +144,8 @@ public sealed class AppStore
         Library = lib;
         if (notes.Count > 0)
         {
-            LoadMessages.Add($"讀取 {source} 時做了自動修復：");
-            LoadMessages.AddRange(notes.Select(n => "・" + n));
+            LoadMessages.Add(L.F("Store_Repaired", source));
+            LoadMessages.AddRange(notes.Select(n => L.T("Store_Bullet") + n));
             if (File.Exists(Paths.LibraryFile))
                 File.Copy(Paths.LibraryFile, BackupPath("before-repair"), overwrite: false);
             AtomicFile.WriteAllText(Paths.LibraryFile, JsonOptions.Serialize(Library));
@@ -161,7 +160,7 @@ public sealed class AppStore
         foreach (var path in candidates)
         {
             if (!TryReadLibrary(path, out var lib, out _)) continue;
-            LoadMessages.Add($"已從備份還原詞庫：{Path.GetFileName(path)}");
+            LoadMessages.Add(L.F("Store_Restored", Path.GetFileName(path)));
             LibraryValidator.Repair(lib!);
             lib!.SchemaVersion = LibraryData.CurrentSchemaVersion;
             AtomicFile.WriteAllText(Paths.LibraryFile, JsonOptions.Serialize(lib), keepBak: false);
@@ -211,9 +210,9 @@ public sealed class AppStore
     /// <summary>套用匯入計畫。計畫若是依舊版詞庫算出來的，拒絕套用以免覆蓋期間的修改。</summary>
     public void ApplyImport(ImportPlan plan)
     {
-        if (!plan.CanApply) throw new LibraryValidationException(plan.BlockReason ?? "這份匯入計畫無法套用。");
+        if (!plan.CanApply) throw new LibraryValidationException(plan.BlockReason ?? L.T("Store_PlanNotApplicable"));
         if (!ReferenceEquals(plan.BaseLibrary, Library))
-            throw new LibraryValidationException("詞庫在預覽之後已被修改，請重新匯入以產生新的預覽。");
+            throw new LibraryValidationException(L.T("Store_ChangedSincePreview"));
         ReplaceLibrary(plan.ResultLibrary, plan.Mode == ImportMode.Replace ? "before-replace" : "before-import");
     }
 
@@ -275,7 +274,7 @@ public sealed class AppStore
     public LibraryData ReadBackup(string path)
     {
         if (!TryReadLibrary(path, out var lib, out var error))
-            throw new LibraryValidationException($"備份檔無法讀取：{error}");
+            throw new LibraryValidationException(L.F("Store_BackupUnreadable", error));
         LibraryValidator.Repair(lib!);
         lib!.SchemaVersion = LibraryData.CurrentSchemaVersion;
         LibraryValidator.EnsureValid(lib);
@@ -303,7 +302,7 @@ public sealed class AppStore
             catch (Exception ex)
             {
                 var corrupt = PreserveCorrupt(file);
-                LoadMessages.Add($"方案檔無法讀取（{ex.Message}），已保留為 {Path.GetFileName(corrupt)} 並改用內建方案。");
+                LoadMessages.Add(L.F("Store_PresetsUnreadable", ex.Message, Path.GetFileName(corrupt)));
             }
         }
         try
@@ -341,7 +340,7 @@ public sealed class AppStore
             catch (Exception ex)
             {
                 PreserveCorrupt(file);
-                LoadMessages.Add($"設定檔無法讀取（{ex.Message}），已改用預設設定。");
+                LoadMessages.Add(L.F("Store_SettingsUnreadable", ex.Message));
             }
         }
         Settings = new AppSettings();
@@ -349,6 +348,28 @@ public sealed class AppStore
         var preset = Presets.FirstOrDefault(p => p.Id == "preset-standard") ?? Presets.FirstOrDefault();
         if (preset is not null) ApplyPresetToSettings(preset);
         SaveSettings();
+    }
+
+    /// <summary>
+    /// 只讀出 settings.json 的 language。介面語言必須在載入資料（會產生提示訊息）與建立任何視窗之前決定，
+    /// 讀不到時回傳 null（跟隨系統），不會修改檔案。
+    /// </summary>
+    public static string? PeekLanguage(DataPaths paths)
+    {
+        try
+        {
+            if (!File.Exists(paths.SettingsFile)) return null;
+            using var doc = System.Text.Json.JsonDocument.Parse(File.ReadAllText(paths.SettingsFile));
+            return doc.RootElement.ValueKind == System.Text.Json.JsonValueKind.Object &&
+                   doc.RootElement.TryGetProperty("language", out var v) &&
+                   v.ValueKind == System.Text.Json.JsonValueKind.String
+                ? v.GetString()
+                : null;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public void SaveSettings() => AtomicFile.WriteAllText(Paths.SettingsFile, JsonOptions.Serialize(Settings));
@@ -394,7 +415,7 @@ public sealed class AppStore
         catch (Exception ex)
         {
             var corrupt = PreserveCorrupt(file);
-            LoadMessages.Add($"歷史紀錄檔無法讀取（{ex.Message}），已保留為 {Path.GetFileName(corrupt)}。");
+            LoadMessages.Add(L.F("Store_HistoryUnreadable", ex.Message, Path.GetFileName(corrupt)));
             History = new();
         }
     }

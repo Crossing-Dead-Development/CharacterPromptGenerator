@@ -18,9 +18,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
-  <!-- 測試使用與 App 相同的內建示範資料 -->
+  <!-- 測試用詞庫（2111 筆，與發行版的空白預設詞庫分開）；發行版的 SeedData 另有測試直接讀取原始檔 -->
   <ItemGroup>
-    <None Include="..\..\src\CharacterPromptGenerator.App\SeedData\*.json" Link="SeedData\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Fixtures\*.json" Link="SeedData\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\samples\**\*" LinkBase="samples" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\src\CharacterPromptGenerator.App\Emoji\*" LinkBase="Emoji" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

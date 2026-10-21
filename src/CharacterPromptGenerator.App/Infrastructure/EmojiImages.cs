@@ -15,11 +15,13 @@ public static class EmojiImages
 
     public static EmojiLibrary Library { get; private set; } = EmojiLibrary.Empty;
 
-    public static string PackPath => Path.Combine(AppContext.BaseDirectory, "Emoji", "fluent-emoji-3d.zip");
+    const string PackResource = "Emoji.fluent-emoji-3d.zip";
 
+    /// <summary>圖庫內嵌在 EXE 中（見 .csproj），不需要另外的檔案。</summary>
     public static void Initialize(string overrideDir)
     {
-        Library = new EmojiLibrary(PackPath, overrideDir);
+        Library = new EmojiLibrary(PackResource,
+            () => typeof(EmojiImages).Assembly.GetManifestResourceStream(PackResource), overrideDir);
         Cache.Clear();
     }
 

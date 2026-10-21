@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Threading;
 using CharacterPromptGenerator.App.Infrastructure;
 using CharacterPromptGenerator.App.ViewModels;
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Storage;
 
 namespace CharacterPromptGenerator.App;
@@ -10,6 +11,12 @@ namespace CharacterPromptGenerator.App;
 public partial class App : Application
 {
     string? _logDir;
+
+    public App()
+    {
+        // 介面語言要在 App.xaml 的資源（Themes\Dark.xaml）與任何資料載入訊息產生之前決定
+        L.Use(AppStore.PeekLanguage(DataPaths.Resolve(AppSession.ExeDir)));
+    }
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -28,14 +35,14 @@ public partial class App : Application
         catch (StoreLoadException ex)
         {
             // 資料無法安全開啟：不建立任何新檔、不覆寫，直接告知並結束
-            MessageBox.Show(ex.Message, "無法開啟詞庫", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(ex.Message, L.T("App_CannotOpenTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown(1);
             return;
         }
         catch (Exception ex)
         {
             Log(ex);
-            MessageBox.Show($"程式啟動失敗：{ex.Message}", "啟動失敗", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(L.F("App_StartFailed", ex.Message), L.T("App_StartFailedTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown(1);
             return;
         }
@@ -43,7 +50,7 @@ public partial class App : Application
         // Emoji 圖庫：EXE 旁的 Emoji\fluent-emoji-3d.zip，加上使用者可自行補圖的 EmojiOverrides\
         EmojiImages.Initialize(Path.Combine(store.Paths.DataDir, "EmojiOverrides"));
         if (EmojiImages.Library.PackError is { } emojiError)
-            store.LoadMessages.Add(emojiError + "\nEmoji 會以「?」替代圖示顯示，詞庫內容不受影響。");
+            store.LoadMessages.Add(emojiError + L.T("App_EmojiFallback"));
 
         var session = new AppSession(store);
         var window = new MainWindow { DataContext = new MainViewModel(session) };
@@ -51,15 +58,15 @@ public partial class App : Application
         window.Show();
 
         if (store.LoadMessages.Count > 0)
-            Dialogs.Info("開啟資料時有以下狀況：\n\n" + string.Join("\n", store.LoadMessages), "資料載入提醒");
+            Dialogs.Info(L.T("App_LoadNotes") + string.Join("\n", store.LoadMessages), L.T("App_LoadNotesTitle"));
     }
 
     void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
         Log(e.Exception);
         // 任何未預期的錯誤都不讓程式直接閃退；資料修改本身是原子的，不會寫出半套資料
-        MessageBox.Show($"發生未預期的錯誤，操作已取消：\n{e.Exception.Message}\n\n詳細內容已記錄在 error.log。",
-            "錯誤", MessageBoxButton.OK, MessageBoxImage.Warning);
+        MessageBox.Show(L.F("App_Unexpected", e.Exception.Message),
+            L.T("Common_Error"), MessageBoxButton.OK, MessageBoxImage.Warning);
         e.Handled = true;
     }
 

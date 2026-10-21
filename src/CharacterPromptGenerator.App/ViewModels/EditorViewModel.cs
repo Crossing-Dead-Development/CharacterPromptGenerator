@@ -6,6 +6,7 @@ using CharacterPromptGenerator.App.Infrastructure;
 using CharacterPromptGenerator.App.Views;
 using CharacterPromptGenerator.Core.Emoji;
 using CharacterPromptGenerator.Core.Library;
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Models;
 using CharacterPromptGenerator.Core.Text;
 
@@ -33,7 +34,7 @@ public sealed class EntryRow
     public string TagsText { get; init; } = "";
     public bool Enabled { get; init; }
     public bool CategoryEnabled { get; init; }
-    public string StatusText => !Enabled ? "停用" : CategoryEnabled ? "啟用" : "分類停用";
+    public string StatusText => !Enabled ? L.T("Editor_StatusDisabled") : CategoryEnabled ? L.T("Editor_StatusEnabled") : L.T("Editor_StatusCategoryOff");
     internal string SearchKey { get; init; } = "";
 }
 
@@ -140,7 +141,7 @@ public sealed class EditorViewModel : ObservableObject
         get
         {
             var shown = _entriesView.Cast<object>().Count();
-            return $"顯示 {shown} 筆 / 詞庫共 {_entries.Count} 筆";
+            return L.F("Editor_CountSummary", shown, _entries.Count);
         }
     }
 
@@ -149,8 +150,8 @@ public sealed class EditorViewModel : ObservableObject
     public bool CatEnabled { get => _catEnabled; set => Set(ref _catEnabled, value); }
     public int CatDefaultCount { get => _catDefaultCount; set => Set(ref _catDefaultCount, Math.Clamp(value, 0, 99)); }
 
-    public string FormTitle => _editingEntryId is null ? "新增詞條" : "編輯詞條";
-    public string SaveEntryText => _editingEntryId is null ? "➕ 新增" : "💾 儲存修改";
+    public string FormTitle => _editingEntryId is null ? L.T("Editor_NewEntryTitle") : L.T("Editor_EditEntryTitle");
+    public string SaveEntryText => _editingEntryId is null ? L.T("Editor_Add") : L.T("Editor_SaveChanges");
     public string FormText { get => _formText; set { if (Set(ref _formText, value)) OnPropertyChanged(nameof(DuplicateWarning)); } }
     public string FormEmoji
     {
@@ -166,7 +167,7 @@ public sealed class EditorViewModel : ObservableObject
             var value = FormEmoji.Trim();
             if (value.Length == 0) return "";
             if (value.Contains((char)0xFFFD))
-                return "⚠ 含有 U+FFFD 替代字元（原本的字已經遺失），請重新輸入正確的 Emoji。";
+                return L.T("Editor_EmojiFffd");
             var lines = new List<string>();
             foreach (var cluster in EmojiText.Clusters(value).Where(c => !string.IsNullOrWhiteSpace(c)))
             {
@@ -174,13 +175,13 @@ public sealed class EditorViewModel : ObservableObject
                 var codes = EmojiText.Describe(cluster);
                 lines.Add(lookup.Source switch
                 {
-                    EmojiImageSource.Pack => $"✓ Fluent 3D 圖片（{codes}）",
-                    EmojiImageSource.Override => $"✓ 自訂圖片 EmojiOverrides\\{EmojiLibrary.OverrideFileName(lookup.Key!)}（{codes}）",
+                    EmojiImageSource.Pack => L.F("Editor_EmojiPack", codes),
+                    EmojiImageSource.Override => L.F("Editor_EmojiOverride", EmojiLibrary.OverrideFileName(lookup.Key!), codes),
                     _ when EmojiText.ZwjComponents(cluster) is { Count: > 1 } parts && parts.All(p => EmojiImages.Library.Lookup(p).Found) =>
-                        $"✓ 圖庫沒有這個組合，改為並排顯示 {parts.Count} 個組成元素（{codes}）",
+                        L.F("Editor_EmojiZwj", parts.Count, codes),
                     _ when EmojiText.IsDefinitelyEmoji(cluster) =>
-                        $"⚠ 沒有圖片（{codes}），會顯示「?」。可放 EmojiOverrides\\{EmojiLibrary.OverrideFileName(EmojiText.Key(cluster))} 補圖。",
-                    _ => $"「{cluster}」不是 Emoji，會以文字顯示（{codes}）",
+                        L.F("Editor_EmojiMissing", codes, EmojiLibrary.OverrideFileName(EmojiText.Key(cluster))),
+                    _ => L.F("Editor_EmojiNotEmoji", cluster, codes),
                 });
             }
             return string.Join("\n", lines);
@@ -201,16 +202,16 @@ public sealed class EditorViewModel : ObservableObject
         {
             if (FormCategoryId is null || string.IsNullOrWhiteSpace(FormText)) return "";
             var dup = LibraryEditor.FindDuplicate(_session.Library, FormCategoryId, FormText, _editingEntryId);
-            return dup is null ? "" : $"⚠ 此分類已有相同詞條「{dup.Text}」";
+            return dup is null ? "" : L.F("Editor_DupWarning", dup.Text);
         }
     }
 
     public string? MoveTargetCategoryId { get => _moveTargetCategoryId; set => Set(ref _moveTargetCategoryId, value); }
     public string SelectionText => _selectedEntries.Count switch
     {
-        0 => "未選取詞條",
-        1 => "已選取 1 筆",
-        var n => $"已選取 {n} 筆（可批次操作）",
+        0 => L.T("Editor_NoneSelected"),
+        1 => L.T("Editor_OneSelected"),
+        var n => L.F("Editor_ManySelected", n),
     };
 
     public ICommand NewCategoryCommand { get; }
@@ -240,7 +241,7 @@ public sealed class EditorViewModel : ObservableObject
 
         Categories.Clear();
         RealCategories.Clear();
-        Categories.Add(new CategoryListItem { Id = null, Name = "📚 全部分類", Total = lib.Entries.Count });
+        Categories.Add(new CategoryListItem { Id = null, Name = L.T("Editor_AllCategories"), Total = lib.Entries.Count });
         var catNames = new Dictionary<string, Category>();
         foreach (var cat in lib.OrderedCategories())
         {
@@ -313,7 +314,7 @@ public sealed class EditorViewModel : ObservableObject
 
     void NewCategory()
     {
-        var name = Dialogs.Prompt("新增分類", "分類名稱：");
+        var name = Dialogs.Prompt(L.T("Editor_NewCategoryTitle"), L.T("Editor_CategoryNameLabel"));
         if (name is null) return;
         Category? created = null;
         if (_session.TryMutate(lib => created = LibraryEditor.AddCategory(lib, name)) && created is not null)
@@ -333,11 +334,9 @@ public sealed class EditorViewModel : ObservableObject
         if (cat is null) return;
         var count = _session.Library.Entries.Count(e => e.CategoryId == id);
         var msg = count == 0
-            ? $"刪除分類「{cat.Name}」？"
-            : $"刪除分類「{cat.Name}」會一併刪除其中的 {count} 筆詞條。\n\n" +
-              "刪除前會自動備份，必要時可以在「資料與備份」頁還原。\n" +
-              "若想保留詞條，請先選取詞條並「移到分類」。\n\n確定要刪除嗎？";
-        if (!Dialogs.Confirm(msg, "刪除分類", warning: true)) return;
+            ? L.F("Editor_DeleteEmptyCategory", cat.Name)
+            : L.F("Editor_DeleteCategory", cat.Name, count);
+        if (!Dialogs.Confirm(msg, L.T("Editor_DeleteCategoryTitle"), warning: true)) return;
         if (_session.TryMutate(lib => LibraryEditor.DeleteCategory(lib, id), backupReason: "before-delete-category"))
             SelectedCategory = Categories.FirstOrDefault();
     }
@@ -395,7 +394,7 @@ public sealed class EditorViewModel : ObservableObject
     {
         if (FormCategoryId is not { } catId)
         {
-            Dialogs.Error("請先選擇詞條所屬的分類。");
+            Dialogs.Error(L.T("Editor_ChooseEntryCategory"));
             return;
         }
         var tags = TextNormalizer.ParseTags(FormTags.Replace('，', '|').Replace(',', '|'));
@@ -421,8 +420,8 @@ public sealed class EditorViewModel : ObservableObject
     {
         var ids = _selectedEntries.Select(r => r.Id).ToList();
         if (ids.Count == 0) return;
-        var msg = ids.Count == 1 ? $"刪除詞條「{_selectedEntries[0].Text}」？" : $"刪除選取的 {ids.Count} 筆詞條？";
-        if (!Dialogs.Confirm(msg + "\n\n（已存在的歷史紀錄與收藏不受影響）", "刪除詞條", warning: true)) return;
+        var msg = ids.Count == 1 ? L.F("Editor_DeleteEntry", _selectedEntries[0].Text) : L.F("Editor_DeleteEntries", ids.Count);
+        if (!Dialogs.Confirm(msg + L.T("Editor_DeleteEntriesNote"), L.T("Editor_DeleteEntryTitle"), warning: true)) return;
         _session.TryMutate(lib => LibraryEditor.DeleteEntries(lib, ids), backupReason: ids.Count >= 20 ? "before-bulk-delete" : null);
     }
 
@@ -438,7 +437,7 @@ public sealed class EditorViewModel : ObservableObject
         var ids = _selectedEntries.Select(r => r.Id).ToList();
         (int Moved, int Skipped) result = default;
         if (_session.TryMutate(lib => result = LibraryEditor.MoveEntries(lib, ids, target)) && result.Skipped > 0)
-            Dialogs.Info($"已移動 {result.Moved} 筆；{result.Skipped} 筆因目標分類已有相同詞條而略過。");
+            Dialogs.Info(L.F("Editor_Moved", result.Moved, result.Skipped));
     }
 
     void BulkAdd()
@@ -446,7 +445,7 @@ public sealed class EditorViewModel : ObservableObject
         var catId = SelectedCategory?.Id ?? FormCategoryId;
         if (catId is null)
         {
-            Dialogs.Error("請先在左側選擇要加入的分類。");
+            Dialogs.Error(L.T("Editor_ChooseBulkCategory"));
             return;
         }
         var dlg = new BulkAddWindow(_session, catId) { Owner = Dialogs.Owner };

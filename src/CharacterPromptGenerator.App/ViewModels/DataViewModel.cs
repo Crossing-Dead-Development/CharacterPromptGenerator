@@ -1,9 +1,9 @@
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using CharacterPromptGenerator.App.Infrastructure;
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Storage;
 
 namespace CharacterPromptGenerator.App.ViewModels;
@@ -14,14 +14,14 @@ public sealed class BackupItem(BackupInfo info)
     public string TimeText => Info.Time.ToString("yyyy-MM-dd HH:mm:ss");
     public string ReasonText => Info.Reason switch
     {
-        "manual" => "手動備份",
-        "before-import" => "合併匯入前",
-        "before-replace" => "取代詞庫前",
-        "before-restore" => "還原備份前",
-        "before-delete-category" => "刪除分類前",
-        "before-bulk-delete" => "大量刪除前",
-        "before-bulk-add" => "大量新增前",
-        "before-repair" => "自動修復前",
+        "manual" => L.T("Backup_Manual"),
+        "before-import" => L.T("Backup_BeforeImport"),
+        "before-replace" => L.T("Backup_BeforeReplace"),
+        "before-restore" => L.T("Backup_BeforeRestore"),
+        "before-delete-category" => L.T("Backup_BeforeDeleteCategory"),
+        "before-bulk-delete" => L.T("Backup_BeforeBulkDelete"),
+        "before-bulk-add" => L.T("Backup_BeforeBulkAdd"),
+        "before-repair" => L.T("Backup_BeforeRepair"),
         var r => r,
     };
     public string SizeText => $"{Info.Size / 1024.0:0.#} KB";
@@ -45,6 +45,7 @@ public sealed class DataViewModel : ObservableObject
         ExportCsvCommand = new RelayCommand(_session.ExportCsv);
         TogglePortableCommand = new RelayCommand(TogglePortable);
         OpenEmojiOverrideCommand = new RelayCommand(() => AppSession.OpenFolder(EmojiOverrideDir));
+        ShowLicensesCommand = new RelayCommand(AppSession.ShowLicenses);
         session.Store.LibraryChanged += (_, _) => Refresh();
         Refresh();
     }
@@ -53,16 +54,16 @@ public sealed class DataViewModel : ObservableObject
 
     public string DataDir => Paths.DataDir;
     public string ModeText => Paths.IsPortable
-        ? "可攜模式：資料存放在 EXE 旁的 Data 資料夾。"
-        : "一般模式：資料存放在使用者的 AppData 資料夾，更新或移動程式都不會影響詞庫。";
-    public string PortableButtonText => Paths.IsPortable ? "切換回一般模式（AppData）" : "切換為可攜模式（EXE 旁 Data\\）";
+        ? L.T("Data_ModePortable")
+        : L.T("Data_ModeNormal");
+    public string PortableButtonText => Paths.IsPortable ? L.T("Data_ToNormal") : L.T("Data_ToPortable");
     public string Stats
     {
         get
         {
             var lib = _session.Library;
-            return $"分類 {lib.Categories.Count} 個 · 詞條 {lib.Entries.Count} 筆（啟用 {lib.Entries.Count(e => e.Enabled)}）· " +
-                   $"方案 {_session.Store.Presets.Count} 組 · 歷史 {_session.Store.History.Count} 筆";
+            return L.F("Data_Stats", lib.Categories.Count, lib.Entries.Count, lib.Entries.Count(e => e.Enabled),
+                _session.Store.Presets.Count, _session.Store.History.Count);
         }
     }
     public string LoadMessages => string.Join("\n", _session.Store.LoadMessages);
@@ -84,12 +85,12 @@ public sealed class DataViewModel : ObservableObject
     public ICommand ExportCsvCommand { get; }
     public ICommand TogglePortableCommand { get; }
     public ICommand OpenEmojiOverrideCommand { get; }
+    public ICommand ShowLicensesCommand { get; }
 
     public string EmojiOverrideDir => EmojiImages.Library.OverrideDir ?? Path.Combine(Paths.DataDir, "EmojiOverrides");
     public string EmojiStatus => EmojiImages.Library.PackError is { } error
-        ? "⚠ " + error + "\nEmoji 目前以「?」替代圖示顯示。"
-        : $"Microsoft Fluent Emoji 3D：{EmojiImages.Library.PackCount} 張圖片（MIT 授權，見 THIRD-PARTY-NOTICES.md）。\n" +
-          "不使用 Windows 字型，所以 Windows 10 與 11 顯示相同。";
+        ? "⚠ " + error + L.T("Data_EmojiFallback")
+        : L.F("Data_EmojiStatus", EmojiImages.Library.PackCount);
 
     public void Refresh()
     {
@@ -104,11 +105,11 @@ public sealed class DataViewModel : ObservableObject
         {
             var path = _session.Store.CreateManualBackup();
             Refresh();
-            Dialogs.Info($"已備份目前詞庫：\n{path}\n\n手動備份不會被自動清除。");
+            Dialogs.Info(L.F("Data_BackedUp", path));
         }
         catch (Exception ex)
         {
-            Dialogs.Error($"備份失敗：{ex.Message}");
+            Dialogs.Error(L.F("Data_BackupFailed", ex.Message));
         }
     }
 
@@ -126,19 +127,18 @@ public sealed class DataViewModel : ObservableObject
             return;
         }
         if (!Dialogs.Confirm(
-                $"用這份備份取代目前的詞庫？\n\n備份時間：{b.TimeText}（{b.ReasonText}）\n" +
-                $"備份內容：{lib.Categories.Count} 個分類、{lib.Entries.Count} 筆詞條\n" +
-                $"目前詞庫：{_session.Library.Categories.Count} 個分類、{_session.Library.Entries.Count} 筆詞條\n\n" +
-                "還原前會先自動備份目前的詞庫。", "還原備份", warning: true))
+                L.F("Data_ConfirmRestore", b.TimeText, b.ReasonText, lib.Categories.Count, lib.Entries.Count,
+                    _session.Library.Categories.Count, _session.Library.Entries.Count),
+                L.T("Data_RestoreTitle"), warning: true))
             return;
         try
         {
             _session.Store.ReplaceLibrary(lib, "before-restore");
-            Dialogs.Info("已還原。");
+            Dialogs.Info(L.T("Data_Restored"));
         }
         catch (Exception ex)
         {
-            Dialogs.Error($"還原失敗，目前詞庫沒有被修改：{ex.Message}");
+            Dialogs.Error(L.F("Data_RestoreFailed", ex.Message));
         }
     }
 
@@ -150,37 +150,30 @@ public sealed class DataViewModel : ObservableObject
 
         if (!Paths.IsPortable && !DataPaths.CanWrite(target))
         {
-            Dialogs.Error($"無法寫入 {target}。\n程式放在 Program Files 等受保護的位置時無法使用可攜模式，請把整個程式資料夾移到其他位置。");
+            Dialogs.Error(L.F("Data_CannotWrite", target));
             return;
         }
 
         var targetHasData = File.Exists(Path.Combine(target, "library.json"));
-        var msg = (Paths.IsPortable ? "切換回一般模式。\n" : "切換為可攜模式。\n") +
-                  $"新的資料位置：{target}\n\n" +
-                  (targetHasData
-                      ? "新位置已經有詞庫資料，將直接使用那份資料（不會覆蓋）。目前位置的資料保持不動。"
-                      : "會把目前的詞庫、方案、設定、歷史與備份複製過去。目前位置的資料保持不動。") +
-                  "\n\n切換後需要重新啟動程式。要繼續嗎？";
-        if (!Dialogs.Confirm(msg, "切換資料位置")) return;
+        var msg = L.T(Paths.IsPortable ? "Data_SwitchToNormal" : "Data_SwitchToPortable") +
+                  L.F("Data_NewLocation", target) +
+                  L.T(targetHasData ? "Data_TargetHasData" : "Data_WillCopy") +
+                  L.T("Data_RestartNeeded");
+        if (!Dialogs.Confirm(msg, L.T("Data_SwitchTitle"))) return;
 
         try
         {
             if (!targetHasData) CopyData(Paths.DataDir, target);
             if (Paths.IsPortable) File.Delete(flag);
-            else File.WriteAllText(flag, "此檔案存在時，程式會把資料存放在同一層的 Data 資料夾。刪除即可恢復一般模式。");
+            else File.WriteAllText(flag, L.T("Data_FlagContent"));
         }
         catch (Exception ex)
         {
-            Dialogs.Error($"切換失敗：{ex.Message}");
+            Dialogs.Error(L.F("Data_SwitchFailed", ex.Message));
             return;
         }
 
-        if (Dialogs.Confirm("已完成設定。現在重新啟動程式嗎？"))
-        {
-            var exe = Environment.ProcessPath;
-            if (exe is not null) Process.Start(new ProcessStartInfo(exe) { UseShellExecute = true });
-            Application.Current.Shutdown();
-        }
+        if (Dialogs.Confirm(L.T("Data_RestartNow"))) AppSession.Restart();
     }
 
     static void CopyData(string from, string to)

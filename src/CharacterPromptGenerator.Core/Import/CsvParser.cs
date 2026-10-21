@@ -1,4 +1,5 @@
 using System.Text;
+using CharacterPromptGenerator.Core.Localization;
 
 namespace CharacterPromptGenerator.Core.Import;
 
@@ -95,7 +96,7 @@ public static class CsvParser
                     }
                     else
                     {
-                        throw new CsvParseException(line, $"第 {line} 行：引號位置不正確。欄位內含引號時，整個欄位要用引號包住，且內部的 \" 要寫成 \"\"。");
+                        throw new CsvParseException(line, L.F("Csv_BadQuote", line));
                     }
                     break;
                 default:
@@ -103,7 +104,7 @@ public static class CsvParser
                     {
                         // 允許 "abc"   , 之類的尾端空白
                         if (c == ' ' || c == '\t') break;
-                        throw new CsvParseException(line, $"第 {line} 行：引號結束後出現多餘的字元。");
+                        throw new CsvParseException(line, L.F("Csv_AfterQuote", line));
                     }
                     field.Append(c);
                     break;
@@ -111,7 +112,7 @@ public static class CsvParser
         }
 
         if (inQuotes)
-            throw new CsvParseException(quoteStartLine, $"第 {quoteStartLine} 行開始的引號一直沒有結束，檔案可能不完整。");
+            throw new CsvParseException(quoteStartLine, L.F("Csv_Unclosed", quoteStartLine));
 
         if (field.Length > 0 || fields.Count > 0 || fieldWasQuoted) EndRecord();
         return records;

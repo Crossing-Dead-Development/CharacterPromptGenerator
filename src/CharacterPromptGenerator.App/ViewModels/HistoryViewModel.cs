@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CharacterPromptGenerator.App.Infrastructure;
 using CharacterPromptGenerator.Core.Drawing;
+using CharacterPromptGenerator.Core.Localization;
 using CharacterPromptGenerator.Core.Models;
 
 namespace CharacterPromptGenerator.App.ViewModels;
@@ -12,8 +13,8 @@ public sealed class HistoryItem(SavedResult result)
     public string Id => Result.Id;
     public string TimeText => Result.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
     public string Star => Result.Favorite ? "⭐" : "";
-    public string Summary => string.Join("、", Result.Items.Take(8).Select(i => PromptFormatter.ItemText(i.Text, i.Emoji))) +
-                             (Result.Items.Count > 8 ? $"…（共 {Result.Items.Count} 項）" : "");
+    public string Summary => string.Join(L.T("Common_ListSep"), Result.Items.Take(8).Select(i => PromptFormatter.ItemText(i.Text, i.Emoji))) +
+                             (Result.Items.Count > 8 ? L.F("History_More", Result.Items.Count) : "");
     public string FullText => PromptFormatter.ToText(Result);
 }
 
@@ -54,13 +55,13 @@ public sealed class HistoryViewModel : ObservableObject
         }
     }
 
-    public string SelectedText => Selected?.FullText ?? "選擇左側的一筆紀錄以檢視內容。";
+    public string SelectedText => Selected?.FullText ?? L.T("History_SelectHint");
     public string Summary
     {
         get
         {
             var all = _session.Store.History;
-            return $"共 {all.Count} 筆紀錄，其中收藏 {all.Count(h => h.Favorite)} 筆。未收藏的紀錄最多保留 {_session.Store.Settings.HistoryLimit} 筆。";
+            return L.F("History_Summary", all.Count, all.Count(h => h.Favorite), _session.Store.Settings.HistoryLimit);
         }
     }
 
@@ -88,7 +89,7 @@ public sealed class HistoryViewModel : ObservableObject
         if (Selected is null) return;
         var r = Selected.Result;
         r.Favorite = !r.Favorite;
-        if (!_session.TrySave(_session.Store.SaveHistory, "收藏")) r.Favorite = !r.Favorite;
+        if (!_session.TrySave(_session.Store.SaveHistory, L.T("What_Favorites"))) r.Favorite = !r.Favorite;
         Refresh();
         FavoriteChanged?.Invoke();
     }
@@ -97,10 +98,10 @@ public sealed class HistoryViewModel : ObservableObject
     {
         if (Selected is null) return;
         var r = Selected.Result;
-        if (r.Favorite && !Dialogs.Confirm("這是一筆收藏，確定要刪除嗎？", warning: true)) return;
+        if (r.Favorite && !Dialogs.Confirm(L.T("History_DeleteFavorite"), warning: true)) return;
         var idx = _session.Store.History.IndexOf(r);
         _session.Store.History.Remove(r);
-        if (!_session.TrySave(_session.Store.SaveHistory, "歷史紀錄") && idx >= 0) _session.Store.History.Insert(idx, r);
+        if (!_session.TrySave(_session.Store.SaveHistory, L.T("What_History")) && idx >= 0) _session.Store.History.Insert(idx, r);
         Refresh();
         FavoriteChanged?.Invoke();
     }
@@ -109,10 +110,10 @@ public sealed class HistoryViewModel : ObservableObject
     {
         var count = _session.Store.History.Count(h => !h.Favorite);
         if (count == 0) return;
-        if (!Dialogs.Confirm($"清除 {count} 筆未收藏的歷史紀錄？收藏會保留。", warning: true)) return;
+        if (!Dialogs.Confirm(L.F("History_Clear", count), warning: true)) return;
         var backup = _session.Store.History.ToList();
         _session.Store.History.RemoveAll(h => !h.Favorite);
-        if (!_session.TrySave(_session.Store.SaveHistory, "歷史紀錄"))
+        if (!_session.TrySave(_session.Store.SaveHistory, L.T("What_History")))
         {
             _session.Store.History.Clear();
             _session.Store.History.AddRange(backup);

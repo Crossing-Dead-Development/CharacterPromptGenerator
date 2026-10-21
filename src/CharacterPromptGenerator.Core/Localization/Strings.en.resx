@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  UI strings: English
+  key 依畫面／模組分組；{0}、{1} 是 string.Format 參數，兩種語言的參數必須一致（有單元測試檢查）。
+-->
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Common_ListSep" xml:space="preserve"><value>, </value></data>
+  <data name="Common_Ellipsis" xml:space="preserve"><value>…</value></data>
+  <data name="Engine_NoEntries" xml:space="preserve"><value>"{0}" has no entries to draw (needs {1}).</value></data>
+  <data name="Engine_NotEnough" xml:space="preserve"><value>"{0}" needs {1}, but only {2} can be drawn; drew {3}.</value></data>
+  <data name="Prompt_Header" xml:space="preserve"><value>[Character Design Prompt]</value></data>
+  <data name="Prompt_CategorySep" xml:space="preserve"><value>: </value></data>
+  <data name="Emoji_PackMissing" xml:space="preserve"><value>Emoji image pack not found: {0}</value></data>
+  <data name="Emoji_PackEmpty" xml:space="preserve"><value>The emoji image pack contains no images: {0}</value></data>
+  <data name="Emoji_PackUnreadable" xml:space="preserve"><value>Could not read the emoji image pack ({0}): {1}</value></data>
+  <data name="Csv_BadQuote" xml:space="preserve"><value>Line {0}: misplaced quote. A field that contains quotes must be wrapped in quotes, with each inner " written as "".</value></data>
+  <data name="Csv_AfterQuote" xml:space="preserve"><value>Line {0}: unexpected characters after the closing quote.</value></data>
+  <data name="Csv_Unclosed" xml:space="preserve"><value>The quote that starts on line {0} is never closed. The file may be incomplete.</value></data>
+  <data name="Plan_SameId" xml:space="preserve"><value>Category "{0}" in the file has the same ID as the existing category "{1}"; treated as the same category (not renamed).</value></data>
+  <data name="Plan_SkipNoCategory" xml:space="preserve"><value>Category does not exist (new categories not allowed)</value></data>
+  <data name="Plan_SkipDupInFile" xml:space="preserve"><value>Duplicate within the file</value></data>
+  <data name="Plan_SkipDupInLibrary" xml:space="preserve"><value>Already in the word bank</value></data>
+  <data name="Plan_IdConflicts" xml:space="preserve"><value>IDs that conflicted with existing data were replaced with new ones ({0}); content is unaffected.</value></data>
+  <data name="Plan_Invalid" xml:space="preserve"><value>The import result failed the data integrity check:
+</value></data>
+  <data name="Plan_ReplaceEmpty" xml:space="preserve"><value>The word bank would have no entries after replacing. To protect your data, this replace was blocked.</value></data>
+  <data name="Plan_NothingNew" xml:space="preserve"><value>Nothing new to import (everything is a duplicate, skipped, or has errors).</value></data>
+  <data name="Reader_BadExtension" xml:space="preserve"><value>Unsupported file type. Please choose a .json, .csv or .txt file.</value></data>
+  <data name="Reader_JsonErrorAt" xml:space="preserve"><value>Invalid JSON (near line {0}). The file may be damaged or incomplete.</value></data>
+  <data name="Reader_JsonError" xml:space="preserve"><value>Invalid JSON. The file may be damaged or incomplete.</value></data>
+  <data name="Reader_JsonNotObject" xml:space="preserve"><value>The top level of the JSON must be an object ({ ... }) containing schemaVersion, categories and entries.</value></data>
+  <data name="Reader_NoSchema" xml:space="preserve"><value>The file has no schemaVersion; reading it as version 1.</value></data>
+  <data name="Reader_BadSchema" xml:space="preserve"><value>schemaVersion must be a positive integer.</value></data>
+  <data name="Reader_NewerSchema" xml:space="preserve"><value>This file uses format version {0}, which is newer than the version this program supports ({1}). Please update the program first.</value></data>
+  <data name="Reader_NoEntries" xml:space="preserve"><value>No entries array found. This does not look like a word bank file (it may be a history or settings file).</value></data>
+  <data name="Reader_CategoriesNotArray" xml:space="preserve"><value>categories must be an array.</value></data>
+  <data name="Reader_CategoryAt" xml:space="preserve"><value>categories item {0}</value></data>
+  <data name="Reader_CategoryNotObject" xml:space="preserve"><value>{0} is not an object; skipped.</value></data>
+  <data name="Reader_CategoryNoName" xml:space="preserve"><value>{0} has no name; skipped.</value></data>
+  <data name="Reader_CategoryDupId" xml:space="preserve"><value>{0} "{1}" has id {2}, which duplicates an earlier category; skipped.</value></data>
+  <data name="Reader_EntryNotObject" xml:space="preserve"><value>entries item {0} is not an object.</value></data>
+  <data name="Reader_EntryNoText" xml:space="preserve"><value>entries item {0} has no text.</value></data>
+  <data name="Reader_EntryNoCategory" xml:space="preserve"><value>entries item {0} "{1}" has no categoryId or category.</value></data>
+  <data name="Reader_EntryUnknownCategory" xml:space="preserve"><value>entries item {0} "{1}" has categoryId {2}, which is not in categories.</value></data>
+  <data name="Reader_CsvEmpty" xml:space="preserve"><value>The CSV is empty.</value></data>
+  <data name="Reader_CsvDupColumn" xml:space="preserve"><value>Column {0} appears more than once; only the first is used.</value></data>
+  <data name="Reader_CsvUnknownColumn" xml:space="preserve"><value>Ignored unknown column "{0}".</value></data>
+  <data name="Reader_CsvBadHeader" xml:space="preserve"><value>The first line of the CSV must be a header containing the category and text columns.
+Header found: {0}
+Example: category,text,emoji,notes,tags</value></data>
+  <data name="Reader_CsvTooManyFields" xml:space="preserve"><value>This row has more fields ({0}) than the header ({1}). There may be a comma that is not in quotes.</value></data>
+  <data name="Reader_CsvNoCategory" xml:space="preserve"><value>The category field is empty.</value></data>
+  <data name="Reader_CsvNoText" xml:space="preserve"><value>The text field is empty.</value></data>
+  <data name="Reader_CsvBadEnabled" xml:space="preserve"><value>Could not understand enabled value "{0}". Use true or false.</value></data>
+  <data name="Reader_TxtEmptyCategory" xml:space="preserve"><value>Empty category name: [].</value></data>
+  <data name="Reader_TxtNoCategory" xml:space="preserve"><value>"{0}" has no [Category name] line above it, so there is no category to put it in.</value></data>
+  <data name="Reader_TxtEmpty" xml:space="preserve"><value>The TXT has no entries. Format: a [Category name] line, then one entry per line below it.</value></data>
+  <data name="File_NotFound" xml:space="preserve"><value>File not found.</value></data>
+  <data name="File_TooLarge" xml:space="preserve"><value>The file is too large ({0} MB). The limit is 50 MB.</value></data>
+  <data name="File_Unreadable" xml:space="preserve"><value>Could not read the file: {0}</value></data>
+  <data name="File_Empty" xml:space="preserve"><value>The file is empty.</value></data>
+  <data name="File_Binary" xml:space="preserve"><value>The file contains binary data and does not look like a text file. (For an Excel file, save it as CSV UTF-8 first.)</value></data>
+  <data name="File_NoContent" xml:space="preserve"><value>The file has no content.</value></data>
+  <data name="File_ReplacementChar" xml:space="preserve"><value>The file contains unrecognizable characters ({0}) and may already be garbled. Check the source file and save it again as UTF-8.</value></data>
+  <data name="File_NotUtf8" xml:space="preserve"><value>The file is not UTF-8 encoded (it may be Big5 or ANSI) and would be garbled if imported.
+In Notepad use "Save As → Encoding: UTF-8", or in Excel choose "CSV UTF-8 (Comma delimited)", then import again.</value></data>
+  <data name="Lib_CategoryNameEmpty" xml:space="preserve"><value>Category name cannot be empty.</value></data>
+  <data name="Lib_CategoryNotFound" xml:space="preserve"><value>This category was not found. It may have been deleted.</value></data>
+  <data name="Lib_NegativeCount" xml:space="preserve"><value>Default draw count cannot be negative.</value></data>
+  <data name="Lib_CategoryExists" xml:space="preserve"><value>A category named "{0}" already exists.</value></data>
+  <data name="Lib_ChooseCategory" xml:space="preserve"><value>Please choose an existing category first.</value></data>
+  <data name="Lib_EntryEmpty" xml:space="preserve"><value>Entry text cannot be empty.</value></data>
+  <data name="Lib_EntryDup" xml:space="preserve"><value>This category already has the entry "{0}".</value></data>
+  <data name="Lib_EntryNotFound" xml:space="preserve"><value>This entry was not found. It may have been deleted.</value></data>
+  <data name="Lib_TargetMissing" xml:space="preserve"><value>The target category does not exist.</value></data>
+  <data name="Lib_TargetDup" xml:space="preserve"><value>The target category already has the entry "{0}".</value></data>
+  <data name="Valid_Schema" xml:space="preserve"><value>schemaVersion should be {0}, but is {1}.</value></data>
+  <data name="Valid_CategoryNoId" xml:space="preserve"><value>Category "{0}" has no ID.</value></data>
+  <data name="Valid_CategoryDupId" xml:space="preserve"><value>Duplicate category ID: {0}</value></data>
+  <data name="Valid_CategoryNoName" xml:space="preserve"><value>Category {0} has no name.</value></data>
+  <data name="Valid_CategoryDupName" xml:space="preserve"><value>Duplicate category name: {0}</value></data>
+  <data name="Valid_CategoryNegative" xml:space="preserve"><value>The default draw count of category "{0}" cannot be negative.</value></data>
+  <data name="Valid_EntryNoId" xml:space="preserve"><value>Entry "{0}" has no ID.</value></data>
+  <data name="Valid_EntryDupId" xml:space="preserve"><value>Duplicate entry ID: {0}</value></data>
+  <data name="Valid_EntryBadCategory" xml:space="preserve"><value>Entry "{0}" points to a category that does not exist: {1}.</value></data>
+  <data name="Valid_EntryEmpty" xml:space="preserve"><value>Entry {0} is empty.</value></data>
+  <data name="Valid_EntryNullTags" xml:space="preserve"><value>The tags of entry {0} are null.</value></data>
+  <data name="Valid_Failed" xml:space="preserve"><value>Word bank validation failed; nothing was written:
+</value></data>
+  <data name="Repair_Unnamed" xml:space="preserve"><value>Unnamed category</value></data>
+  <data name="Repair_UnnamedNote" xml:space="preserve"><value>Found a category without a name; temporarily named it "Unnamed category".</value></data>
+  <data name="Repair_DupId" xml:space="preserve"><value>Category "{0}" had a duplicate ID {1}; changed it to {2}.</value></data>
+  <data name="Repair_DupName" xml:space="preserve"><value>Category name "{0}" was a duplicate; renamed it to "{1}".</value></data>
+  <data name="Repair_RescueName" xml:space="preserve"><value>Uncategorized (auto-repaired)</value></data>
+  <data name="Repair_RescueDescription" xml:space="preserve"><value>Entries found at load time that pointed to a missing category were gathered here.</value></data>
+  <data name="Repair_RemovedEmpty" xml:space="preserve"><value>Removed empty entries: {0}.</value></data>
+  <data name="Repair_Rescued" xml:space="preserve"><value>Entries that pointed to a missing category ({0}) were moved to "{1}" (disabled by default).</value></data>
+  <data name="Store_LibraryUnreadable" xml:space="preserve"><value>Could not read the word bank file ({0}). The original file was kept as {1}.</value></data>
+  <data name="Store_LibraryCorrupt" xml:space="preserve"><value>The word bank file library.json is damaged and no usable backup was found.
+
+Error: {0}
+
+The original file was copied to: {1}
+Please check this folder manually: {2}</value></data>
+  <data name="Store_RestoringFromBackup" xml:space="preserve"><value>library.json was not found, but backups exist. Trying to restore from a backup.</value></data>
+  <data name="Store_NoLibraryNoBackup" xml:space="preserve"><value>library.json was not found and the backups could not be read. Please check this folder: {0}</value></data>
+  <data name="Store_NoSeed" xml:space="preserve"><value>The built-in sample word bank is missing or invalid; created an empty word bank.</value></data>
+  <data name="Store_NewerSchema" xml:space="preserve"><value>The word bank file uses format version {0}, which is newer than this program supports ({1}).
+Please open it with a newer version. To protect your data, this program will not modify the file.</value></data>
+  <data name="Store_FileEmpty" xml:space="preserve"><value>the file is empty</value></data>
+  <data name="Store_Repaired" xml:space="preserve"><value>Automatic repairs were made while reading {0}:</value></data>
+  <data name="Store_Bullet" xml:space="preserve"><value>• </value></data>
+  <data name="Store_Restored" xml:space="preserve"><value>Restored the word bank from backup: {0}</value></data>
+  <data name="Store_PlanNotApplicable" xml:space="preserve"><value>This import plan cannot be applied.</value></data>
+  <data name="Store_ChangedSincePreview" xml:space="preserve"><value>The word bank changed after the preview. Please import again to get a new preview.</value></data>
+  <data name="Store_BackupUnreadable" xml:space="preserve"><value>Could not read the backup file: {0}</value></data>
+  <data name="Store_PresetsUnreadable" xml:space="preserve"><value>Could not read the presets file ({0}). It was kept as {1} and the built-in presets are used instead.</value></data>
+  <data name="Store_SettingsUnreadable" xml:space="preserve"><value>Could not read the settings file ({0}); using the default settings.</value></data>
+  <data name="Store_HistoryUnreadable" xml:space="preserve"><value>Could not read the history file ({0}). It was kept as {1}.</value></data>
+  <data name="Paths_PortableNotWritable" xml:space="preserve"><value>A portable mode marker was found, but {0} is not writable. Using the AppData folder instead.</value></data>
+  <data name="App_CannotOpenTitle" xml:space="preserve"><value>Cannot open the word bank</value></data>
+  <data name="App_StartFailed" xml:space="preserve"><value>The program failed to start: {0}</value></data>
+  <data name="App_StartFailedTitle" xml:space="preserve"><value>Startup failed</value></data>
+  <data name="App_EmojiFallback" xml:space="preserve"><value>
+Emoji will be shown as a "?" placeholder. Your word bank is not affected.</value></data>
+  <data name="App_LoadNotes" xml:space="preserve"><value>The following came up while opening your data:
+
+</value></data>
+  <data name="App_LoadNotesTitle" xml:space="preserve"><value>Data loading notes</value></data>
+  <data name="App_Unexpected" xml:space="preserve"><value>An unexpected error occurred and the operation was cancelled:
+{0}
+
+Details were written to error.log.</value></data>
+  <data name="Common_Error" xml:space="preserve"><value>Error</value></data>
+  <data name="Session_SaveFailed" xml:space="preserve"><value>Could not save; your data was not changed.
+
+{0}</value></data>
+  <data name="Session_SaveWhatFailed" xml:space="preserve"><value>Could not save {0}: {1}</value></data>
+  <data name="Session_JsonFilter" xml:space="preserve"><value>JSON word bank (*.json)|*.json</value></data>
+  <data name="Session_ExportedJson" xml:space="preserve"><value>Exported the full word bank (categories: {0}, entries: {1}):
+{2}</value></data>
+  <data name="Session_ExportFailed" xml:space="preserve"><value>Export failed: {0}</value></data>
+  <data name="Session_CsvFilter" xml:space="preserve"><value>CSV (UTF-8) (*.csv)|*.csv</value></data>
+  <data name="Session_ExportedCsv" xml:space="preserve"><value>Exported entries as CSV ({0}):
+{1}
+
+Note: CSV does not include category descriptions or IDs. For a full backup, use "Export JSON".</value></data>
+  <data name="Session_OpenFolderFailed" xml:space="preserve"><value>Could not open the folder: {0}</value></data>
+  <data name="What_Settings" xml:space="preserve"><value>settings</value></data>
+  <data name="What_Presets" xml:space="preserve"><value>presets</value></data>
+  <data name="What_History" xml:space="preserve"><value>history</value></data>
+  <data name="What_Favorites" xml:space="preserve"><value>favorites</value></data>
+  <data name="App_Title" xml:space="preserve"><value>Character Design Prompt Generator</value></data>
+  <data name="Dialog_Confirm" xml:space="preserve"><value>Confirm</value></data>
+  <data name="Dialog_ImportTitle" xml:space="preserve"><value>Choose a word bank file to import</value></data>
+  <data name="Dialog_ImportFilter" xml:space="preserve"><value>Word bank files (*.json;*.csv;*.txt)|*.json;*.csv;*.txt|JSON (*.json)|*.json|CSV (*.csv)|*.csv|Text files (*.txt)|*.txt</value></data>
+  <data name="Dialog_ClipboardBusy" xml:space="preserve"><value>The clipboard is in use by another program. Please try again.</value></data>
+  <data name="Main_WindowTitle" xml:space="preserve"><value>Character Design Prompt Generator</value></data>
+  <data name="Main_BrandTop" xml:space="preserve"><value>Character Design</value></data>
+  <data name="Main_BrandBottom" xml:space="preserve"><value>Prompt Generator</value></data>
+  <data name="Main_DataLocation" xml:space="preserve"><value>Data location</value></data>
+  <data name="Nav_Draw" xml:space="preserve"><value>🎲  Roll</value></data>
+  <data name="Nav_Editor" xml:space="preserve"><value>📝  Word bank</value></data>
+  <data name="Nav_History" xml:space="preserve"><value>⭐  History</value></data>
+  <data name="Nav_Data" xml:space="preserve"><value>💾  Data &amp; backup</value></data>
+  <data name="Main_Shortcuts" xml:space="preserve"><value>Shortcuts</value></data>
+  <data name="Main_ShortcutReroll" xml:space="preserve"><value>F5　Reroll unlocked</value></data>
+  <data name="Main_ShortcutRegenerate" xml:space="preserve"><value>Ctrl+F5　Regenerate all</value></data>
+  <data name="Main_ShortcutCopy" xml:space="preserve"><value>Ctrl+Shift+C　Copy prompt</value></data>
+  <data name="Main_PortablePrefix" xml:space="preserve"><value>Portable · </value></data>
+  <data name="Draw_CategoryDisabled" xml:space="preserve"><value>Category disabled</value></data>
+  <data name="Draw_Available" xml:space="preserve"><value>{0} available</value></data>
+  <data name="Draw_RowTooltipCounts" xml:space="preserve"><value>
+{0} entries, {1} can be drawn</value></data>
+  <data name="Draw_RowTooltipDisabled" xml:space="preserve"><value>
+(This category is disabled in the word bank and will not be drawn.)</value></data>
+  <data name="Draw_RegenerateAll" xml:space="preserve"><value>🎲 Regenerate all</value></data>
+  <data name="Draw_Generate" xml:space="preserve"><value>🎲 Generate prompt</value></data>
+  <data name="Draw_StatusEmpty" xml:space="preserve"><value>Nothing rolled yet. Tick categories on the left, set the counts, then press "Generate prompt".</value></data>
+  <data name="Draw_Status" xml:space="preserve"><value>Items: {0} · locked: {1} · generated at {2:HH:mm:ss}</value></data>
+  <data name="Draw_StatusFavorite" xml:space="preserve"><value> · ⭐ Favorited</value></data>
+  <data name="Draw_Unfavorite" xml:space="preserve"><value>⭐ Unfavorite</value></data>
+  <data name="Draw_Favorite" xml:space="preserve"><value>☆ Favorite</value></data>
+  <data name="Draw_SelectionSummary" xml:space="preserve"><value>Categories: {0} · items: {1}</value></data>
+  <data name="Draw_SavePresetTitle" xml:space="preserve"><value>Save as new preset</value></data>
+  <data name="Draw_PresetNameLabel" xml:space="preserve"><value>Preset name:</value></data>
+  <data name="Draw_DefaultPresetName" xml:space="preserve"><value>My preset</value></data>
+  <data name="Draw_PresetCopySuffix" xml:space="preserve"><value> copy</value></data>
+  <data name="Draw_OverwritePreset" xml:space="preserve"><value>Overwrite preset "{0}" with the current category settings on the left?</value></data>
+  <data name="Draw_RenamePresetTitle" xml:space="preserve"><value>Rename preset</value></data>
+  <data name="Draw_NewNameLabel" xml:space="preserve"><value>New name:</value></data>
+  <data name="Draw_DeletePreset" xml:space="preserve"><value>Delete preset "{0}"? (The word bank is not affected.)</value></data>
+  <data name="Draw_ConfirmRegenerate" xml:space="preserve"><value>Locked items: {0}.
+Regenerating everything clears the locks. Continue?
+
+(To replace only the unlocked items, use "Reroll unlocked".)</value></data>
+  <data name="Draw_CategoryDeleted" xml:space="preserve"><value>This category has been deleted from the word bank and cannot be rerolled. Unlock it to reroll the other items.</value></data>
+  <data name="Draw_NothingSelected" xml:space="preserve"><value>No categories are ticked, or all counts are 0.</value></data>
+  <data name="Draw_LoadedFromHistory" xml:space="preserve"><value>Loaded from history with every item locked. Unlock the ones you want to replace, then press "Reroll unlocked".</value></data>
+  <data name="Draw_Copied" xml:space="preserve"><value>Prompt copied to the clipboard.</value></data>
+  <data name="Draw_PresetsTitle" xml:space="preserve"><value>Presets</value></data>
+  <data name="Draw_Apply" xml:space="preserve"><value>Apply</value></data>
+  <data name="Draw_ApplyTip" xml:space="preserve"><value>Apply the preset's categories and counts below</value></data>
+  <data name="Draw_SaveAs" xml:space="preserve"><value>Save as new</value></data>
+  <data name="Draw_Overwrite" xml:space="preserve"><value>Overwrite</value></data>
+  <data name="Draw_OverwriteTip" xml:space="preserve"><value>Overwrite the selected preset with the current settings below</value></data>
+  <data name="Draw_Rename" xml:space="preserve"><value>Rename</value></data>
+  <data name="Common_Delete" xml:space="preserve"><value>Delete</value></data>
+  <data name="Draw_CategoriesTitle" xml:space="preserve"><value>Categories &amp; counts</value></data>
+  <data name="Draw_CheckAll" xml:space="preserve"><value>All</value></data>
+  <data name="Draw_CheckNone" xml:space="preserve"><value>None</value></data>
+  <data name="Draw_RerollUnlocked" xml:space="preserve"><value>🔁 Reroll unlocked</value></data>
+  <data name="Draw_UnlockAll" xml:space="preserve"><value>🔓 Unlock all</value></data>
+  <data name="Draw_Copy" xml:space="preserve"><value>📋 Copy prompt</value></data>
+  <data name="Draw_OpenDisplay" xml:space="preserve"><value>📺 Stream display</value></data>
+  <data name="Draw_OpenDisplayTip" xml:space="preserve"><value>Open a separate large-text window, ideal for OBS window capture</value></data>
+  <data name="Draw_Ready" xml:space="preserve"><value>🎨 Ready? Press "Generate prompt" to start.</value></data>
+  <data name="Draw_RerollCategory" xml:space="preserve"><value>🎲 Reroll</value></data>
+  <data name="Draw_RerollCategoryTip" xml:space="preserve"><value>Reroll only the unlocked items in this category</value></data>
+  <data name="Draw_LockToggleName" xml:space="preserve"><value>Toggle lock</value></data>
+  <data name="Lock_Tip" xml:space="preserve"><value>Lock / unlock (locked items stay the same when rerolling)</value></data>
+  <data name="Lock_Off" xml:space="preserve"><value>🔓 Lock</value></data>
+  <data name="Lock_On" xml:space="preserve"><value>🔒 Locked</value></data>
+  <data name="Display_WindowTitle" xml:space="preserve"><value>Character Design Prompt | Stream display</value></data>
+  <data name="Display_ToggleControlsMenu" xml:space="preserve"><value>Show / hide controls (H)</value></data>
+  <data name="Display_RerollMenu" xml:space="preserve"><value>Reroll unlocked (F5)</value></data>
+  <data name="Display_RegenerateMenu" xml:space="preserve"><value>Regenerate all (Ctrl+F5)</value></data>
+  <data name="Display_Unlock" xml:space="preserve"><value>🔓 Unlock</value></data>
+  <data name="Display_Bigger" xml:space="preserve"><value>A+</value></data>
+  <data name="Display_ShowNotes" xml:space="preserve"><value>Show notes</value></data>
+  <data name="Display_HideControls" xml:space="preserve"><value>Hide controls (H)</value></data>
+  <data name="Display_Heading" xml:space="preserve"><value>Character Design Prompt</value></data>
+  <data name="Display_Waiting" xml:space="preserve"><value>Waiting for a roll…</value></data>
+  <data name="Display_SlotTip" xml:space="preserve"><value>Click to lock / unlock</value></data>
+  <data name="Editor_StatusDisabled" xml:space="preserve"><value>Off</value></data>
+  <data name="Editor_StatusEnabled" xml:space="preserve"><value>On</value></data>
+  <data name="Editor_StatusCategoryOff" xml:space="preserve"><value>Category off</value></data>
+  <data name="Editor_CountSummary" xml:space="preserve"><value>Showing {0} / {1} entries</value></data>
+  <data name="Editor_NewEntryTitle" xml:space="preserve"><value>New entry</value></data>
+  <data name="Editor_EditEntryTitle" xml:space="preserve"><value>Edit entry</value></data>
+  <data name="Editor_Add" xml:space="preserve"><value>➕ Add</value></data>
+  <data name="Editor_SaveChanges" xml:space="preserve"><value>💾 Save changes</value></data>
+  <data name="Editor_EmojiFffd" xml:space="preserve"><value>⚠ Contains the U+FFFD replacement character (the original character is lost). Please enter the emoji again.</value></data>
+  <data name="Editor_EmojiPack" xml:space="preserve"><value>✓ Fluent 3D image ({0})</value></data>
+  <data name="Editor_EmojiOverride" xml:space="preserve"><value>✓ Custom image EmojiOverrides\{0} ({1})</value></data>
+  <data name="Editor_EmojiZwj" xml:space="preserve"><value>✓ The pack has no image for this sequence; showing its parts side by side ({0} parts, {1})</value></data>
+  <data name="Editor_EmojiMissing" xml:space="preserve"><value>⚠ No image ({0}); a "?" will be shown. You can add EmojiOverrides\{1} to supply one.</value></data>
+  <data name="Editor_EmojiNotEmoji" xml:space="preserve"><value>"{0}" is not an emoji and will be shown as text ({1})</value></data>
+  <data name="Editor_DupWarning" xml:space="preserve"><value>⚠ This category already has the entry "{0}"</value></data>
+  <data name="Editor_NoneSelected" xml:space="preserve"><value>No entries selected</value></data>
+  <data name="Editor_OneSelected" xml:space="preserve"><value>1 selected</value></data>
+  <data name="Editor_ManySelected" xml:space="preserve"><value>Selected: {0} (batch actions available)</value></data>
+  <data name="Editor_AllCategories" xml:space="preserve"><value>📚 All categories</value></data>
+  <data name="Editor_NewCategoryTitle" xml:space="preserve"><value>New category</value></data>
+  <data name="Editor_CategoryNameLabel" xml:space="preserve"><value>Category name:</value></data>
+  <data name="Editor_DeleteEmptyCategory" xml:space="preserve"><value>Delete category "{0}"?</value></data>
+  <data name="Editor_DeleteCategory" xml:space="preserve"><value>Deleting category "{0}" also deletes the entries in it ({1}).
+
+A backup is made first; you can restore it on the "Data &amp; backup" page if needed.
+To keep the entries, select them and use "Move to" first.
+
+Delete it?</value></data>
+  <data name="Editor_DeleteCategoryTitle" xml:space="preserve"><value>Delete category</value></data>
+  <data name="Editor_ChooseEntryCategory" xml:space="preserve"><value>Please choose the category for this entry first.</value></data>
+  <data name="Editor_DeleteEntry" xml:space="preserve"><value>Delete entry "{0}"?</value></data>
+  <data name="Editor_DeleteEntries" xml:space="preserve"><value>Delete the selected entries ({0})?</value></data>
+  <data name="Editor_DeleteEntriesNote" xml:space="preserve"><value>
+
+(Existing history and favorites are not affected.)</value></data>
+  <data name="Editor_DeleteEntryTitle" xml:space="preserve"><value>Delete entries</value></data>
+  <data name="Editor_Moved" xml:space="preserve"><value>Moved: {0}. Skipped: {1} (already in the target category).</value></data>
+  <data name="Editor_ChooseBulkCategory" xml:space="preserve"><value>Please choose a category on the left first.</value></data>
+  <data name="Common_Category" xml:space="preserve"><value>Category</value></data>
+  <data name="Editor_AddCategory" xml:space="preserve"><value>＋ New category</value></data>
+  <data name="Editor_CategoryName" xml:space="preserve"><value>Category name</value></data>
+  <data name="Editor_Description" xml:space="preserve"><value>Description</value></data>
+  <data name="Editor_EnabledCheck" xml:space="preserve"><value>Enabled (can be drawn)</value></data>
+  <data name="Editor_DefaultCount" xml:space="preserve"><value>Default count</value></data>
+  <data name="Editor_SaveCategory" xml:space="preserve"><value>💾 Save category</value></data>
+  <data name="Editor_MoveUp" xml:space="preserve"><value>Move up</value></data>
+  <data name="Editor_MoveDown" xml:space="preserve"><value>Move down</value></data>
+  <data name="Editor_CountTip" xml:space="preserve"><value>Drawable / total</value></data>
+  <data name="Common_Import" xml:space="preserve"><value>📥 Import</value></data>
+  <data name="Editor_ExportJson" xml:space="preserve"><value>📤 Export JSON</value></data>
+  <data name="Common_ExportCsv" xml:space="preserve"><value>📤 Export CSV</value></data>
+  <data name="Editor_SearchName" xml:space="preserve"><value>Search entries</value></data>
+  <data name="Editor_ClearSearch" xml:space="preserve"><value>Clear search</value></data>
+  <data name="Editor_FilterAll" xml:space="preserve"><value>All</value></data>
+  <data name="Editor_FilterEnabled" xml:space="preserve"><value>Enabled only</value></data>
+  <data name="Editor_FilterDisabled" xml:space="preserve"><value>Disabled only</value></data>
+  <data name="Editor_Enable" xml:space="preserve"><value>Enable</value></data>
+  <data name="Editor_Disable" xml:space="preserve"><value>Disable</value></data>
+  <data name="Editor_MoveTargetTip" xml:space="preserve"><value>Target category</value></data>
+  <data name="Editor_Move" xml:space="preserve"><value>Move to</value></data>
+  <data name="Editor_DeleteSelected" xml:space="preserve"><value>🗑 Delete selected</value></data>
+  <data name="Common_Entry" xml:space="preserve"><value>Entry</value></data>
+  <data name="Common_Notes" xml:space="preserve"><value>Notes</value></data>
+  <data name="Common_Tags" xml:space="preserve"><value>Tags</value></data>
+  <data name="Editor_Status" xml:space="preserve"><value>Status</value></data>
+  <data name="Editor_TextLabel" xml:space="preserve"><value>Entry text (required)</value></data>
+  <data name="Editor_EmojiLabel" xml:space="preserve"><value>Emoji (optional · Win + . for emoji)</value></data>
+  <data name="Editor_EmojiInputName" xml:space="preserve"><value>Emoji input</value></data>
+  <data name="Editor_EmojiPreviewTip" xml:space="preserve"><value>Preview: the image shown in roll results</value></data>
+  <data name="Editor_EmojiPreviewName" xml:space="preserve"><value>Emoji preview</value></data>
+  <data name="Editor_TagsLabel" xml:space="preserve"><value>Tags (separated by | or commas)</value></data>
+  <data name="Editor_NewEntry" xml:space="preserve"><value>Clear / new entry</value></data>
+  <data name="Editor_BulkTitle" xml:space="preserve"><value>Bulk add</value></data>
+  <data name="Editor_BulkHint" xml:space="preserve"><value>Paste many words, one per line, to add them all to the category selected on the left.</value></data>
+  <data name="Editor_BulkButton" xml:space="preserve"><value>📋 Paste multiple lines</value></data>
+  <data name="Editor_ImportHint" xml:space="preserve"><value>For larger word banks use "Import" above. It supports JSON / CSV / TXT, shows a preview first and makes a backup automatically.</value></data>
+  <data name="Bulk_WindowTitle" xml:space="preserve"><value>Add entries from multiple lines</value></data>
+  <data name="Bulk_CategoryLabel" xml:space="preserve"><value>Add to category: </value></data>
+  <data name="Bulk_Hint" xml:space="preserve"><value>One entry per line; the whole line is the entry text (emoji can be written right in the text). Empty lines are skipped, and lines that already exist in this category or repeat in the pasted text are not added.</value></data>
+  <data name="Bulk_Add" xml:space="preserve"><value>Add</value></data>
+  <data name="Common_Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Bulk_WillAdd" xml:space="preserve"><value>To add: {0}</value></data>
+  <data name="Bulk_DupExisting" xml:space="preserve"><value>⚠ Already in the category, skipped ({0}): {1}</value></data>
+  <data name="Bulk_DupInput" xml:space="preserve"><value>⚠ Repeated in the pasted text ({0}): {1}</value></data>
+  <data name="Bulk_AddCount" xml:space="preserve"><value>Add {0}</value></data>
+  <data name="Bulk_Added" xml:space="preserve"><value>Entries added: {0}.</value></data>
+  <data name="History_More" xml:space="preserve"><value>… ({0} items)</value></data>
+  <data name="History_SelectHint" xml:space="preserve"><value>Select a record on the left to see it.</value></data>
+  <data name="History_Summary" xml:space="preserve"><value>Records: {0} · favorites: {1}. Up to {2} non-favorite records are kept.</value></data>
+  <data name="History_DeleteFavorite" xml:space="preserve"><value>This record is a favorite. Delete it anyway?</value></data>
+  <data name="History_Clear" xml:space="preserve"><value>Clear the non-favorite records ({0})? Favorites are kept.</value></data>
+  <data name="History_Title" xml:space="preserve"><value>History &amp; favorites</value></data>
+  <data name="History_FavoritesOnly" xml:space="preserve"><value>Favorites only ⭐</value></data>
+  <data name="History_ClearButton" xml:space="preserve"><value>Clear non-favorites</value></data>
+  <data name="Common_Time" xml:space="preserve"><value>Time</value></data>
+  <data name="History_Content" xml:space="preserve"><value>Content</value></data>
+  <data name="History_Copy" xml:space="preserve"><value>📋 Copy</value></data>
+  <data name="History_ToggleFavorite" xml:space="preserve"><value>⭐ Favorite / unfavorite</value></data>
+  <data name="History_Load" xml:space="preserve"><value>↩ Load into Roll</value></data>
+  <data name="History_LoadTip" xml:space="preserve"><value>Every item is locked after loading; unlock some and reroll</value></data>
+  <data name="History_SnapshotNote" xml:space="preserve"><value>Records keep a text snapshot from the moment of the roll; editing or deleting entries later does not change them.</value></data>
+  <data name="Import_ReadError" xml:space="preserve"><value>An error occurred while reading the file: {0}</value></data>
+  <data name="Import_FormatJson" xml:space="preserve"><value>JSON (full word bank format)</value></data>
+  <data name="Import_FormatCsv" xml:space="preserve"><value>CSV (category,text,emoji,notes,tags)</value></data>
+  <data name="Import_FormatTxt" xml:space="preserve"><value>TXT ([category] + one entry per line)</value></data>
+  <data name="Import_CannotImport" xml:space="preserve"><value>This file cannot be imported.</value></data>
+  <data name="Import_Summary" xml:space="preserve"><value>Entries read: {0} → to add: {1} · new categories: {2} · skipped: {3} (duplicates or categories not allowed) · rows with errors: {4}.</value></data>
+  <data name="Import_ReplaceWarning" xml:space="preserve"><value>⚠ Replace mode deletes every category and all entries in the current word bank ({0}) and replaces them with the file contents. A backup is made before applying.</value></data>
+  <data name="Import_NotePrefix" xml:space="preserve"><value>(Note) </value></data>
+  <data name="Import_NewCategoriesTab" xml:space="preserve"><value>New categories ({0})</value></data>
+  <data name="Import_AddedTab" xml:space="preserve"><value>To add ({0})</value></data>
+  <data name="Import_SkippedTab" xml:space="preserve"><value>Skipped ({0})</value></data>
+  <data name="Import_ProblemsTab" xml:space="preserve"><value>Errors &amp; notes ({0})</value></data>
+  <data name="Import_ConfirmErrors" xml:space="preserve"><value>Rows with format errors: {0}. These rows will not be imported.
+Import the remaining entries ({1}) anyway?</value></data>
+  <data name="Import_ConfirmTitle" xml:space="preserve"><value>Confirm import</value></data>
+  <data name="Import_ConfirmReplace1" xml:space="preserve"><value>Really replace the entire word bank?
+
+Current: categories {0}, entries {1}
+After replacing: categories {2}, entries {3}</value></data>
+  <data name="Import_ConfirmReplace1Title" xml:space="preserve"><value>Replace the entire word bank (confirmation 1 of 2)</value></data>
+  <data name="Import_ConfirmReplace2" xml:space="preserve"><value>Final confirmation: the current word bank will be backed up and then completely replaced.
+Continue?</value></data>
+  <data name="Import_ConfirmReplace2Title" xml:space="preserve"><value>Replace the entire word bank (confirmation 2 of 2)</value></data>
+  <data name="Import_Failed" xml:space="preserve"><value>The import did not complete; the word bank is unchanged.
+
+{0}</value></data>
+  <data name="Import_Done" xml:space="preserve"><value>Import complete!
+
+Entries added: {0}
+Categories created: {1}
+Skipped (duplicates etc.): {2}
+Failed (format errors): {3} rows
+
+</value></data>
+  <data name="Import_DoneBackup" xml:space="preserve"><value>The word bank before the import was backed up as:
+{0}
+
+</value></data>
+  <data name="Import_DoneTail" xml:space="preserve"><value>The new entries can be drawn right away; no restart needed.</value></data>
+  <data name="Import_DoneTitle" xml:space="preserve"><value>Import complete</value></data>
+  <data name="Import_WindowTitle" xml:space="preserve"><value>Import word bank | Preview</value></data>
+  <data name="Import_FormatLabel" xml:space="preserve"><value>Format: </value></data>
+  <data name="Import_Merge" xml:space="preserve"><value>Merge (recommended: keep the current word bank and add only new entries)</value></data>
+  <data name="Import_Replace" xml:space="preserve"><value>Replace the entire word bank</value></data>
+  <data name="Import_AllowNewCategories" xml:space="preserve"><value>Allow creating new categories from the file (when unticked, those entries are skipped)</value></data>
+  <data name="Import_Parsing" xml:space="preserve"><value>Parsing…</value></data>
+  <data name="Import_Fatal" xml:space="preserve"><value>❌ This file cannot be imported (your word bank is not affected)</value></data>
+  <data name="Import_Apply" xml:space="preserve"><value>✔ Apply import</value></data>
+  <data name="Import_Line" xml:space="preserve"><value>Line</value></data>
+  <data name="Import_NewCategoryColumn" xml:space="preserve"><value>New</value></data>
+  <data name="Import_WillCreate" xml:space="preserve"><value>New category to create</value></data>
+  <data name="Import_EntryCount" xml:space="preserve"><value>Entries</value></data>
+  <data name="Common_Reason" xml:space="preserve"><value>Reason</value></data>
+  <data name="Import_Message" xml:space="preserve"><value>Details</value></data>
+  <data name="Common_Ok" xml:space="preserve"><value>OK</value></data>
+  <data name="Backup_Manual" xml:space="preserve"><value>Manual backup</value></data>
+  <data name="Backup_BeforeImport" xml:space="preserve"><value>Before merge import</value></data>
+  <data name="Backup_BeforeReplace" xml:space="preserve"><value>Before replacing the word bank</value></data>
+  <data name="Backup_BeforeRestore" xml:space="preserve"><value>Before restoring a backup</value></data>
+  <data name="Backup_BeforeDeleteCategory" xml:space="preserve"><value>Before deleting a category</value></data>
+  <data name="Backup_BeforeBulkDelete" xml:space="preserve"><value>Before bulk delete</value></data>
+  <data name="Backup_BeforeBulkAdd" xml:space="preserve"><value>Before bulk add</value></data>
+  <data name="Backup_BeforeRepair" xml:space="preserve"><value>Before auto-repair</value></data>
+  <data name="Data_ModePortable" xml:space="preserve"><value>Portable mode: data is stored in the Data folder next to the EXE.</value></data>
+  <data name="Data_ModeNormal" xml:space="preserve"><value>Normal mode: data is stored in your AppData folder, so updating or moving the program does not affect your word bank.</value></data>
+  <data name="Data_ToNormal" xml:space="preserve"><value>Switch back to normal mode (AppData)</value></data>
+  <data name="Data_ToPortable" xml:space="preserve"><value>Switch to portable mode (Data\ next to the EXE)</value></data>
+  <data name="Data_Stats" xml:space="preserve"><value>Categories: {0} · entries: {1} ({2} enabled) · presets: {3} · history: {4}</value></data>
+  <data name="Data_EmojiFallback" xml:space="preserve"><value>
+Emoji are currently shown as a "?" placeholder.</value></data>
+  <data name="Data_EmojiStatus" xml:space="preserve"><value>Microsoft Fluent Emoji 3D: {0} images (MIT license, see THIRD-PARTY-NOTICES.md).
+Windows fonts are not used, so Windows 10 and 11 look the same.</value></data>
+  <data name="Data_BackedUp" xml:space="preserve"><value>Backed up the current word bank:
+{0}
+
+Manual backups are never cleaned up automatically.</value></data>
+  <data name="Data_BackupFailed" xml:space="preserve"><value>Backup failed: {0}</value></data>
+  <data name="Data_ConfirmRestore" xml:space="preserve"><value>Replace the current word bank with this backup?
+
+Backup time: {0} ({1})
+Backup contents: categories {2}, entries {3}
+Current word bank: categories {4}, entries {5}
+
+The current word bank is backed up before restoring.</value></data>
+  <data name="Data_RestoreTitle" xml:space="preserve"><value>Restore backup</value></data>
+  <data name="Data_Restored" xml:space="preserve"><value>Restored.</value></data>
+  <data name="Data_RestoreFailed" xml:space="preserve"><value>Restore failed; the current word bank was not changed: {0}</value></data>
+  <data name="Data_CannotWrite" xml:space="preserve"><value>Cannot write to {0}.
+Portable mode is not available while the program is in a protected location such as Program Files. Move the whole program folder somewhere else.</value></data>
+  <data name="Data_SwitchToNormal" xml:space="preserve"><value>Switch back to normal mode.
+</value></data>
+  <data name="Data_SwitchToPortable" xml:space="preserve"><value>Switch to portable mode.
+</value></data>
+  <data name="Data_NewLocation" xml:space="preserve"><value>New data location: {0}
+
+</value></data>
+  <data name="Data_TargetHasData" xml:space="preserve"><value>The new location already has word bank data, which will be used as is (nothing is overwritten). Data in the current location stays untouched.</value></data>
+  <data name="Data_WillCopy" xml:space="preserve"><value>Your current word bank, presets, settings, history and backups will be copied there. Data in the current location stays untouched.</value></data>
+  <data name="Data_RestartNeeded" xml:space="preserve"><value>
+
+The program needs to restart after switching. Continue?</value></data>
+  <data name="Data_SwitchTitle" xml:space="preserve"><value>Switch data location</value></data>
+  <data name="Data_FlagContent" xml:space="preserve"><value>While this file exists, the program stores its data in the Data folder next to it. Delete it to return to normal mode.</value></data>
+  <data name="Data_SwitchFailed" xml:space="preserve"><value>Switching failed: {0}</value></data>
+  <data name="Data_RestartNow" xml:space="preserve"><value>Done. Restart the program now?</value></data>
+  <data name="Data_OpenFolder" xml:space="preserve"><value>📂 Open folder</value></data>
+  <data name="Data_ImportExportTitle" xml:space="preserve"><value>Import / export word bank</value></data>
+  <data name="Data_FormatJson" xml:space="preserve"><value>JSON: the full word bank (with category settings and IDs), for backups and moving between computers.</value></data>
+  <data name="Data_FormatCsv" xml:space="preserve"><value>CSV: header category,text,emoji,notes,tags; can be edited in a spreadsheet.</value></data>
+  <data name="Data_FormatTxt" xml:space="preserve"><value>TXT: a [Category name] line, then one entry per line below it; lines starting with # are comments.</value></data>
+  <data name="Data_ImportNote" xml:space="preserve"><value>Imports are previewed and checked for duplicates first, and a backup is made before applying.</value></data>
+  <data name="Data_ExportJson" xml:space="preserve"><value>📤 Export full JSON</value></data>
+  <data name="Data_EmojiTitle" xml:space="preserve"><value>Emoji images</value></data>
+  <data name="Data_EmojiHint" xml:space="preserve"><value>Emoji without an image are shown as "?". You can put PNG files in the EmojiOverrides folder to add or replace images, named by code point (for example 1fabc.png; see the README). Takes effect after a restart.</value></data>
+  <data name="Data_OpenEmojiFolder" xml:space="preserve"><value>📂 Open the EmojiOverrides folder</value></data>
+  <data name="Data_LoadNotesTitle" xml:space="preserve"><value>Notes from this startup</value></data>
+  <data name="Data_BackupsTitle" xml:space="preserve"><value>Backups</value></data>
+  <data name="Data_BackupsHint" xml:space="preserve"><value>A backup is made automatically before importing, replacing, restoring or deleting a category (the latest 40 automatic backups are kept). Manual backups are kept forever.</value></data>
+  <data name="Data_BackupNow" xml:space="preserve"><value>💾 Back up now</value></data>
+  <data name="Data_Restore" xml:space="preserve"><value>↩ Restore selected backup</value></data>
+  <data name="Data_OpenBackupFolder" xml:space="preserve"><value>📂 Backup folder</value></data>
+  <data name="Data_Refresh" xml:space="preserve"><value>Refresh</value></data>
+  <data name="Data_Size" xml:space="preserve"><value>Size</value></data>
+  <data name="Emoji_MissingTip" xml:space="preserve"><value>No image for this emoji: {0}
+Code points: {1}
+You can name a PNG image {2} and put it in the EmojiOverrides\ folder.</value></data>
+  <data name="Main_LanguageLabel" xml:space="preserve"><value>🌐 Language / 介面語言</value></data>
+  <data name="Main_LanguageTitle" xml:space="preserve"><value>Language</value></data>
+  <data name="Main_LanguageRestart" xml:space="preserve"><value>The language setting was saved and takes effect after a restart. Restart the program now?</value></data>
+  <data name="Draw_EmptyTitle" xml:space="preserve"><value>📥 Your word bank is empty</value></data>
+  <data name="Draw_EmptyHint" xml:space="preserve"><value>Import a word bank file (CSV / JSON / TXT) to start rolling. You can download a ready-made word bank from the GitHub Release, or add your own on the "Word bank" page.</value></data>
+  <data name="Data_Licenses" xml:space="preserve"><value>📄 Third-party licenses</value></data>
+  <data name="Data_LicensesTitle" xml:space="preserve"><value>Third-party licenses</value></data>
+</root>

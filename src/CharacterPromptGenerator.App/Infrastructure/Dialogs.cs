@@ -1,5 +1,6 @@
 using System.Windows;
 using CharacterPromptGenerator.App.Views;
+using CharacterPromptGenerator.Core.Localization;
 using Microsoft.Win32;
 
 namespace CharacterPromptGenerator.App.Infrastructure;
@@ -7,7 +8,7 @@ namespace CharacterPromptGenerator.App.Infrastructure;
 /// <summary>對話框集中處理。ViewModel 直接呼叫這裡（務實的 MVVM，不另外抽象化）。</summary>
 public static class Dialogs
 {
-    const string AppTitle = "角色設計題目產生器";
+    static string AppTitle => L.T("App_Title");
 
     public static Window? Owner =>
         Application.Current?.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive) ?? Application.Current?.MainWindow;
@@ -20,14 +21,14 @@ public static class Dialogs
             : MessageBox.Show(owner, message, title, buttons, image);
     }
 
-    public static void Info(string message, string title = AppTitle) =>
-        Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
+    public static void Info(string message, string? title = null) =>
+        Show(message, title ?? AppTitle, MessageBoxButton.OK, MessageBoxImage.Information);
 
-    public static void Error(string message, string title = AppTitle) =>
-        Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+    public static void Error(string message, string? title = null) =>
+        Show(message, title ?? AppTitle, MessageBoxButton.OK, MessageBoxImage.Error);
 
-    public static bool Confirm(string message, string title = "確認", bool warning = false) =>
-        Show(message, title, MessageBoxButton.YesNo, warning ? MessageBoxImage.Warning : MessageBoxImage.Question) == MessageBoxResult.Yes;
+    public static bool Confirm(string message, string? title = null, bool warning = false) =>
+        Show(message, title ?? L.T("Dialog_Confirm"), MessageBoxButton.YesNo, warning ? MessageBoxImage.Warning : MessageBoxImage.Question) == MessageBoxResult.Yes;
 
     public static string? Prompt(string title, string label, string initial = "")
     {
@@ -39,8 +40,8 @@ public static class Dialogs
     {
         var dlg = new OpenFileDialog
         {
-            Title = "選擇要匯入的詞庫檔",
-            Filter = "詞庫檔 (*.json;*.csv;*.txt)|*.json;*.csv;*.txt|JSON (*.json)|*.json|CSV (*.csv)|*.csv|文字檔 (*.txt)|*.txt",
+            Title = L.T("Dialog_ImportTitle"),
+            Filter = L.T("Dialog_ImportFilter"),
             CheckFileExists = true,
         };
         return dlg.ShowDialog(Owner) == true ? dlg.FileName : null;
@@ -67,7 +68,7 @@ public static class Dialogs
                 Thread.Sleep(50);
             }
         }
-        Error("剪貼簿暫時被其他程式佔用，請再試一次。");
+        Error(L.T("Dialog_ClipboardBusy"));
         return false;
     }
 }

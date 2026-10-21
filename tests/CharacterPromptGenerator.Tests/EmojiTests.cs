@@ -181,6 +181,20 @@ public class FluentEmojiPackTests
     }
 
     [Fact]
+    public void Pack_CanBeOpenedFromAStream_LikeTheEmbeddedResource()
+    {
+        using var fromFile = new EmojiLibrary(PackPath, null);
+        using var fromStream = new EmojiLibrary("Emoji.fluent-emoji-3d.zip", () => File.OpenRead(PackPath), null);
+        Assert.Null(fromStream.PackError);
+        Assert.Equal(fromFile.PackCount, fromStream.PackCount);
+        Assert.NotNull(fromStream.ReadImage(fromStream.Lookup("🫧")));
+
+        using var missing = new EmojiLibrary("Emoji.fluent-emoji-3d.zip", () => null, null);
+        Assert.NotNull(missing.PackError);
+        Assert.False(missing.Lookup("🫧").Found);
+    }
+
+    [Fact]
     public void EveryEmojiInShippedData_HasAnImage()
     {
         using var lib = new EmojiLibrary(PackPath, null);

@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "presets": [
+    {
+      "id": "preset-easy",
+      "name": "輕鬆",
+      "items": [
+        {
+          "categoryId": "cat-imagery",
+          "enabled": true,
+          "count": 3
+        },
+        {
+          "categoryId": "cat-age",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-gender",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-body",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-species",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-personality",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-era",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-region",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-occupation",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-outfit",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-material",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-palette",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-feature",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-constraint",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-4560f95e66f9",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-091138102eff",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-cbfea92c24c8",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-5ace15fd1615",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-6fd0f9d5fbc7",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-97577d2bd2ec",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-61c266abceed",
+          "enabled": false,
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "preset-standard",
+      "name": "標準",
+      "items": [
+        {
+          "categoryId": "cat-imagery",
+          "enabled": true,
+          "count": 3
+        },
+        {
+          "categoryId": "cat-age",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-gender",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-body",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-species",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-personality",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-era",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-region",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-occupation",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-outfit",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-material",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-palette",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-feature",
+          "enabled": false,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-constraint",
+          "enabled": true,
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "preset-challenge",
+      "name": "挑戰",
+      "items": [
+        {
+          "categoryId": "cat-imagery",
+          "enabled": true,
+          "count": 3
+        },
+        {
+          "categoryId": "cat-age",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-gender",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-body",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-species",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-personality",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-era",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-region",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-occupation",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-outfit",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-material",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-palette",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-feature",
+          "enabled": true,
+          "count": 1
+        },
+        {
+          "categoryId": "cat-constraint",
+          "enabled": true,
+          "count": 1
+        }
+      ]
+    }
+  ]
+}
