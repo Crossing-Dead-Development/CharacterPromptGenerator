@@ -1,5 +1,7 @@
 # Character Design Prompt Generator｜角色設計題目產生器
 
+**繁體中文** · [English](README.en.md)
+
 **Crossing Dead Development · v0.2.0** · 介面支援繁體中文／English
 
 繪圖直播用的離線角色設計抽題工具：從可自訂的分類詞庫隨機抽出關鍵字與 Emoji，組成角色設計練習題目。可以鎖定喜歡的結果、局部重抽、自訂抽題方案、保存歷史與收藏，並透過程式介面或 JSON／CSV／TXT 檔案維護大型詞庫。
