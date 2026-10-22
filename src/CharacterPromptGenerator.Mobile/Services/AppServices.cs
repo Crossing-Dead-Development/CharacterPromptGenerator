@@ -30,11 +30,24 @@ public sealed class EmbeddedSeedSource : ISeedSource
 /// <summary>整個 App 共用的資料與抽題狀態。資料放在 App 專屬儲存區，不需要任何權限。</summary>
 public sealed class AppServices
 {
+    readonly WeakEventManager _dataChanged = new();
+
     AppServices(AppStore store)
     {
         Store = store;
         Draw = new DrawSession(store);
         Presets = new PresetManager(store);
+        store.LibraryChanged += (_, e) => MainThread.BeginInvokeOnMainThread(() => _dataChanged.HandleEvent(this, e, nameof(DataChanged)));
+    }
+
+    /// <summary>
+    /// 詞庫被修改或整份資料被還原時通知（在主執行緒上）。用弱參照保存訂閱者，頁面關閉後不會因此留在記憶體。
+    /// 分頁中被推入的頁面在切換分頁時不會觸發 OnAppearing，所以列表頁要靠這個事件更新。
+    /// </summary>
+    public event EventHandler DataChanged
+    {
+        add => _dataChanged.AddEventHandler(value);
+        remove => _dataChanged.RemoveEventHandler(value);
     }
 
     public AppStore Store { get; }
@@ -68,6 +81,26 @@ public sealed class AppServices
         {
             Log(ex);
             await Dialogs.Error(L.F("Session_SaveWhatFailed", what, ex.Message));
+        }
+        return false;
+    }
+
+    /// <summary>在複本上修改詞庫並存檔；失敗時顯示原因並回傳 false（資料保持原狀）。</summary>
+    public async Task<bool> TryMutate(Action<Core.Models.LibraryData> mutate, string? backupReason = null)
+    {
+        try
+        {
+            Store.MutateLibrary(mutate, backupReason);
+            return true;
+        }
+        catch (LibraryValidationException ex)
+        {
+            await Dialogs.Error(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Log(ex);
+            await Dialogs.Error(L.F("Session_SaveFailed", ex.Message));
         }
         return false;
     }

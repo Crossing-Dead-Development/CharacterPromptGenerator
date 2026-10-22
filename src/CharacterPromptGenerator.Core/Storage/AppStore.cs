@@ -111,10 +111,26 @@ public sealed class AppStore
     bool TryReadLibrary(string file, out LibraryData? lib, out string? error)
     {
         lib = null;
+        string json;
+        try
+        {
+            json = File.ReadAllText(file);
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+            return false;
+        }
+        return TryParseLibrary(json, out lib, out error);
+    }
+
+    /// <summary>解析 library.json 的內容。新版程式寫的資料丟出 <see cref="StoreLoadException"/>，其他問題回傳 false。</summary>
+    internal static bool TryParseLibrary(string json, out LibraryData? lib, out string? error)
+    {
+        lib = null;
         error = null;
         try
         {
-            var json = File.ReadAllText(file);
             using (var doc = System.Text.Json.JsonDocument.Parse(json, new() { CommentHandling = System.Text.Json.JsonCommentHandling.Skip, AllowTrailingCommas = true }))
             {
                 if (doc.RootElement.TryGetProperty("schemaVersion", out var v) && v.TryGetInt32(out var ver) &&
@@ -282,6 +298,80 @@ public sealed class AppStore
     }
 
     public void RestoreBackup(string path) => ReplaceLibrary(ReadBackup(path), "before-restore");
+
+    // ── 完整備份（詞庫＋方案＋歷史＋設定） ──────────────
+
+    public const int MaxSafetyFullBackups = 10;
+
+    /// <summary>
+    /// 用完整備份取代目前的全部資料。還原前先把目前的全部資料另存成 Backups\full_*_before-restore.zip。
+    /// 介面語言與「上次匯出完整備份的時間」屬於這台裝置，保留目前的值。
+    /// </summary>
+    public void RestoreFull(FullBackupContent content)
+    {
+        var lib = content.Library.Clone();
+        lib.SchemaVersion = LibraryData.CurrentSchemaVersion;
+        lib.ExportedAt = null;
+        LibraryValidator.EnsureValid(lib);
+
+        var settings = content.Settings ?? new AppSettings();
+        settings.DrawSettings ??= new();
+        settings.Language = Settings.Language;
+        settings.LastFullBackupAt = Settings.LastFullBackupAt;
+
+        CreateSafetyFullBackup("before-restore");
+        AtomicFile.WriteAllText(Paths.LibraryFile, JsonOptions.Serialize(lib));
+        AtomicFile.WriteAllText(Paths.PresetsFile, JsonOptions.Serialize(new PresetFile { Presets = content.Presets }));
+        AtomicFile.WriteAllText(Paths.HistoryFile, JsonOptions.Serialize(new HistoryFile { Results = content.History }));
+        AtomicFile.WriteAllText(Paths.SettingsFile, JsonOptions.Serialize(settings));
+        Library = lib;
+        Presets = content.Presets;
+        History = content.History;
+        Settings = settings;
+        LibraryChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>Backups\ 中的完整備份（full_*.zip，例如還原前自動存的那份），新的在前。</summary>
+    public List<BackupInfo> ListFullBackups()
+    {
+        if (!Directory.Exists(Paths.BackupDir)) return new();
+        var list = new List<BackupInfo>();
+        foreach (var path in Directory.GetFiles(Paths.BackupDir, "full_*.zip"))
+        {
+            var parts = Path.GetFileNameWithoutExtension(path).Split('_', 5); // full_yyyyMMdd_HHmmss_fff_reason
+            var time = File.GetLastWriteTime(path);
+            var reason = "";
+            if (parts.Length == 5 &&
+                DateTime.TryParseExact($"{parts[1]}_{parts[2]}_{parts[3]}", "yyyyMMdd_HHmmss_fff",
+                    CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsed))
+            {
+                time = parsed;
+                reason = parts[4];
+            }
+            list.Add(new BackupInfo(path, time, reason, new FileInfo(path).Length));
+        }
+        return list.OrderByDescending(b => b.Time).ToList();
+    }
+
+    /// <summary>在 Backups\ 存一份目前全部資料的完整備份，只保留最近的幾份。</summary>
+    public string CreateSafetyFullBackup(string reason)
+    {
+        Directory.CreateDirectory(Paths.BackupDir);
+        var stamp = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff", CultureInfo.InvariantCulture);
+        var path = Path.Combine(Paths.BackupDir, $"full_{stamp}_{reason}.zip");
+        var tmp = path + ".tmp";
+        using (var fs = new FileStream(tmp, FileMode.Create, FileAccess.Write, FileShare.None))
+        {
+            FullBackup.Write(this, fs);
+            fs.Flush(flushToDisk: true);
+        }
+        File.Move(tmp, path);
+        foreach (var old in Directory.GetFiles(Paths.BackupDir, "full_*.zip").OrderDescending(StringComparer.Ordinal).Skip(MaxSafetyFullBackups))
+        {
+            try { File.Delete(old); } catch { /* 刪不掉就留著 */ }
+        }
+        return path;
+    }
 
     // ── 方案 ───────────────────────────────────────────────
 

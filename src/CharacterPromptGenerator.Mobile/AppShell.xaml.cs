@@ -8,10 +8,21 @@ public partial class AppShell : Shell
 {
     IReadOnlyList<string>? _loadMessages;
 
+    // 切換介面語言時會重建 Shell；路由只能註冊一次
+    static AppShell()
+    {
+        Routing.RegisterRoute(DrawSettingsPage.Route, typeof(DrawSettingsPage));
+        Routing.RegisterRoute(EntriesPage.Route, typeof(EntriesPage));
+        Routing.RegisterRoute(EntryEditPage.Route, typeof(EntryEditPage));
+        Routing.RegisterRoute(BulkAddPage.Route, typeof(BulkAddPage));
+        Routing.RegisterRoute(CategoryEditPage.Route, typeof(CategoryEditPage));
+        Routing.RegisterRoute(ImportPreviewPage.Route, typeof(ImportPreviewPage));
+        Routing.RegisterRoute(BackupsPage.Route, typeof(BackupsPage));
+    }
+
     public AppShell(IReadOnlyList<string> loadMessages)
     {
         InitializeComponent();
-        Routing.RegisterRoute(DrawSettingsPage.Route, typeof(DrawSettingsPage));
         _loadMessages = loadMessages.Count > 0 ? loadMessages : null;
     }
 

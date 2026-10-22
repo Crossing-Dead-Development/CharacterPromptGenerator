@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="CharacterPromptGenerator.Mobile.Views.BulkAddPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:l="clr-namespace:CharacterPromptGenerator.Mobile.Infrastructure"
+             xmlns:vm="clr-namespace:CharacterPromptGenerator.Mobile.ViewModels"
+             x:DataType="vm:BulkAddViewModel"
+             Title="{l:T Bulk_WindowTitle}">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="16,8,16,16" RowSpacing="8">
+        <VerticalStackLayout Spacing="4">
+            <Label Text="{Binding CategoryText}" FontAttributes="Bold" />
+            <Label Text="{l:T Bulk_Hint}" Style="{StaticResource Muted}" LineBreakMode="WordWrap" />
+        </VerticalStackLayout>
+
+        <Editor Grid.Row="1" Text="{Binding Input}" />
+
+        <VerticalStackLayout Grid.Row="2" Spacing="6">
+            <Label Text="{Binding PreviewText}" FontAttributes="Bold" />
+            <Label Text="{Binding DuplicateText}" IsVisible="{Binding HasDuplicates}" TextColor="{StaticResource Warning}"
+                   FontSize="13" LineBreakMode="WordWrap" />
+            <Button Text="{Binding AddText}" Command="{Binding AddCommand}" Style="{StaticResource PrimaryButton}" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

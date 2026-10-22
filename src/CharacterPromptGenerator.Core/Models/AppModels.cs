@@ -66,6 +66,8 @@ public sealed class AppSettings
     public int HistoryLimit { get; set; } = 300;
     /// <summary>介面語言（zh-TW／en）；null 表示跟隨 Windows 顯示語言。</summary>
     public string? Language { get; set; }
+    /// <summary>最近一次把完整備份匯出到 App 以外的時間（行動版用來提醒使用者）。</summary>
+    public DateTime? LastFullBackupAt { get; set; }
 }
 
 public sealed class DrawSetting

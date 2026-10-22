@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="CharacterPromptGenerator.Mobile.Views.BackupsPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:l="clr-namespace:CharacterPromptGenerator.Mobile.Infrastructure"
+             xmlns:vm="clr-namespace:CharacterPromptGenerator.Mobile.ViewModels"
+             x:DataType="vm:BackupsViewModel"
+             Title="{l:T Mobile_InternalBackups}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{l:T Data_BackupNow}" Command="{Binding BackupNowCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <CollectionView ItemsSource="{Binding Items}" Margin="12,0">
+        <CollectionView.Header>
+            <VerticalStackLayout Padding="0,12,0,8" Spacing="6">
+                <Label Text="{l:T Data_BackupsHint}" Style="{StaticResource Muted}" LineBreakMode="WordWrap" />
+                <Label Text="{l:T Mobile_TapToRestore}" Style="{StaticResource Muted}" />
+            </VerticalStackLayout>
+        </CollectionView.Header>
+        <CollectionView.EmptyView>
+            <Label Text="{l:T Mobile_NoBackups}" Style="{StaticResource Muted}" HorizontalTextAlignment="Center" Margin="0,40" />
+        </CollectionView.EmptyView>
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="vm:BackupRow">
+                <Border Style="{StaticResource Card}" Margin="0,0,0,8">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackupTapped" />
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="{Binding TimeText}" FontAttributes="Bold" />
+                            <Label Text="{Binding ReasonText}" Style="{StaticResource Muted}" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1" Text="{Binding SizeText}" Style="{StaticResource Muted}" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

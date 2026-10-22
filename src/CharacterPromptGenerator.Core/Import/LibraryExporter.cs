@@ -42,4 +42,14 @@ public static class LibraryExporter
     /// <summary>CSV 加 BOM，讓 Excel 直接開啟時正確顯示中文與 Emoji。</summary>
     public static void ExportCsv(LibraryData lib, string path) =>
         AtomicFile.WriteAllText(path, ToCsv(lib), withBom: true, keepBak: false);
+
+    // 行動版透過系統的「儲存檔案」或分享面板寫出，只需要檔案內容，編碼規則與上面寫檔時相同
+
+    public static byte[] ToJsonBytes(LibraryData lib) => new UTF8Encoding(false).GetBytes(ToJson(lib));
+
+    public static byte[] ToCsvBytes(LibraryData lib) =>
+        [.. Encoding.UTF8.GetPreamble(), .. new UTF8Encoding(false).GetBytes(ToCsv(lib))];
+
+    /// <summary>與 Windows 版匯出時預設的檔名相同。</summary>
+    public static string SuggestedFileName(string extension, DateTime time) => $"character-prompt-library_{time:yyyyMMdd}.{extension}";
 }

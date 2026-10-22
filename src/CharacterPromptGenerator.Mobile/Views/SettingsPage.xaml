@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="CharacterPromptGenerator.Mobile.Views.SettingsPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:l="clr-namespace:CharacterPromptGenerator.Mobile.Infrastructure"
+             xmlns:vm="clr-namespace:CharacterPromptGenerator.Mobile.ViewModels"
+             x:DataType="vm:SettingsViewModel"
+             Title="{l:T Mobile_TabSettings}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="12" Spacing="12">
+
+            <!-- 詞庫：匯入與匯出 -->
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{l:T Mobile_SettingsLibrary}" Style="{StaticResource SectionTitle}" />
+                    <Label Text="{Binding Stats}" LineBreakMode="WordWrap" />
+                    <Button Text="{l:T Common_Import}" Command="{Binding ImportCommand}" Style="{StaticResource PrimaryButton}" FontSize="16" />
+                    <Label Text="{l:T Mobile_ImportFormats}" Style="{StaticResource Muted}" LineBreakMode="WordWrap" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                        <Button Text="{l:T Editor_ExportJson}" Command="{Binding ExportJsonCommand}" />
+                        <Button Grid.Column="1" Text="{l:T Common_ExportCsv}" Command="{Binding ExportCsvCommand}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- 完整備份：存到 App 以外，換機與刪除 App 時的保險 -->
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{l:T Mobile_FullBackupTitle}" Style="{StaticResource SectionTitle}" LineBreakMode="WordWrap" />
+                    <Label Text="{Binding FullBackupStatus}" FontAttributes="Bold">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding NeverBackedUp}" Value="True">
+                                <Setter Property="TextColor" Value="{StaticResource Warning}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Label Text="{l:T Mobile_FullBackupHint}" Style="{StaticResource Muted}" LineBreakMode="WordWrap" />
+                    <Button Text="{l:T Mobile_ExportFullBackup}" Command="{Binding ExportFullBackupCommand}" />
+                    <Button Text="{l:T Mobile_RestoreFullBackup}" Command="{Binding RestoreFullBackupCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- App 內的自動／手動備份 -->
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{l:T Data_BackupsTitle}" Style="{StaticResource SectionTitle}" />
+                    <Label Text="{l:T Data_BackupsHint}" Style="{StaticResource Muted}" LineBreakMode="WordWrap" />
+                    <Button Text="{Binding BackupsButtonText}" Command="{Binding OpenBackupsCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- 語言與版本 -->
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{l:T Mobile_AboutTitle}" Style="{StaticResource SectionTitle}" />
+                    <Button Text="{Binding LanguageText}" Command="{Binding ChooseLanguageCommand}" />
+                    <Label Text="{Binding AppVersionText}" Style="{StaticResource Muted}" />
+                    <Label Text="{Binding DataVersionText}" Style="{StaticResource Muted}" />
+                    <Label Text="Created by Crossing Dead." Style="{StaticResource Muted}" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -495,4 +495,58 @@ You can name a PNG image {2} and put it in the EmojiOverrides\ folder.</value></
   <data name="Mobile_Decrease" xml:space="preserve"><value>Decrease count</value></data>
   <data name="Mobile_UnexpectedError" xml:space="preserve"><value>An unexpected error occurred and the operation was cancelled:
 {0}</value></data>
+  <data name="FullBackup_NotBackup" xml:space="preserve"><value>This is not a full backup file from Character Design Prompt Generator.</value></data>
+  <data name="FullBackup_Newer" xml:space="preserve"><value>This backup was created by a newer version (format version {0}); this version supports up to {1}. Please update the app first.</value></data>
+  <data name="FullBackup_Missing" xml:space="preserve"><value>The backup is missing {0}.</value></data>
+  <data name="FullBackup_BadFile" xml:space="preserve"><value>{0} in the backup cannot be read: {1}</value></data>
+  <data name="FullBackup_TooLarge" xml:space="preserve"><value>{0} in the backup is too large (over {1} MB).</value></data>
+  <data name="Mobile_LibrarySummary" xml:space="preserve"><value>{0} categories · {1} entries ({2} can be drawn)</value></data>
+  <data name="Mobile_CategoryCount" xml:space="preserve"><value>{0} of {1} can be drawn</value></data>
+  <data name="Mobile_NoCategories" xml:space="preserve"><value>No categories yet. Tap "+ Add category" at the top right, or import a word bank file on the "Settings" tab.</value></data>
+  <data name="Mobile_AddEntry" xml:space="preserve"><value>+ Entry</value></data>
+  <data name="Mobile_CategorySettings" xml:space="preserve"><value>Category settings</value></data>
+  <data name="Mobile_Select" xml:space="preserve"><value>Select</value></data>
+  <data name="Mobile_Done" xml:space="preserve"><value>Done</value></data>
+  <data name="Mobile_SelectAllShown" xml:space="preserve"><value>Select all</value></data>
+  <data name="Mobile_ChooseTargetCategory" xml:space="preserve"><value>Move to which category?</value></data>
+  <data name="Mobile_NoEntries" xml:space="preserve"><value>No matching entries.</value></data>
+  <data name="Mobile_More" xml:space="preserve"><value>More</value></data>
+  <data name="Mobile_EmojiLabel" xml:space="preserve"><value>Emoji (optional, use the emoji keyboard)</value></data>
+  <data name="Mobile_EntryAdded" xml:space="preserve"><value>Added "{0}". You can enter the next one.</value></data>
+  <data name="Mobile_Saved" xml:space="preserve"><value>Saved.</value></data>
+  <data name="Mobile_SettingsLibrary" xml:space="preserve"><value>Word bank data</value></data>
+  <data name="Mobile_FullBackupTitle" xml:space="preserve"><value>Full backup (word bank, presets, history, settings)</value></data>
+  <data name="Mobile_FullBackupHint" xml:space="preserve"><value>A full backup is a single zip file. Save it outside the app (cloud drive, the Files app, a computer): deleting the app also deletes its data and internal backups. The zip can be restored on another phone, or unzipped for the Windows version.</value></data>
+  <data name="Mobile_ExportFullBackup" xml:space="preserve"><value>📦 Export full backup</value></data>
+  <data name="Mobile_RestoreFullBackup" xml:space="preserve"><value>↩ Restore full backup</value></data>
+  <data name="Mobile_LastFullBackup" xml:space="preserve"><value>Last full backup exported: {0:yyyy-MM-dd HH:mm}</value></data>
+  <data name="Mobile_NeverFullBackup" xml:space="preserve"><value>⚠ No full backup has been exported yet.</value></data>
+  <data name="Mobile_ConfirmRestoreFull" xml:space="preserve"><value>Replace all current data with this full backup?
+
+Backup time: {0:yyyy-MM-dd HH:mm}
+Backup contents: {1} categories, {2} entries, {3} presets, {4} history items
+Current data: {5} categories, {6} entries, {7} presets, {8} history items
+
+All current data is saved inside the app before restoring.</value></data>
+  <data name="Mobile_RestoredFull" xml:space="preserve"><value>The full backup was restored.</value></data>
+  <data name="Mobile_Exported" xml:space="preserve"><value>Exported: {0}</value></data>
+  <data name="Mobile_ExportFailed" xml:space="preserve"><value>Export failed: {0}</value></data>
+  <data name="Mobile_PickFailed" xml:space="preserve"><value>The selected file could not be read: {0}</value></data>
+  <data name="Mobile_InternalBackups" xml:space="preserve"><value>Backups inside the app</value></data>
+  <data name="Mobile_InternalBackupsCount" xml:space="preserve"><value>🗂 Backups inside the app ({0})</value></data>
+  <data name="Mobile_NoBackups" xml:space="preserve"><value>No backups yet.</value></data>
+  <data name="Mobile_BackedUp" xml:space="preserve"><value>The current word bank was backed up. Manual backups are never removed automatically.</value></data>
+  <data name="Mobile_TapToRestore" xml:space="preserve"><value>Tap a backup to restore it.</value></data>
+  <data name="Mobile_LanguageSystem" xml:space="preserve"><value>Follow system</value></data>
+  <data name="Mobile_AboutTitle" xml:space="preserve"><value>About</value></data>
+  <data name="Mobile_AppVersion" xml:space="preserve"><value>App version: {0}</value></data>
+  <data name="Mobile_DataVersion" xml:space="preserve"><value>Data format version: {0}</value></data>
+  <data name="Mobile_ImportFormats" xml:space="preserve"><value>Supports JSON (full word bank), CSV (category,text,emoji,notes,tags) and TXT ([category] + one entry per line). Imports are previewed, checked for duplicates and backed up first.</value></data>
+  <data name="Mobile_ImportOptions" xml:space="preserve"><value>Import mode</value></data>
+  <data name="Mobile_DeleteCategory" xml:space="preserve"><value>Deleting the category "{0}" also deletes its {1} entries.
+
+The word bank is backed up first; you can restore it from "Settings" → "Backups inside the app". To keep the entries, select them in the entry list and use "Move to category" first.
+
+Delete it?</value></data>
+  <data name="Mobile_FullBackupReason" xml:space="preserve"><value>📦 All data ({0})</value></data>
 </root>

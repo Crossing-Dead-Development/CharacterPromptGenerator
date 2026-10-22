@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="CharacterPromptGenerator.Mobile.Views.EntriesPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:l="clr-namespace:CharacterPromptGenerator.Mobile.Infrastructure"
+             xmlns:vm="clr-namespace:CharacterPromptGenerator.Mobile.ViewModels"
+             x:DataType="vm:EntriesViewModel"
+             Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{l:T Mobile_AddEntry}" Command="{Binding AddEntryCommand}" />
+        <ToolbarItem Text="{Binding SelectButtonText}" Command="{Binding ToggleSelectModeCommand}" />
+        <ToolbarItem Text="{l:T Mobile_More}" Command="{Binding MoreCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <VerticalStackLayout Padding="12,10,12,4" Spacing="8">
+            <SearchBar Text="{Binding Search}" Placeholder="{l:T Editor_SearchName}" />
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                <Button Text="{l:T Editor_FilterAll}" Style="{StaticResource Segment}"
+                        Command="{Binding SetStatusCommand}" CommandParameter="All">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsAll}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource AccentSoft}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Accent}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Grid.Column="1" Text="{l:T Editor_FilterEnabled}" Style="{StaticResource Segment}"
+                        Command="{Binding SetStatusCommand}" CommandParameter="Enabled">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsEnabledOnly}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource AccentSoft}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Accent}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Grid.Column="2" Text="{l:T Editor_FilterDisabled}" Style="{StaticResource Segment}"
+                        Command="{Binding SetStatusCommand}" CommandParameter="Disabled">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsDisabledOnly}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource AccentSoft}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Accent}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
+            <Label Text="{Binding CountSummary}" Style="{StaticResource Muted}" />
+        </VerticalStackLayout>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Items}" Margin="12,0">
+            <CollectionView.EmptyView>
+                <Label Text="{l:T Mobile_NoEntries}" Style="{StaticResource Muted}" HorizontalTextAlignment="Center" Margin="0,40" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:EntryItem">
+                    <Border BackgroundColor="{StaticResource BgCard}" Stroke="{StaticResource BorderColor}" StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12" Padding="12,10" Margin="0,0,0,6">
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                <Setter Property="Stroke" Value="{StaticResource Accent}" />
+                                <Setter Property="BackgroundColor" Value="{StaticResource AccentSoft}" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnEntryTapped" />
+                        </Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="10" Opacity="{Binding Opacity}">
+                            <Label Text="{Binding SelectGlyph}" FontSize="22" VerticalOptions="Center"
+                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:EntriesViewModel}}, Path=SelectMode, x:DataType=vm:EntriesViewModel}" />
+                            <Label Grid.Column="1" Text="{Binding Emoji}" IsVisible="{Binding HasEmoji}" FontSize="26" VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="1">
+                                <Label Text="{Binding Text}" FontSize="16" FontAttributes="Bold" LineBreakMode="WordWrap" />
+                                <Label Text="{Binding CategoryName}" IsVisible="{Binding ShowCategory}" Style="{StaticResource Muted}" />
+                                <Label Text="{Binding Notes}" IsVisible="{Binding HasNotes}" Style="{StaticResource Muted}" LineBreakMode="WordWrap" />
+                                <Label Text="{Binding TagsText}" IsVisible="{Binding HasTags}" FontSize="12"
+                                       TextColor="{StaticResource Accent}" LineBreakMode="WordWrap" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="3" Text="{Binding StatusText}" IsVisible="{Binding HasStatus}"
+                                   FontSize="12" TextColor="{StaticResource Warning}" VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- 多選時的批次操作 -->
+        <Border Grid.Row="2" IsVisible="{Binding SelectMode}" BackgroundColor="{StaticResource BgBar}" StrokeThickness="0" Padding="12,8,12,12">
+            <VerticalStackLayout Spacing="8">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="{Binding SelectionText}" VerticalOptions="Center" />
+                    <Button Grid.Column="1" Text="{l:T Mobile_SelectAllShown}" Style="{StaticResource Segment}"
+                            Command="{Binding SelectAllShownCommand}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="6" IsEnabled="{Binding HasSelection}">
+                    <Button Text="{l:T Editor_Enable}" Style="{StaticResource Segment}" Command="{Binding EnableSelectedCommand}" />
+                    <Button Grid.Column="1" Text="{l:T Editor_Disable}" Style="{StaticResource Segment}" Command="{Binding DisableSelectedCommand}" />
+                    <Button Grid.Column="2" Text="{l:T Editor_Move}" Style="{StaticResource Segment}" Command="{Binding MoveSelectedCommand}" />
+                    <Button Grid.Column="3" Text="{l:T Common_Delete}" Style="{StaticResource DangerButton}" FontSize="13" Padding="6,4"
+                            Command="{Binding DeleteSelectedCommand}" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+</ContentPage>

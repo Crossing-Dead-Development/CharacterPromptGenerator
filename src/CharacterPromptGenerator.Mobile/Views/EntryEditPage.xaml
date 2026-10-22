@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="CharacterPromptGenerator.Mobile.Views.EntryEditPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:l="clr-namespace:CharacterPromptGenerator.Mobile.Infrastructure"
+             xmlns:vm="clr-namespace:CharacterPromptGenerator.Mobile.ViewModels"
+             x:DataType="vm:EntryEditViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16,8,16,24" Spacing="4">
+
+            <Label Text="{l:T Common_Category}" Style="{StaticResource FieldLabel}" />
+            <Picker ItemsSource="{Binding CategoryNames}" SelectedIndex="{Binding CategoryIndex}" />
+
+            <Label Text="{l:T Editor_TextLabel}" Style="{StaticResource FieldLabel}" />
+            <Entry Text="{Binding Text}" ReturnType="Next" />
+            <Label Text="{Binding DuplicateWarning}" IsVisible="{Binding HasDuplicate}" TextColor="{StaticResource Warning}"
+                   FontSize="13" LineBreakMode="WordWrap" />
+
+            <Label Text="{l:T Mobile_EmojiLabel}" Style="{StaticResource FieldLabel}" />
+            <Entry Text="{Binding Emoji}" FontSize="24" />
+
+            <Label Text="{l:T Common_Notes}" Style="{StaticResource FieldLabel}" />
+            <Editor Text="{Binding Notes}" AutoSize="TextChanges" MinimumHeightRequest="48" />
+
+            <Label Text="{l:T Editor_TagsLabel}" Style="{StaticResource FieldLabel}" />
+            <Entry Text="{Binding Tags}" />
+
+            <Grid ColumnDefinitions="*,Auto" Margin="0,12,0,0">
+                <Label Text="{l:T Editor_EnabledCheck}" VerticalOptions="Center" />
+                <Switch Grid.Column="1" IsToggled="{Binding Enabled}" />
+            </Grid>
+
+            <Button Text="{Binding SaveText}" Command="{Binding SaveCommand}" Style="{StaticResource PrimaryButton}" Margin="0,16,0,0" />
+            <Button Text="{l:T Common_Delete}" Command="{Binding DeleteCommand}" IsVisible="{Binding IsEditing}"
+                    Style="{StaticResource DangerButton}" Margin="0,8,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

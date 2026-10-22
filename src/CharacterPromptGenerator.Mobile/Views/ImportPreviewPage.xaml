@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="CharacterPromptGenerator.Mobile.Views.ImportPreviewPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:l="clr-namespace:CharacterPromptGenerator.Mobile.Infrastructure"
+             xmlns:vm="clr-namespace:CharacterPromptGenerator.Mobile.ViewModels"
+             x:DataType="vm:ImportPreviewViewModel"
+             Title="{l:T Import_WindowTitle}">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <VerticalStackLayout Padding="12,10,12,4" Spacing="8">
+            <Label Text="{Binding FileName}" FontAttributes="Bold" LineBreakMode="CharacterWrap" />
+            <Label Text="{Binding FormatText}" Style="{StaticResource Muted}" LineBreakMode="WordWrap" />
+
+            <!-- 整份檔案無法使用 -->
+            <Border IsVisible="{Binding IsFatal}" BackgroundColor="{StaticResource WarningSoft}" Stroke="{StaticResource Danger}"
+                    StrokeShape="RoundRectangle 12" Padding="12,10">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{l:T Import_Fatal}" TextColor="{StaticResource Danger}" FontAttributes="Bold" LineBreakMode="WordWrap" />
+                    <Label Text="{Binding FatalError}" LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- 匯入方式 -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="8" IsVisible="{Binding IsNotFatal}">
+                <Button Text="{l:T Import_Merge}" Style="{StaticResource Segment}" LineBreakMode="WordWrap" Command="{Binding UseMergeCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsMerge}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource AccentSoft}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Accent}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Grid.Column="1" Text="{l:T Import_Replace}" Style="{StaticResource Segment}" LineBreakMode="WordWrap" Command="{Binding UseReplaceCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsReplace}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource WarningSoft}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Danger}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
+            <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding ShowNewCategoryOption}">
+                <Label Text="{l:T Import_AllowNewCategories}" Style="{StaticResource Muted}" LineBreakMode="WordWrap" VerticalOptions="Center" />
+                <Switch Grid.Column="1" IsToggled="{Binding AllowNewCategories}" />
+            </Grid>
+
+            <Label Text="{Binding ReplaceWarning}" IsVisible="{Binding HasReplaceWarning}" TextColor="{StaticResource Danger}" LineBreakMode="WordWrap" />
+            <Label Text="{Binding SummaryText}" LineBreakMode="WordWrap" />
+            <Label Text="{Binding BlockReason}" IsVisible="{Binding HasBlockReason}" TextColor="{StaticResource Warning}" LineBreakMode="WordWrap" />
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource Accent}" />
+
+            <!-- 明細分頁 -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="6" RowSpacing="6" IsVisible="{Binding IsNotFatal}">
+                <Button Text="{Binding AddedHeader}" Style="{StaticResource Segment}" Command="{Binding SetTabCommand}" CommandParameter="1">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsTab1}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource AccentSoft}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Accent}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Grid.Column="1" Text="{Binding NewCategoriesHeader}" Style="{StaticResource Segment}" Command="{Binding SetTabCommand}" CommandParameter="0">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsTab0}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource AccentSoft}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Accent}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Grid.Row="1" Text="{Binding SkippedHeader}" Style="{StaticResource Segment}" Command="{Binding SetTabCommand}" CommandParameter="2">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsTab2}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource AccentSoft}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Accent}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Grid.Row="1" Grid.Column="1" Text="{Binding ProblemsHeader}" Style="{StaticResource Segment}" Command="{Binding SetTabCommand}" CommandParameter="3">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsTab3}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource AccentSoft}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Accent}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
+        </VerticalStackLayout>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Lines}" Margin="12,4">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <Label Text="{Binding .}" FontSize="14" Padding="0,5" LineBreakMode="WordWrap" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Border Grid.Row="2" BackgroundColor="{StaticResource BgBar}" StrokeThickness="0" Padding="12,10,12,12">
+            <Button Text="{l:T Import_Apply}" Command="{Binding ApplyCommand}" Style="{StaticResource PrimaryButton}" />
+        </Border>
+    </Grid>
+</ContentPage>

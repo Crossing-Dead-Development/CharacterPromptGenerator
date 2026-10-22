@@ -495,4 +495,58 @@ Emoji 目前以「?」替代圖示顯示。</value></data>
   <data name="Mobile_Decrease" xml:space="preserve"><value>減少數量</value></data>
   <data name="Mobile_UnexpectedError" xml:space="preserve"><value>發生未預期的錯誤，操作已取消：
 {0}</value></data>
+  <data name="FullBackup_NotBackup" xml:space="preserve"><value>這不是角色設計題目產生器的完整備份檔。</value></data>
+  <data name="FullBackup_Newer" xml:space="preserve"><value>這份備份由較新版本的程式建立（格式版本 {0}），目前版本只支援到 {1}。請先更新 App。</value></data>
+  <data name="FullBackup_Missing" xml:space="preserve"><value>備份檔中缺少 {0}。</value></data>
+  <data name="FullBackup_BadFile" xml:space="preserve"><value>備份檔中的 {0} 無法讀取：{1}</value></data>
+  <data name="FullBackup_TooLarge" xml:space="preserve"><value>備份檔中的 {0} 太大（超過 {1} MB）。</value></data>
+  <data name="Mobile_LibrarySummary" xml:space="preserve"><value>{0} 個分類 · {1} 筆詞條（可抽 {2} 筆）</value></data>
+  <data name="Mobile_CategoryCount" xml:space="preserve"><value>可抽 {0} / 共 {1}</value></data>
+  <data name="Mobile_NoCategories" xml:space="preserve"><value>還沒有任何分類。按右上角「＋ 新增分類」，或到「設定」匯入詞庫檔。</value></data>
+  <data name="Mobile_AddEntry" xml:space="preserve"><value>＋ 詞條</value></data>
+  <data name="Mobile_CategorySettings" xml:space="preserve"><value>分類設定</value></data>
+  <data name="Mobile_Select" xml:space="preserve"><value>選取</value></data>
+  <data name="Mobile_Done" xml:space="preserve"><value>完成</value></data>
+  <data name="Mobile_SelectAllShown" xml:space="preserve"><value>全選</value></data>
+  <data name="Mobile_ChooseTargetCategory" xml:space="preserve"><value>移到哪個分類？</value></data>
+  <data name="Mobile_NoEntries" xml:space="preserve"><value>沒有符合條件的詞條。</value></data>
+  <data name="Mobile_More" xml:space="preserve"><value>更多</value></data>
+  <data name="Mobile_EmojiLabel" xml:space="preserve"><value>Emoji（選填，可以用鍵盤的表情符號輸入）</value></data>
+  <data name="Mobile_EntryAdded" xml:space="preserve"><value>已新增「{0}」，可以繼續輸入下一筆。</value></data>
+  <data name="Mobile_Saved" xml:space="preserve"><value>已儲存。</value></data>
+  <data name="Mobile_SettingsLibrary" xml:space="preserve"><value>詞庫資料</value></data>
+  <data name="Mobile_FullBackupTitle" xml:space="preserve"><value>完整備份（詞庫、方案、歷史、設定）</value></data>
+  <data name="Mobile_FullBackupHint" xml:space="preserve"><value>完整備份是一個 zip 檔。請存到 App 以外的地方（雲端硬碟、「檔案」App、電腦）：刪除 App 時，App 內的資料與備份會一起消失。這個 zip 可以在其他手機還原，也可以在 Windows 版解壓縮使用。</value></data>
+  <data name="Mobile_ExportFullBackup" xml:space="preserve"><value>📦 匯出完整備份</value></data>
+  <data name="Mobile_RestoreFullBackup" xml:space="preserve"><value>↩ 從完整備份還原</value></data>
+  <data name="Mobile_LastFullBackup" xml:space="preserve"><value>上次匯出完整備份：{0:yyyy-MM-dd HH:mm}</value></data>
+  <data name="Mobile_NeverFullBackup" xml:space="preserve"><value>⚠ 還沒有匯出過完整備份。</value></data>
+  <data name="Mobile_ConfirmRestoreFull" xml:space="preserve"><value>用這份完整備份取代目前的全部資料？
+
+備份時間：{0:yyyy-MM-dd HH:mm}
+備份內容：{1} 個分類、{2} 筆詞條、{3} 組方案、{4} 筆歷史
+目前資料：{5} 個分類、{6} 筆詞條、{7} 組方案、{8} 筆歷史
+
+還原前會先把目前的全部資料另存一份在 App 內。</value></data>
+  <data name="Mobile_RestoredFull" xml:space="preserve"><value>已還原完整備份。</value></data>
+  <data name="Mobile_Exported" xml:space="preserve"><value>已匯出：{0}</value></data>
+  <data name="Mobile_ExportFailed" xml:space="preserve"><value>匯出失敗：{0}</value></data>
+  <data name="Mobile_PickFailed" xml:space="preserve"><value>無法讀取選擇的檔案：{0}</value></data>
+  <data name="Mobile_InternalBackups" xml:space="preserve"><value>App 內的備份</value></data>
+  <data name="Mobile_InternalBackupsCount" xml:space="preserve"><value>🗂 App 內的備份（{0} 份）</value></data>
+  <data name="Mobile_NoBackups" xml:space="preserve"><value>還沒有任何備份。</value></data>
+  <data name="Mobile_BackedUp" xml:space="preserve"><value>已備份目前詞庫。手動備份不會被自動清除。</value></data>
+  <data name="Mobile_TapToRestore" xml:space="preserve"><value>點一下備份即可還原。</value></data>
+  <data name="Mobile_LanguageSystem" xml:space="preserve"><value>跟隨系統</value></data>
+  <data name="Mobile_AboutTitle" xml:space="preserve"><value>關於</value></data>
+  <data name="Mobile_AppVersion" xml:space="preserve"><value>App 版本：{0}</value></data>
+  <data name="Mobile_DataVersion" xml:space="preserve"><value>資料格式版本：{0}</value></data>
+  <data name="Mobile_ImportFormats" xml:space="preserve"><value>支援 JSON（完整詞庫）、CSV（category,text,emoji,notes,tags）、TXT（[分類] + 每行一個詞條）。匯入前會先預覽、檢查重複，並自動備份。</value></data>
+  <data name="Mobile_ImportOptions" xml:space="preserve"><value>匯入方式</value></data>
+  <data name="Mobile_DeleteCategory" xml:space="preserve"><value>刪除分類「{0}」會一併刪除其中的 {1} 筆詞條。
+
+刪除前會自動備份，必要時可以在「設定」→「App 內的備份」還原。若想保留詞條，請先在詞條列表選取並「移到分類」。
+
+確定要刪除嗎？</value></data>
+  <data name="Mobile_FullBackupReason" xml:space="preserve"><value>📦 全部資料（{0}）</value></data>
 </root>

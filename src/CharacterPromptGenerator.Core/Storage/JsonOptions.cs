@@ -13,6 +13,7 @@ namespace CharacterPromptGenerator.Core.Storage;
 [JsonSerializable(typeof(PresetFile))]
 [JsonSerializable(typeof(AppSettings))]
 [JsonSerializable(typeof(HistoryFile))]
+[JsonSerializable(typeof(BackupManifest))]
 internal sealed partial class CoreJsonContext : JsonSerializerContext;
 
 public static class JsonOptions

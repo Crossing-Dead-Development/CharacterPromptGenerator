@@ -49,8 +49,10 @@ public sealed partial class DrawViewModel : ObservableObject
     public DrawViewModel(AppServices app)
     {
         _app = app;
-        _app.Store.LibraryChanged += (_, _) => MainThread.BeginInvokeOnMainThread(Refresh);
+        app.DataChanged += OnDataChanged;
     }
+
+    void OnDataChanged(object? sender, EventArgs e) => Refresh();
 
     DrawSession Draw => _app.Draw;
 

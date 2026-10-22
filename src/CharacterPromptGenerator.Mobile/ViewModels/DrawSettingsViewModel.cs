@@ -74,8 +74,18 @@ public sealed partial class CategoryRowViewModel : ObservableObject
 }
 
 /// <summary>抽題設定頁：方案的選擇與管理，以及每個分類的開關與數量。修改後立即存檔。</summary>
-public sealed partial class DrawSettingsViewModel(AppServices app) : ObservableObject
+public sealed partial class DrawSettingsViewModel : ObservableObject
 {
+    readonly AppServices app;
+
+    public DrawSettingsViewModel(AppServices app)
+    {
+        this.app = app;
+        app.DataChanged += OnDataChanged;
+    }
+
+    void OnDataChanged(object? sender, EventArgs e) => Load();
+
     bool _loading;
 
     public ObservableCollection<CategoryRowViewModel> Rows { get; } = new();

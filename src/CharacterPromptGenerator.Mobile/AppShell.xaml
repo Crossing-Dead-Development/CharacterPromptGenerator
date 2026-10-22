@@ -10,11 +10,11 @@
         <ShellContent Title="{l:T Mobile_TabDraw}" Route="draw"
                       ContentTemplate="{DataTemplate views:DrawPage}" />
         <ShellContent Title="{l:T Mobile_TabLibrary}" Route="library"
-                      ContentTemplate="{DataTemplate views:ComingSoonPage}" />
+                      ContentTemplate="{DataTemplate views:LibraryPage}" />
         <ShellContent Title="{l:T Mobile_TabHistory}" Route="history"
                       ContentTemplate="{DataTemplate views:ComingSoonPage}" />
         <ShellContent Title="{l:T Mobile_TabSettings}" Route="settings"
-                      ContentTemplate="{DataTemplate views:ComingSoonPage}" />
+                      ContentTemplate="{DataTemplate views:SettingsPage}" />
     </TabBar>
 
 </Shell>

@@ -20,6 +20,10 @@ public static class Dialogs
     public static Task<string?> Prompt(string title, string label, string initial = "") =>
         Page.DisplayPromptAsync(title, label, L.T("Common_Ok"), L.T("Common_Cancel"), initialValue: initial, maxLength: 200);
 
+    /// <summary>不打斷操作的短提示（已儲存、已複製…）。</summary>
+    public static Task Toast(string message) =>
+        CommunityToolkit.Maui.Alerts.Toast.Make(message, CommunityToolkit.Maui.Core.ToastDuration.Long).Show();
+
     /// <summary>從清單選一項；取消時回傳 -1。</summary>
     public static async Task<int> Choose(string title, IReadOnlyList<string> options)
     {
