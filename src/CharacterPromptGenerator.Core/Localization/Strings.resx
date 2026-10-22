@@ -470,4 +470,29 @@ Emoji 目前以「?」替代圖示顯示。</value></data>
   <data name="Draw_EmptyHint" xml:space="preserve"><value>先匯入詞庫檔（CSV／JSON／TXT）再開始抽題。可以到 GitHub Release 下載現成的詞庫，或用「詞庫管理」自己新增。</value></data>
   <data name="Data_Licenses" xml:space="preserve"><value>📄 第三方授權</value></data>
   <data name="Data_LicensesTitle" xml:space="preserve"><value>第三方授權</value></data>
+  <data name="Mobile_AppName" xml:space="preserve"><value>角色設計題目</value></data>
+  <data name="Mobile_TabDraw" xml:space="preserve"><value>抽題</value></data>
+  <data name="Mobile_TabLibrary" xml:space="preserve"><value>詞庫</value></data>
+  <data name="Mobile_TabHistory" xml:space="preserve"><value>歷史</value></data>
+  <data name="Mobile_TabSettings" xml:space="preserve"><value>設定</value></data>
+  <data name="Mobile_ComingSoon" xml:space="preserve"><value>這個分頁的功能會在下一個開發階段完成。</value></data>
+  <data name="Mobile_NoPreset" xml:space="preserve"><value>未選擇方案</value></data>
+  <data name="Mobile_PresetLabel" xml:space="preserve"><value>方案：{0}</value></data>
+  <data name="Mobile_DrawSettings" xml:space="preserve"><value>⚙ 抽題設定</value></data>
+  <data name="Mobile_DrawSettingsTitle" xml:space="preserve"><value>抽題設定</value></data>
+  <data name="Mobile_ChoosePreset" xml:space="preserve"><value>選擇方案</value></data>
+  <data name="Mobile_PresetActions" xml:space="preserve"><value>方案操作</value></data>
+  <data name="Mobile_NoPresetsYet" xml:space="preserve"><value>還沒有任何方案。調整好下方的分類與數量後，按「另存新方案」。</value></data>
+  <data name="Mobile_OverwritePreset" xml:space="preserve"><value>用目前的分類設定覆寫方案「{0}」？</value></data>
+  <data name="Mobile_ResetDefaults" xml:space="preserve"><value>恢復預設</value></data>
+  <data name="Mobile_ConfirmReset" xml:space="preserve"><value>把所有分類恢復成詞庫中的預設抽取數量？目前的方案會取消選取（方案本身不會被刪除）。</value></data>
+  <data name="Mobile_StatusEmpty" xml:space="preserve"><value>尚未抽題。按下方「產生角色題目」開始；要調整分類與數量，請按右上角的「抽題設定」。</value></data>
+  <data name="Mobile_EmptyHint" xml:space="preserve"><value>先匯入詞庫檔（CSV／JSON／TXT）再開始抽題，也可以在「詞庫」分頁自己新增詞條。</value></data>
+  <data name="Mobile_TapToLock" xml:space="preserve"><value>點一下項目即可鎖定或解除鎖定。</value></data>
+  <data name="Mobile_Locked" xml:space="preserve"><value>已鎖定</value></data>
+  <data name="Mobile_Unlocked" xml:space="preserve"><value>未鎖定</value></data>
+  <data name="Mobile_Increase" xml:space="preserve"><value>增加數量</value></data>
+  <data name="Mobile_Decrease" xml:space="preserve"><value>減少數量</value></data>
+  <data name="Mobile_UnexpectedError" xml:space="preserve"><value>發生未預期的錯誤，操作已取消：
+{0}</value></data>
 </root>

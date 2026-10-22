@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="CharacterPromptGenerator.Mobile.Views.DrawSettingsPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:l="clr-namespace:CharacterPromptGenerator.Mobile.Infrastructure"
+             xmlns:vm="clr-namespace:CharacterPromptGenerator.Mobile.ViewModels"
+             x:DataType="vm:DrawSettingsViewModel"
+             Title="{l:T Mobile_DrawSettingsTitle}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="12" Spacing="12">
+
+            <!-- 方案 -->
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{l:T Draw_PresetsTitle}" Style="{StaticResource SectionTitle}" />
+                    <Label Text="{Binding PresetText}" FontSize="17" FontAttributes="Bold" LineBreakMode="WordWrap" />
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                        <Button Text="{l:T Mobile_ChoosePreset}" Command="{Binding ChoosePresetCommand}" />
+                        <Button Grid.Column="1" Text="{l:T Draw_SaveAs}" Command="{Binding SavePresetAsCommand}" />
+                        <Button Grid.Column="2" Text="{l:T Mobile_PresetActions}" Command="{Binding PresetActionsCommand}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- 分類與數量 -->
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="{l:T Draw_CategoriesTitle}" Style="{StaticResource SectionTitle}" VerticalOptions="Center" />
+                        <Label Grid.Column="1" Text="{Binding SelectionSummary}" Style="{StaticResource Muted}" VerticalOptions="Center" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                        <Button Text="{l:T Draw_CheckAll}" Command="{Binding CheckAllCommand}" />
+                        <Button Grid.Column="1" Text="{l:T Draw_CheckNone}" Command="{Binding CheckNoneCommand}" />
+                        <Button Grid.Column="2" Text="{l:T Mobile_ResetDefaults}" Command="{Binding ResetDefaultsCommand}" />
+                    </Grid>
+
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Rows}" Spacing="0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:CategoryRowViewModel">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" Padding="0,6">
+                                    <Switch IsToggled="{Binding IsChecked}" VerticalOptions="Center"
+                                            SemanticProperties.Description="{Binding Name}" />
+                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="1">
+                                        <Label Text="{Binding Name}" FontSize="16" LineBreakMode="WordWrap" />
+                                        <Label Text="{Binding Description}" IsVisible="{Binding HasDescription}"
+                                               Style="{StaticResource Muted}" LineBreakMode="WordWrap" />
+                                        <Label Text="{Binding AvailabilityText}" Style="{StaticResource Muted}">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsShort}" Value="True">
+                                                    <Setter Property="TextColor" Value="{StaticResource Warning}" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </VerticalStackLayout>
+                                    <HorizontalStackLayout Grid.Column="2" Spacing="4" VerticalOptions="Center">
+                                        <Button Text="−" WidthRequest="44" Padding="0" FontSize="20"
+                                                Command="{Binding DecreaseCommand}"
+                                                SemanticProperties.Description="{l:T Mobile_Decrease}" />
+                                        <Label Text="{Binding Count}" WidthRequest="34" FontSize="18" FontAttributes="Bold"
+                                               HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                                        <Button Text="+" WidthRequest="44" Padding="0" FontSize="20"
+                                                Command="{Binding IncreaseCommand}"
+                                                SemanticProperties.Description="{l:T Mobile_Increase}" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

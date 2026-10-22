@@ -470,4 +470,29 @@ You can name a PNG image {2} and put it in the EmojiOverrides\ folder.</value></
   <data name="Draw_EmptyHint" xml:space="preserve"><value>Import a word bank file (CSV / JSON / TXT) to start rolling. You can download a ready-made word bank from the GitHub Release, or add your own on the "Word bank" page.</value></data>
   <data name="Data_Licenses" xml:space="preserve"><value>📄 Third-party licenses</value></data>
   <data name="Data_LicensesTitle" xml:space="preserve"><value>Third-party licenses</value></data>
+  <data name="Mobile_AppName" xml:space="preserve"><value>Character Prompts</value></data>
+  <data name="Mobile_TabDraw" xml:space="preserve"><value>Roll</value></data>
+  <data name="Mobile_TabLibrary" xml:space="preserve"><value>Word bank</value></data>
+  <data name="Mobile_TabHistory" xml:space="preserve"><value>History</value></data>
+  <data name="Mobile_TabSettings" xml:space="preserve"><value>Settings</value></data>
+  <data name="Mobile_ComingSoon" xml:space="preserve"><value>This tab will be completed in the next development phase.</value></data>
+  <data name="Mobile_NoPreset" xml:space="preserve"><value>No preset selected</value></data>
+  <data name="Mobile_PresetLabel" xml:space="preserve"><value>Preset: {0}</value></data>
+  <data name="Mobile_DrawSettings" xml:space="preserve"><value>⚙ Roll settings</value></data>
+  <data name="Mobile_DrawSettingsTitle" xml:space="preserve"><value>Roll settings</value></data>
+  <data name="Mobile_ChoosePreset" xml:space="preserve"><value>Choose preset</value></data>
+  <data name="Mobile_PresetActions" xml:space="preserve"><value>Preset actions</value></data>
+  <data name="Mobile_NoPresetsYet" xml:space="preserve"><value>No presets yet. Adjust the categories and counts below, then tap "Save as new".</value></data>
+  <data name="Mobile_OverwritePreset" xml:space="preserve"><value>Overwrite preset "{0}" with the current category settings?</value></data>
+  <data name="Mobile_ResetDefaults" xml:space="preserve"><value>Reset to defaults</value></data>
+  <data name="Mobile_ConfirmReset" xml:space="preserve"><value>Reset every category to its default count from the word bank? The current preset will be deselected (the preset itself is kept).</value></data>
+  <data name="Mobile_StatusEmpty" xml:space="preserve"><value>Nothing rolled yet. Tap "Generate prompt" below. To change categories and counts, tap "Roll settings" at the top right.</value></data>
+  <data name="Mobile_EmptyHint" xml:space="preserve"><value>Import a word bank file (CSV / JSON / TXT) to start rolling, or add your own entries on the "Word bank" tab.</value></data>
+  <data name="Mobile_TapToLock" xml:space="preserve"><value>Tap an item to lock or unlock it.</value></data>
+  <data name="Mobile_Locked" xml:space="preserve"><value>Locked</value></data>
+  <data name="Mobile_Unlocked" xml:space="preserve"><value>Unlocked</value></data>
+  <data name="Mobile_Increase" xml:space="preserve"><value>Increase count</value></data>
+  <data name="Mobile_Decrease" xml:space="preserve"><value>Decrease count</value></data>
+  <data name="Mobile_UnexpectedError" xml:space="preserve"><value>An unexpected error occurred and the operation was cancelled:
+{0}</value></data>
 </root>

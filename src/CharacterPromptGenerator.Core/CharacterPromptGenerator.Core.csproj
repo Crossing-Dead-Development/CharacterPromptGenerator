@@ -7,6 +7,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <!-- Localization\Strings.resx 是繁體中文（內嵌在主組件）；其他語言如 Strings.en.resx 會產生附屬組件 -->
     <NeutralLanguage>zh-TW</NeutralLanguage>
+    <!-- 行動版會裁剪（Android）或 AOT 編譯（iOS）：讓分析器在這裡就抓出反射等不相容的寫法 -->
+    <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
 </Project>

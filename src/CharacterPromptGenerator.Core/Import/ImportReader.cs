@@ -21,18 +21,36 @@ public static class ImportReader
         var format = DetectFormat(path);
         if (format is null)
             return ImportDocument.Fatal(ImportFormat.Txt, L.T("Reader_BadExtension"));
-        var (text, error) = TextFileLoader.Read(path);
-        var doc = error is not null
-            ? ImportDocument.Fatal(format.Value, error)
-            : format switch
-            {
-                ImportFormat.Json => ReadJson(text!),
-                ImportFormat.Csv => ReadCsv(text!),
-                _ => ReadTxt(text!),
-            };
+        var doc = Parse(format.Value, TextFileLoader.Read(path));
         doc.SourcePath = path;
         return doc;
     }
+
+    /// <summary>
+    /// 從已讀入的位元組解析（手機的檔案選擇器只給串流，不一定有實體路徑）。
+    /// 格式依 <paramref name="fileName"/> 的副檔名判斷，解碼規則與 <see cref="ReadFile"/> 相同。
+    /// </summary>
+    public static ImportDocument ReadBytes(string fileName, byte[] bytes)
+    {
+        var format = DetectFormat(fileName);
+        if (format is null)
+            return ImportDocument.Fatal(ImportFormat.Txt, L.T("Reader_BadExtension"));
+        var doc = bytes.LongLength > TextFileLoader.MaxBytes
+            ? ImportDocument.Fatal(format.Value, L.F("File_TooLarge", bytes.LongLength / 1024 / 1024))
+            : Parse(format.Value, TextFileLoader.Decode(bytes));
+        doc.SourcePath = fileName;
+        return doc;
+    }
+
+    static ImportDocument Parse(ImportFormat format, (string? Text, string? Error) loaded) =>
+        loaded.Error is not null
+            ? ImportDocument.Fatal(format, loaded.Error)
+            : format switch
+            {
+                ImportFormat.Json => ReadJson(loaded.Text!),
+                ImportFormat.Csv => ReadCsv(loaded.Text!),
+                _ => ReadTxt(loaded.Text!),
+            };
 
     // ── JSON ───────────────────────────────────────────────
 

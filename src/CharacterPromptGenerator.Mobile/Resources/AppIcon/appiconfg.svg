@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="456" height="456" viewBox="0 0 456 456" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <!-- 骰子（隨機抽題）＋ 右上的星芒（靈感）；圖形落在中央 2/3 的安全區內 -->
+    <rect x="146" y="156" width="150" height="150" rx="30" fill="#B388FF" />
+    <circle cx="186" cy="196" r="14" fill="#170A2E" />
+    <circle cx="221" cy="231" r="14" fill="#170A2E" />
+    <circle cx="256" cy="266" r="14" fill="#170A2E" />
+    <path d="M300 118 L309 143 L334 152 L309 161 L300 186 L291 161 L266 152 L291 143 Z" fill="#F4EEFF" />
+</svg>
