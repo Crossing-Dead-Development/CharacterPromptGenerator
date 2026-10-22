@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Windows;
+using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Threading;
 using CharacterPromptGenerator.App.Infrastructure;
 using CharacterPromptGenerator.App.ViewModels;
@@ -21,6 +23,7 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        ApplyLanguageFonts();
         DispatcherUnhandledException += OnDispatcherUnhandledException;
         AppDomain.CurrentDomain.UnhandledException += (_, args) => Log(args.ExceptionObject as Exception);
         TaskScheduler.UnobservedTaskException += (_, args) => { Log(args.Exception); args.SetObserved(); };
@@ -59,6 +62,18 @@ public partial class App : Application
 
         if (store.LoadMessages.Count > 0)
             Dialogs.Info(L.T("App_LoadNotes") + string.Join("\n", store.LoadMessages), L.T("App_LoadNotesTitle"));
+    }
+
+    /// <summary>
+    /// 依介面語言設定字型與 xml:lang。中日文共用的漢字字形不同（例如「直」「骨」），
+    /// 日文介面改用日文字型；Language 也會讓 WPF 的字型後援選擇對應語言的字形。
+    /// </summary>
+    void ApplyLanguageFonts()
+    {
+        FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
+            new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(L.Current)));
+        if (L.Current == L.Japanese)
+            Resources["UiFont"] = new FontFamily("Yu Gothic UI, Meiryo UI, Segoe UI, Segoe UI Emoji, Segoe UI Symbol");
     }
 
     void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

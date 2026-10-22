@@ -167,7 +167,7 @@ public sealed partial class DrawSettingsViewModel : ObservableObject
             return;
         }
         var presets = app.Presets.Presets.ToList();
-        var index = await Dialogs.Choose(L.T("Mobile_ChoosePreset"), presets.Select(p => p.Name).ToList());
+        var index = await Dialogs.Choose(L.T("Draw_PresetsTitle"), presets.Select(p => p.Name).ToList());
         if (index < 0) return;
         await app.TryAsync(() => app.Presets.Apply(presets[index].Id), L.T("What_Settings"));
         Load();

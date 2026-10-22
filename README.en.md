@@ -2,7 +2,7 @@
 
 [繁體中文](README.md) · **English**
 
-**Crossing Dead Development · v0.2.0** · UI available in English / Traditional Chinese
+**Crossing Dead Development · v0.2.0** · UI available in English / Traditional Chinese / Japanese
 
 An offline character-design prompt roller for drawing streams. It randomly draws keywords and emoji from a customizable, categorized word bank and combines them into a character-design practice prompt. You can lock results you like, reroll parts of a prompt, save your own presets, keep a history with favorites, and maintain large word banks in the app or through JSON / CSV / TXT files.
 
@@ -109,10 +109,10 @@ Emoji in roll results, the stream display, the word bank table, the entry form p
 
 ### 2.7 🌐 Interface language
 
-The interface is available in **English** and **Traditional Chinese**. Switch with **🌐 Language / 介面語言** at the bottom of the sidebar. Your choice is saved in `settings.json`, and you are asked whether to restart now (the prompt is shown in both languages). If no language has been chosen, the app uses Traditional Chinese when the Windows display language is Chinese, and English otherwise.
+The interface is available in **English**, **Traditional Chinese** and **Japanese**. Switch with **🌐 Language / 介面語言** at the bottom of the sidebar. Your choice is saved in `settings.json`, and you are asked whether to restart now (the prompt is shown in both the current and the new language). If no language has been chosen, the Windows display language decides: Chinese (Traditional or Simplified) → Traditional Chinese, Japanese → Japanese, anything else → English. The Japanese UI uses a Japanese font (Yu Gothic UI) so kanji use Japanese glyph forms.
 
-- Switching the language **changes only the interface**; it does not translate the word bank. Use the English word bank (`Character_Design_Prompt_Library_v1_EN.csv`) with the English UI.
-- UI strings live in `src\CharacterPromptGenerator.Core\Localization\Strings.resx` (Traditional Chinese) and `Strings.en.resx` (English). XAML uses `{l:T Key}`; code uses `L.T("Key")` / `L.F("Key", args)`. Unit tests check that both languages have the same keys and `{0}` placeholders, and that every key used in the source exists.
+- Switching the language **changes only the interface**; it does not translate the word bank. The release ships with an empty word bank; import one in your own language (for example `Character_Design_Prompt_Library_v1_EN.csv` with the English UI).
+- UI strings live in `src\CharacterPromptGenerator.Core\Localization\Strings.resx` (Traditional Chinese), `Strings.en.resx` (English) and `Strings.ja.resx` (Japanese). XAML uses `{l:T Key}`; code uses `L.T("Key")` / `L.F("Key", args)`. Unit tests check that all three languages have the same keys and `{0}` placeholders, and that every key used in the source exists.
 - Import formats (CSV header, TXT, JSON) do not depend on the language. CSV headers can be in English (`category,text,...`) or Chinese (`分類,詞條,...`).
 
 ---
@@ -323,7 +323,7 @@ CharacterPromptGenerator.slnx
 │  ├─ Emoji/         fluent-emoji-3d.zip, LICENSE-fluentui-emoji.txt (embedded in the EXE)
 │  └─ SeedData/      default_library.json, default_presets.json (empty defaults, embedded in the EXE)
 ├─ src/CharacterPromptGenerator.Mobile/    Android version (.NET MAUI), see docs/Android.md
-├─ tests/CharacterPromptGenerator.Tests/   xUnit tests (182, including the Core features added for mobile); Fixtures/ is the test word bank (2,111 entries)
+├─ tests/CharacterPromptGenerator.Tests/   xUnit tests (185, including the Core features added for mobile); Fixtures/ is the test word bank (2,111 entries)
 ├─ samples/                                 Sample JSON / CSV / TXT import files and broken examples
 ├─ tools/BuildEmojiPack.cs                  Tool that builds the emoji pack
 ├─ THIRD-PARTY-NOTICES.md                   Third-party license notices
@@ -362,7 +362,7 @@ Where the specification was ambiguous, the option that cannot damage data was pr
 
 ## 8. Testing
 
-### 8.1 Automated tests (`dotnet test`, all 182 pass; the 115 original Windows tests are listed below, the ones added for mobile are in [docs/Android.md](docs/Android.md#7-測試清單))
+### 8.1 Automated tests (`dotnet test`, all 185 pass; the 115 original Windows tests are listed below, the ones added for mobile are in [docs/Android.md](docs/Android.md#7-測試清單))
 
 | Area | What is verified |
 |---|---|

@@ -2,7 +2,7 @@
 
 **繁體中文** · [English](README.en.md)
 
-**Crossing Dead Development · v0.2.0** · 介面支援繁體中文／English
+**Crossing Dead Development · v0.2.0** · 介面支援繁體中文／English／日本語
 
 繪圖直播用的離線角色設計抽題工具：從可自訂的分類詞庫隨機抽出關鍵字與 Emoji，組成角色設計練習題目。可以鎖定喜歡的結果、局部重抽、自訂抽題方案、保存歷史與收藏，並透過程式介面或 JSON／CSV／TXT 檔案維護大型詞庫。
 
@@ -109,10 +109,10 @@
 
 ### 2.7 🌐 介面語言
 
-介面支援**繁體中文**與 **English**，在左側欄下方的「🌐 介面語言 / Language」切換。選擇後會存進 `settings.json`，並詢問是否立即重新啟動（提示同時以兩種語言顯示）。沒有設定過時，Windows 顯示語言是中文就用繁體中文，其他一律英文。
+介面支援**繁體中文**、**English** 與**日本語**，在左側欄下方的「🌐 介面語言 / Language」切換。選擇後會存進 `settings.json`，並詢問是否立即重新啟動（提示同時以目前與新選的語言顯示）。沒有設定過時依 Windows 的顯示語言決定：中文（繁體、簡體都算）→ 繁體中文，日文 → 日文，其他一律英文。日文介面使用日文字型（Yu Gothic UI），漢字以日本字形顯示。
 
-- 切換語言**只改變介面文字**，不會翻譯詞庫內容。英文介面請搭配英文詞庫（`Character_Design_Prompt_Library_v1_EN.csv`）。
-- 介面文字放在 `src\CharacterPromptGenerator.Core\Localization\Strings.resx`（繁中）與 `Strings.en.resx`（英文）。XAML 用 `{l:T Key}`、程式用 `L.T("Key")`／`L.F("Key", 參數)` 取用；單元測試會檢查兩種語言的 key 與 `{0}` 參數一致，且原始碼用到的每個 key 都存在。
+- 切換語言**只改變介面文字**，不會翻譯詞庫內容。發行版的預設詞庫是空的，請匯入符合自己語言的詞庫檔（例如英文介面搭配 `Character_Design_Prompt_Library_v1_EN.csv`）。
+- 介面文字放在 `src\CharacterPromptGenerator.Core\Localization\Strings.resx`（繁中）、`Strings.en.resx`（英文）與 `Strings.ja.resx`（日文）。XAML 用 `{l:T Key}`、程式用 `L.T("Key")`／`L.F("Key", 參數)` 取用；單元測試會檢查三種語言的 key 與 `{0}` 參數一致，且原始碼用到的每個 key 都存在。
 - 匯入格式（CSV 標頭、TXT、JSON）與語言無關；CSV 標頭可用英文（`category,text,...`）或中文（`分類,詞條,...`）。
 
 ---
@@ -323,7 +323,7 @@ CharacterPromptGenerator.slnx
 │  ├─ Emoji/         fluent-emoji-3d.zip、LICENSE-fluentui-emoji.txt（內嵌進 EXE）
 │  └─ SeedData/      default_library.json、default_presets.json（空白預設資料，內嵌進 EXE）
 ├─ src/CharacterPromptGenerator.Mobile/    Android 版（.NET MAUI），見 docs/Android.md
-├─ tests/CharacterPromptGenerator.Tests/   xUnit 測試（182 項，含行動版新增的 Core 功能）；Fixtures/ 是測試用詞庫（2111 筆）
+├─ tests/CharacterPromptGenerator.Tests/   xUnit 測試（185 項，含行動版新增的 Core 功能）；Fixtures/ 是測試用詞庫（2111 筆）
 ├─ samples/                                 JSON／CSV／TXT 範例匯入檔與錯誤範例
 ├─ tools/BuildEmojiPack.cs                  產生 Emoji 圖庫的工具
 ├─ THIRD-PARTY-NOTICES.md                   第三方素材授權聲明
@@ -362,7 +362,7 @@ CharacterPromptGenerator.slnx
 
 ## 8. 測試狀況
 
-### 8.1 自動化測試（`dotnet test`，182 項全部通過；以下是 Windows 版原有的 115 項，行動版新增的見 [docs/Android.md](docs/Android.md#7-測試清單)）
+### 8.1 自動化測試（`dotnet test`，185 項全部通過；以下是 Windows 版原有的 115 項，行動版新增的見 [docs/Android.md](docs/Android.md#7-測試清單)）
 
 | 範圍 | 驗證內容 |
 |---|---|

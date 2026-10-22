@@ -10,7 +10,7 @@ Windows 版的手機移植，使用同一套抽題規則與資料格式（共用
 | 目標版本 | Android 16（API 36） |
 | 安裝檔 | `dist\CharacterPromptGenerator_v<版本>_android.apk`，約 28 MB |
 | 權限 | 無（不要求網路、儲存或任何使用者權限） |
-| 介面語言 | 系統語言是中文（繁體、簡體都算）時顯示繁體中文，其他一律英文；可在「設定」手動切換 |
+| 介面語言 | 繁體中文、English、日本語。依系統語言自動決定：中文（繁體、簡體都算）→ 繁體中文，日文 → 日文，其他一律英文；可在「設定」手動切換 |
 | 預設詞庫 | 空白，與 Windows 版發行版相同。詞庫由使用者自行匯入 |
 
 ---
@@ -145,7 +145,7 @@ src/CharacterPromptGenerator.Mobile/      .NET MAUI（只有 net10.0-android）
 
 ## 7. 測試清單
 
-### 7.1 自動化測試（`dotnet test tests\CharacterPromptGenerator.Tests`，182 項全部通過）
+### 7.1 自動化測試（`dotnet test tests\CharacterPromptGenerator.Tests`，185 項全部通過）
 
 原有 115 項（抽題引擎、匯入、Emoji、儲存、多語系、範例壞檔）之外，為行動版新增：
 
@@ -154,7 +154,7 @@ src/CharacterPromptGenerator.Mobile/      .NET MAUI（只有 net10.0-android）
 | `MobileCoreTests.cs` | Source Generator 序列化與原本輸出逐字相同、未登記型別不會改走反射；`ReadBytes`（BOM、非 UTF-8、空檔、錯誤副檔名）；`DrawSession`（鎖定重抽、單分類重抽、刪除分類、從歷史載入、收藏、恢復預設）；`PresetManager` |
 | `DataManagementTests.cs` | `LibraryQuery` 搜尋與篩選；匯出位元組可原樣再匯入；完整備份往返、還原前安全備份、損毀或新版備份被拒絕、手動壓縮的 Windows 資料夾可還原 |
 | `HistoryManagerTests.cs` | 收藏、刪除、清除未收藏、存檔失敗時還原、歷史快照不受詞庫修改影響 |
-| `LocalizationTests.cs`（新增部分） | 系統語言判斷：繁中、簡中、港、新加坡 → 中文；英、日、韓、法、空白 → 英文；使用者選擇優先 |
+| `LocalizationTests.cs`（新增部分） | 日文字串與中文的 key、`{0}` 參數一致；系統語言判斷：繁中、簡中、港、新加坡 → 中文，日文 → 日文，英、韓、法、空白 → 英文；使用者選擇優先 |
 
 ### 7.2 在 Android 模擬器上實際操作（Pixel 7、Android 15、正式版 APK）
 
@@ -173,7 +173,7 @@ src/CharacterPromptGenerator.Mobile/      .NET MAUI（只有 net10.0-android）
 | 11. 不依賴外部網路 | ✅ |
 | 12. 更新版本後資料不被初始化 | ✅ 覆蓋安裝（`adb install -r`）後資料保留 |
 
-其他：系統分享面板、系統檔案選擇器與「儲存檔案」、介面語言即時切換、系統語言自動判斷（繁中、簡中 → 中文；日文、韓文 → 英文）。
+其他：系統分享面板、系統檔案選擇器與「儲存檔案」、介面語言即時切換、系統語言自動判斷（繁中、簡中 → 中文；日文 → 日文；韓文 → 英文）。
 
 ## 8. 尚未完成與已知限制
 

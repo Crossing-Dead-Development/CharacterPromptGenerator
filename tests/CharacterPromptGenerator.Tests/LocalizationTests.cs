@@ -47,6 +47,18 @@ public class LocalizationTests
     }
 
     [Fact]
+    public void Japanese_HasTheSameKeys_AndPlaceholders()
+    {
+        var zh = ReadResx("Strings.resx");
+        var ja = ReadResx("Strings.ja.resx");
+        Assert.Empty(zh.Keys.Except(ja.Keys));
+        Assert.Empty(ja.Keys.Except(zh.Keys));
+        Assert.Empty(zh.Where(kv => string.IsNullOrWhiteSpace(ja[kv.Key])).Select(kv => kv.Key));
+        Assert.Empty(zh.Where(kv => !Placeholders(kv.Value).SequenceEqual(Placeholders(ja[kv.Key]))).Select(kv => kv.Key));
+        Assert.Equal("【キャラクターデザインのお題】", L.T("Prompt_Header", L.Japanese));
+    }
+
+    [Fact]
     public void EveryKeyUsedInSource_Exists()
     {
         var keys = ReadResx("Strings.resx").Keys.ToHashSet();
@@ -81,6 +93,7 @@ public class LocalizationTests
     [InlineData("zh-TW", "zh-TW")]
     [InlineData("ZH-tw", "zh-TW")]
     [InlineData("en", "en")]
+    [InlineData("ja", "ja")]
     public void Resolve_KnownCodes(string code, string expected) => Assert.Equal(expected, L.Resolve(code));
 
     [Theory]
@@ -91,8 +104,9 @@ public class LocalizationTests
     [InlineData("zh-SG", "zh-TW")]
     [InlineData("zh", "zh-TW")]
     [InlineData("en-US", "en")]
-    [InlineData("ja-JP", "en")]      // 非中文一律英文
-    [InlineData("ko-KR", "en")]
+    [InlineData("ja-JP", "ja")]      // 日文系統顯示日文
+    [InlineData("ja", "ja")]
+    [InlineData("ko-KR", "en")]      // 其他語言一律英文
     [InlineData("fr-FR", "en")]
     [InlineData("", "en")]           // 不變文化（例如精簡環境）
     public void Resolve_FollowsSystemLanguage_WhenNotSet(string system, string expected) =>
@@ -103,7 +117,8 @@ public class LocalizationTests
     {
         Assert.Equal(L.English, L.Resolve("en", ["zh-TW"]));
         Assert.Equal(L.Chinese, L.Resolve("zh-tw", ["ja-JP"]));
-        Assert.Equal(L.English, L.Resolve("xx", ["ja-JP"])); // 不認識的設定值當作沒有設定
+        Assert.Equal(L.Japanese, L.Resolve("xx", ["ja-JP"])); // 不認識的設定值當作沒有設定
+        Assert.Equal(L.English, L.Resolve(null, ["en-US", "zh-TW"])); // 目前的顯示語言優先於安裝語言
     }
 
     [Fact]

@@ -1,0 +1,556 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  UI strings: English
+  key 依畫面／模組分組；{0}、{1} 是 string.Format 參數，兩種語言的參數必須一致（有單元測試檢查）。
+-->
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Common_ListSep" xml:space="preserve"><value>、</value></data>
+  <data name="Common_Ellipsis" xml:space="preserve"><value>…</value></data>
+  <data name="Engine_NoEntries" xml:space="preserve"><value>「{0}」には引けるワードがありません（必要数 {1}）。</value></data>
+  <data name="Engine_NotEnough" xml:space="preserve"><value>「{0}」は {1} 個必要ですが、引けるワードは {2} 個しかないため {3} 個だけ引きました。</value></data>
+  <data name="Prompt_Header" xml:space="preserve"><value>【キャラクターデザインのお題】</value></data>
+  <data name="Prompt_CategorySep" xml:space="preserve"><value>：</value></data>
+  <data name="Emoji_PackMissing" xml:space="preserve"><value>絵文字画像パックが見つかりません：{0}</value></data>
+  <data name="Emoji_PackEmpty" xml:space="preserve"><value>絵文字画像パックに画像がありません：{0}</value></data>
+  <data name="Emoji_PackUnreadable" xml:space="preserve"><value>絵文字画像パック（{0}）を読み込めませんでした：{1}</value></data>
+  <data name="Csv_BadQuote" xml:space="preserve"><value>{0} 行目：引用符の位置が正しくありません。引用符を含むフィールドは全体を引用符で囲み、中の " は "" と書いてください。</value></data>
+  <data name="Csv_AfterQuote" xml:space="preserve"><value>{0} 行目：閉じ引用符の後に余分な文字があります。</value></data>
+  <data name="Csv_Unclosed" xml:space="preserve"><value>{0} 行目から始まる引用符が閉じられていません。ファイルが途中で切れている可能性があります。</value></data>
+  <data name="Plan_SameId" xml:space="preserve"><value>ファイル内のカテゴリ「{0}」は既存のカテゴリ「{1}」と同じ ID のため、同じカテゴリとして扱います（名前は変更しません）。</value></data>
+  <data name="Plan_SkipNoCategory" xml:space="preserve"><value>カテゴリが存在しません（新しいカテゴリの作成は許可されていません）</value></data>
+  <data name="Plan_SkipDupInFile" xml:space="preserve"><value>ファイル内で重複</value></data>
+  <data name="Plan_SkipDupInLibrary" xml:space="preserve"><value>ワードリストに登録済み</value></data>
+  <data name="Plan_IdConflicts" xml:space="preserve"><value>既存のデータと重複した ID を新しい ID に置き換えました（{0} 件）。内容には影響ありません。</value></data>
+  <data name="Plan_Invalid" xml:space="preserve"><value>取り込み結果がデータの整合性チェックに合格しませんでした：
+</value></data>
+  <data name="Plan_ReplaceEmpty" xml:space="preserve"><value>置き換えるとワードリストが空になります。データを守るため、この置き換えは中止しました。</value></data>
+  <data name="Plan_NothingNew" xml:space="preserve"><value>取り込む新しいワードがありません（すべて重複・スキップ・エラーのいずれかです）。</value></data>
+  <data name="Reader_BadExtension" xml:space="preserve"><value>対応していないファイル形式です。.json、.csv、.txt のファイルを選んでください。</value></data>
+  <data name="Reader_JsonErrorAt" xml:space="preserve"><value>JSON の形式が正しくありません（{0} 行目付近）。ファイルが壊れているか、途中で切れている可能性があります。</value></data>
+  <data name="Reader_JsonError" xml:space="preserve"><value>JSON の形式が正しくありません。ファイルが壊れているか、途中で切れている可能性があります。</value></data>
+  <data name="Reader_JsonNotObject" xml:space="preserve"><value>JSON の最上位は schemaVersion、categories、entries を含むオブジェクト（{ ... }）である必要があります。</value></data>
+  <data name="Reader_NoSchema" xml:space="preserve"><value>ファイルに schemaVersion がないため、バージョン 1 として読み込みます。</value></data>
+  <data name="Reader_BadSchema" xml:space="preserve"><value>schemaVersion は正の整数である必要があります。</value></data>
+  <data name="Reader_NewerSchema" xml:space="preserve"><value>このファイルの形式バージョンは {0} で、このプログラムが対応しているバージョン（{1}）より新しいものです。先にプログラムを更新してください。</value></data>
+  <data name="Reader_NoEntries" xml:space="preserve"><value>entries 配列が見つかりません。ワードリストのファイルではないようです（履歴や設定のファイルかもしれません）。</value></data>
+  <data name="Reader_CategoriesNotArray" xml:space="preserve"><value>categories は配列である必要があります。</value></data>
+  <data name="Reader_CategoryAt" xml:space="preserve"><value>categories の {0} 番目</value></data>
+  <data name="Reader_CategoryNotObject" xml:space="preserve"><value>{0} がオブジェクトではないため、スキップしました。</value></data>
+  <data name="Reader_CategoryNoName" xml:space="preserve"><value>{0} に name がないため、スキップしました。</value></data>
+  <data name="Reader_CategoryDupId" xml:space="preserve"><value>{0}「{1}」の id {2} が前のカテゴリと重複しているため、スキップしました。</value></data>
+  <data name="Reader_EntryNotObject" xml:space="preserve"><value>entries の {0} 番目がオブジェクトではありません。</value></data>
+  <data name="Reader_EntryNoText" xml:space="preserve"><value>entries の {0} 番目に text がありません。</value></data>
+  <data name="Reader_EntryNoCategory" xml:space="preserve"><value>entries の {0} 番目「{1}」に categoryId も category もありません。</value></data>
+  <data name="Reader_EntryUnknownCategory" xml:space="preserve"><value>entries の {0} 番目「{1}」の categoryId {2} が categories にありません。</value></data>
+  <data name="Reader_CsvEmpty" xml:space="preserve"><value>CSV が空です。</value></data>
+  <data name="Reader_CsvDupColumn" xml:space="preserve"><value>列 {0} が複数あります。最初の列だけを使います。</value></data>
+  <data name="Reader_CsvUnknownColumn" xml:space="preserve"><value>不明な列「{0}」は無視しました。</value></data>
+  <data name="Reader_CsvBadHeader" xml:space="preserve"><value>CSV の 1 行目は category 列と text 列を含む見出し行である必要があります。
+読み込んだ見出し：{0}
+例：category,text,emoji,notes,tags</value></data>
+  <data name="Reader_CsvTooManyFields" xml:space="preserve"><value>この行のフィールド数（{0}）が見出し（{1}）より多くなっています。引用符で囲まれていないカンマがある可能性があります。</value></data>
+  <data name="Reader_CsvNoCategory" xml:space="preserve"><value>category フィールドが空です。</value></data>
+  <data name="Reader_CsvNoText" xml:space="preserve"><value>text フィールドが空です。</value></data>
+  <data name="Reader_CsvBadEnabled" xml:space="preserve"><value>enabled の値「{0}」を解釈できません。true か false を使ってください。</value></data>
+  <data name="Reader_TxtEmptyCategory" xml:space="preserve"><value>カテゴリ名が空です：[]。</value></data>
+  <data name="Reader_TxtNoCategory" xml:space="preserve"><value>「{0}」の上に [カテゴリ名] の行がないため、追加先のカテゴリがありません。</value></data>
+  <data name="Reader_TxtEmpty" xml:space="preserve"><value>TXT にワードがありません。形式：[カテゴリ名] の行の下に、1 行に 1 つずつワードを書きます。</value></data>
+  <data name="File_NotFound" xml:space="preserve"><value>ファイルが見つかりません。</value></data>
+  <data name="File_TooLarge" xml:space="preserve"><value>ファイルが大きすぎます（{0} MB）。上限は 50 MB です。</value></data>
+  <data name="File_Unreadable" xml:space="preserve"><value>ファイルを読み込めませんでした：{0}</value></data>
+  <data name="File_Empty" xml:space="preserve"><value>ファイルが空です。</value></data>
+  <data name="File_Binary" xml:space="preserve"><value>ファイルにバイナリデータが含まれており、テキストファイルではないようです。（Excel ファイルの場合は、先に「CSV UTF-8」で保存してください）</value></data>
+  <data name="File_NoContent" xml:space="preserve"><value>ファイルに内容がありません。</value></data>
+  <data name="File_ReplacementChar" xml:space="preserve"><value>ファイルに認識できない文字（{0}）が含まれており、すでに文字化けしている可能性があります。元のファイルを確認し、UTF-8 で保存し直してください。</value></data>
+  <data name="File_NotUtf8" xml:space="preserve"><value>ファイルが UTF-8 ではありません（Shift_JIS、Big5、ANSI などの可能性があります）。このまま取り込むと文字化けします。
+メモ帳の「名前を付けて保存 → 文字コード：UTF-8」、または Excel の「CSV UTF-8（コンマ区切り）」で保存してから、もう一度取り込んでください。</value></data>
+  <data name="Lib_CategoryNameEmpty" xml:space="preserve"><value>カテゴリ名は空にできません。</value></data>
+  <data name="Lib_CategoryNotFound" xml:space="preserve"><value>このカテゴリが見つかりません。削除された可能性があります。</value></data>
+  <data name="Lib_NegativeCount" xml:space="preserve"><value>既定の抽選数を負の数にすることはできません。</value></data>
+  <data name="Lib_CategoryExists" xml:space="preserve"><value>「{0}」という名前のカテゴリはすでにあります。</value></data>
+  <data name="Lib_ChooseCategory" xml:space="preserve"><value>先に既存のカテゴリを選んでください。</value></data>
+  <data name="Lib_EntryEmpty" xml:space="preserve"><value>ワードは空にできません。</value></data>
+  <data name="Lib_EntryDup" xml:space="preserve"><value>このカテゴリにはすでに同じワード「{0}」があります。</value></data>
+  <data name="Lib_EntryNotFound" xml:space="preserve"><value>このワードが見つかりません。削除された可能性があります。</value></data>
+  <data name="Lib_TargetMissing" xml:space="preserve"><value>移動先のカテゴリが存在しません。</value></data>
+  <data name="Lib_TargetDup" xml:space="preserve"><value>移動先のカテゴリにはすでに同じワード「{0}」があります。</value></data>
+  <data name="Valid_Schema" xml:space="preserve"><value>schemaVersion は {0} であるべきですが、{1} になっています。</value></data>
+  <data name="Valid_CategoryNoId" xml:space="preserve"><value>カテゴリ「{0}」に ID がありません。</value></data>
+  <data name="Valid_CategoryDupId" xml:space="preserve"><value>カテゴリ ID が重複しています：{0}</value></data>
+  <data name="Valid_CategoryNoName" xml:space="preserve"><value>カテゴリ {0} に名前がありません。</value></data>
+  <data name="Valid_CategoryDupName" xml:space="preserve"><value>カテゴリ名が重複しています：{0}</value></data>
+  <data name="Valid_CategoryNegative" xml:space="preserve"><value>カテゴリ「{0}」の既定の抽選数を負の数にすることはできません。</value></data>
+  <data name="Valid_EntryNoId" xml:space="preserve"><value>ワード「{0}」に ID がありません。</value></data>
+  <data name="Valid_EntryDupId" xml:space="preserve"><value>ワード ID が重複しています：{0}</value></data>
+  <data name="Valid_EntryBadCategory" xml:space="preserve"><value>ワード「{0}」が存在しないカテゴリを指しています：{1}。</value></data>
+  <data name="Valid_EntryEmpty" xml:space="preserve"><value>ワード {0} が空です。</value></data>
+  <data name="Valid_EntryNullTags" xml:space="preserve"><value>ワード {0} のタグが null です。</value></data>
+  <data name="Valid_Failed" xml:space="preserve"><value>ワードリストの検証に失敗したため、何も書き込みませんでした：
+</value></data>
+  <data name="Repair_Unnamed" xml:space="preserve"><value>名前のないカテゴリ</value></data>
+  <data name="Repair_UnnamedNote" xml:space="preserve"><value>名前のないカテゴリが見つかったため、仮に「名前のないカテゴリ」と名付けました。</value></data>
+  <data name="Repair_DupId" xml:space="preserve"><value>カテゴリ「{0}」の ID {1} が重複していたため、{2} に変更しました。</value></data>
+  <data name="Repair_DupName" xml:space="preserve"><value>カテゴリ名「{0}」が重複していたため、「{1}」に変更しました。</value></data>
+  <data name="Repair_RescueName" xml:space="preserve"><value>未分類（自動修復）</value></data>
+  <data name="Repair_RescueDescription" xml:space="preserve"><value>読み込み時に、存在しないカテゴリを指していたワードをここに集めました。</value></data>
+  <data name="Repair_RemovedEmpty" xml:space="preserve"><value>空のワードを削除しました：{0} 件。</value></data>
+  <data name="Repair_Rescued" xml:space="preserve"><value>存在しないカテゴリを指していたワード（{0} 件）を「{1}」に移動しました（初期状態は無効）。</value></data>
+  <data name="Store_LibraryUnreadable" xml:space="preserve"><value>ワードリストのファイルを読み込めませんでした（{0}）。元のファイルは {1} として保存してあります。</value></data>
+  <data name="Store_LibraryCorrupt" xml:space="preserve"><value>ワードリストのファイル library.json が壊れており、使えるバックアップも見つかりませんでした。
+
+エラー：{0}
+
+元のファイルのコピー：{1}
+次のフォルダーを確認してください：{2}</value></data>
+  <data name="Store_RestoringFromBackup" xml:space="preserve"><value>library.json が見つかりませんが、バックアップがあります。バックアップからの復元を試みます。</value></data>
+  <data name="Store_NoLibraryNoBackup" xml:space="preserve"><value>library.json が見つからず、バックアップも読み込めませんでした。次のフォルダーを確認してください：{0}</value></data>
+  <data name="Store_NoSeed" xml:space="preserve"><value>内蔵のサンプルワードリストがないか無効なため、空のワードリストを作成しました。</value></data>
+  <data name="Store_NewerSchema" xml:space="preserve"><value>ワードリストのファイルの形式バージョンは {0} で、このプログラムが対応しているバージョン（{1}）より新しいものです。
+新しいバージョンのプログラムで開いてください。データを守るため、このプログラムはファイルを変更しません。</value></data>
+  <data name="Store_FileEmpty" xml:space="preserve"><value>ファイルが空です</value></data>
+  <data name="Store_Repaired" xml:space="preserve"><value>{0} の読み込み時に自動修復を行いました：</value></data>
+  <data name="Store_Bullet" xml:space="preserve"><value>・</value></data>
+  <data name="Store_Restored" xml:space="preserve"><value>バックアップからワードリストを復元しました：{0}</value></data>
+  <data name="Store_PlanNotApplicable" xml:space="preserve"><value>この取り込み計画は適用できません。</value></data>
+  <data name="Store_ChangedSincePreview" xml:space="preserve"><value>プレビューの後にワードリストが変更されました。もう一度取り込んで、新しいプレビューを確認してください。</value></data>
+  <data name="Store_BackupUnreadable" xml:space="preserve"><value>バックアップファイルを読み込めませんでした：{0}</value></data>
+  <data name="Store_PresetsUnreadable" xml:space="preserve"><value>プリセットのファイルを読み込めませんでした（{0}）。{1} として保存し、内蔵のプリセットを使います。</value></data>
+  <data name="Store_SettingsUnreadable" xml:space="preserve"><value>設定ファイルを読み込めませんでした（{0}）。既定の設定を使います。</value></data>
+  <data name="Store_HistoryUnreadable" xml:space="preserve"><value>履歴ファイルを読み込めませんでした（{0}）。{1} として保存してあります。</value></data>
+  <data name="Paths_PortableNotWritable" xml:space="preserve"><value>ポータブルモードの目印がありますが、{0} に書き込めません。代わりに AppData フォルダーを使います。</value></data>
+  <data name="App_CannotOpenTitle" xml:space="preserve"><value>ワードリストを開けません</value></data>
+  <data name="App_StartFailed" xml:space="preserve"><value>プログラムを起動できませんでした：{0}</value></data>
+  <data name="App_StartFailedTitle" xml:space="preserve"><value>起動エラー</value></data>
+  <data name="App_EmojiFallback" xml:space="preserve"><value>
+絵文字は「?」の代替画像で表示されます。ワードリストには影響ありません。</value></data>
+  <data name="App_LoadNotes" xml:space="preserve"><value>データを開くときに次のことがありました：
+
+</value></data>
+  <data name="App_LoadNotesTitle" xml:space="preserve"><value>データ読み込みのお知らせ</value></data>
+  <data name="App_Unexpected" xml:space="preserve"><value>予期しないエラーが発生したため、操作を取り消しました：
+{0}
+
+詳細は error.log に記録しました。</value></data>
+  <data name="Common_Error" xml:space="preserve"><value>エラー</value></data>
+  <data name="Session_SaveFailed" xml:space="preserve"><value>保存できませんでした。データは変更されていません。
+
+{0}</value></data>
+  <data name="Session_SaveWhatFailed" xml:space="preserve"><value>{0}を保存できませんでした：{1}</value></data>
+  <data name="Session_JsonFilter" xml:space="preserve"><value>JSON ワードリスト (*.json)|*.json</value></data>
+  <data name="Session_ExportedJson" xml:space="preserve"><value>ワードリスト全体を書き出しました（カテゴリ {0}、ワード {1}）：
+{2}</value></data>
+  <data name="Session_ExportFailed" xml:space="preserve"><value>書き出しに失敗しました：{0}</value></data>
+  <data name="Session_CsvFilter" xml:space="preserve"><value>CSV (UTF-8) (*.csv)|*.csv</value></data>
+  <data name="Session_ExportedCsv" xml:space="preserve"><value>ワードを CSV で書き出しました（{0} 件）：
+{1}
+
+注意：CSV にはカテゴリの説明や ID は含まれません。完全なバックアップには「JSON を書き出す」を使ってください。</value></data>
+  <data name="Session_OpenFolderFailed" xml:space="preserve"><value>フォルダーを開けませんでした：{0}</value></data>
+  <data name="What_Settings" xml:space="preserve"><value>設定</value></data>
+  <data name="What_Presets" xml:space="preserve"><value>プリセット</value></data>
+  <data name="What_History" xml:space="preserve"><value>履歴</value></data>
+  <data name="What_Favorites" xml:space="preserve"><value>お気に入り</value></data>
+  <data name="App_Title" xml:space="preserve"><value>キャラクターデザインお題ジェネレーター</value></data>
+  <data name="Dialog_Confirm" xml:space="preserve"><value>確認</value></data>
+  <data name="Dialog_ImportTitle" xml:space="preserve"><value>取り込むワードリストのファイルを選択</value></data>
+  <data name="Dialog_ImportFilter" xml:space="preserve"><value>ワードリストのファイル (*.json;*.csv;*.txt)|*.json;*.csv;*.txt|JSON (*.json)|*.json|CSV (*.csv)|*.csv|テキストファイル (*.txt)|*.txt</value></data>
+  <data name="Dialog_ClipboardBusy" xml:space="preserve"><value>クリップボードが他のプログラムで使用中です。もう一度お試しください。</value></data>
+  <data name="Main_WindowTitle" xml:space="preserve"><value>Character Design Prompt Generator｜キャラクターデザインお題ジェネレーター</value></data>
+  <data name="Main_BrandTop" xml:space="preserve"><value>キャラクターデザイン</value></data>
+  <data name="Main_BrandBottom" xml:space="preserve"><value>お題ジェネレーター</value></data>
+  <data name="Main_DataLocation" xml:space="preserve"><value>データの保存先</value></data>
+  <data name="Nav_Draw" xml:space="preserve"><value>🎲  お題を引く</value></data>
+  <data name="Nav_Editor" xml:space="preserve"><value>📝  ワードリスト</value></data>
+  <data name="Nav_History" xml:space="preserve"><value>⭐  履歴とお気に入り</value></data>
+  <data name="Nav_Data" xml:space="preserve"><value>💾  データとバックアップ</value></data>
+  <data name="Main_Shortcuts" xml:space="preserve"><value>ショートカット</value></data>
+  <data name="Main_ShortcutReroll" xml:space="preserve"><value>F5　ロック以外を引き直す</value></data>
+  <data name="Main_ShortcutRegenerate" xml:space="preserve"><value>Ctrl+F5　すべて引き直す</value></data>
+  <data name="Main_ShortcutCopy" xml:space="preserve"><value>Ctrl+Shift+C　お題をコピー</value></data>
+  <data name="Main_PortablePrefix" xml:space="preserve"><value>ポータブル · </value></data>
+  <data name="Draw_CategoryDisabled" xml:space="preserve"><value>カテゴリ無効</value></data>
+  <data name="Draw_Available" xml:space="preserve"><value>{0} 個引ける</value></data>
+  <data name="Draw_RowTooltipCounts" xml:space="preserve"><value>
+ワード {0} 個、引けるのは {1} 個</value></data>
+  <data name="Draw_RowTooltipDisabled" xml:space="preserve"><value>
+（このカテゴリはワードリストで無効になっているため、引かれません）</value></data>
+  <data name="Draw_RegenerateAll" xml:space="preserve"><value>🎲 すべて引き直す</value></data>
+  <data name="Draw_Generate" xml:space="preserve"><value>🎲 お題を引く</value></data>
+  <data name="Draw_StatusEmpty" xml:space="preserve"><value>まだお題を引いていません。左側でカテゴリにチェックを入れて数を決め、「お題を引く」を押してください。</value></data>
+  <data name="Draw_Status" xml:space="preserve"><value>{0} 項目・ロック {1} 項目・{2:HH:mm:ss} に生成</value></data>
+  <data name="Draw_StatusFavorite" xml:space="preserve"><value> · ⭐ お気に入り済み</value></data>
+  <data name="Draw_Unfavorite" xml:space="preserve"><value>⭐ お気に入り解除</value></data>
+  <data name="Draw_Favorite" xml:space="preserve"><value>☆ お気に入り</value></data>
+  <data name="Draw_SelectionSummary" xml:space="preserve"><value>{0} カテゴリ・計 {1} 項目</value></data>
+  <data name="Draw_SavePresetTitle" xml:space="preserve"><value>新しいプリセットとして保存</value></data>
+  <data name="Draw_PresetNameLabel" xml:space="preserve"><value>プリセット名：</value></data>
+  <data name="Draw_DefaultPresetName" xml:space="preserve"><value>マイプリセット</value></data>
+  <data name="Draw_PresetCopySuffix" xml:space="preserve"><value>のコピー</value></data>
+  <data name="Draw_OverwritePreset" xml:space="preserve"><value>左側の現在のカテゴリ設定でプリセット「{0}」を上書きしますか？</value></data>
+  <data name="Draw_RenamePresetTitle" xml:space="preserve"><value>プリセット名の変更</value></data>
+  <data name="Draw_NewNameLabel" xml:space="preserve"><value>新しい名前：</value></data>
+  <data name="Draw_DeletePreset" xml:space="preserve"><value>プリセット「{0}」を削除しますか？（ワードリストには影響しません）</value></data>
+  <data name="Draw_ConfirmRegenerate" xml:space="preserve"><value>ロック中の項目が {0} 個あります。
+すべて引き直すとロックが解除されます。続けますか？
+
+（ロックしていない項目だけを替えたいときは「ロック以外を引き直す」を使ってください）</value></data>
+  <data name="Draw_CategoryDeleted" xml:space="preserve"><value>このカテゴリはワードリストから削除されたため、引き直せません。ロックを解除すれば他の項目を引き直せます。</value></data>
+  <data name="Draw_NothingSelected" xml:space="preserve"><value>チェックの入ったカテゴリがないか、すべての数が 0 です。</value></data>
+  <data name="Draw_LoadedFromHistory" xml:space="preserve"><value>履歴から読み込みました。すべての項目がロックされています。替えたい項目のロックを解除してから「ロック以外を引き直す」を押してください。</value></data>
+  <data name="Draw_Copied" xml:space="preserve"><value>お題をクリップボードにコピーしました。</value></data>
+  <data name="Draw_PresetsTitle" xml:space="preserve"><value>プリセット</value></data>
+  <data name="Draw_Apply" xml:space="preserve"><value>適用</value></data>
+  <data name="Draw_ApplyTip" xml:space="preserve"><value>プリセットのカテゴリと数を下に適用します</value></data>
+  <data name="Draw_SaveAs" xml:space="preserve"><value>新規保存</value></data>
+  <data name="Draw_Overwrite" xml:space="preserve"><value>上書き</value></data>
+  <data name="Draw_OverwriteTip" xml:space="preserve"><value>選択中のプリセットを下の現在の設定で上書きします</value></data>
+  <data name="Draw_Rename" xml:space="preserve"><value>名前変更</value></data>
+  <data name="Common_Delete" xml:space="preserve"><value>削除</value></data>
+  <data name="Draw_CategoriesTitle" xml:space="preserve"><value>カテゴリと数</value></data>
+  <data name="Draw_CheckAll" xml:space="preserve"><value>すべて選択</value></data>
+  <data name="Draw_CheckNone" xml:space="preserve"><value>選択解除</value></data>
+  <data name="Draw_RerollUnlocked" xml:space="preserve"><value>🔁 ロック以外を引き直す</value></data>
+  <data name="Draw_UnlockAll" xml:space="preserve"><value>🔓 すべてのロックを解除</value></data>
+  <data name="Draw_Copy" xml:space="preserve"><value>📋 お題をコピー</value></data>
+  <data name="Draw_OpenDisplay" xml:space="preserve"><value>📺 配信表示モード</value></data>
+  <data name="Draw_OpenDisplayTip" xml:space="preserve"><value>大きな文字の別ウィンドウを開きます。OBS のウィンドウキャプチャに便利です</value></data>
+  <data name="Draw_Ready" xml:space="preserve"><value>🎨 準備はいいですか？「お題を引く」を押して始めましょう。</value></data>
+  <data name="Draw_RerollCategory" xml:space="preserve"><value>🎲 引き直す</value></data>
+  <data name="Draw_RerollCategoryTip" xml:space="preserve"><value>このカテゴリのロックしていない項目だけを引き直します</value></data>
+  <data name="Draw_LockToggleName" xml:space="preserve"><value>ロックの切り替え</value></data>
+  <data name="Lock_Tip" xml:space="preserve"><value>ロック／解除（ロックした項目は引き直しても変わりません）</value></data>
+  <data name="Lock_Off" xml:space="preserve"><value>🔓 ロック</value></data>
+  <data name="Lock_On" xml:space="preserve"><value>🔒 ロック中</value></data>
+  <data name="Display_WindowTitle" xml:space="preserve"><value>キャラクターデザインのお題｜配信表示</value></data>
+  <data name="Display_ToggleControlsMenu" xml:space="preserve"><value>操作ボタンの表示／非表示（H）</value></data>
+  <data name="Display_RerollMenu" xml:space="preserve"><value>ロック以外を引き直す（F5）</value></data>
+  <data name="Display_RegenerateMenu" xml:space="preserve"><value>すべて引き直す（Ctrl+F5）</value></data>
+  <data name="Display_Unlock" xml:space="preserve"><value>🔓 ロック解除</value></data>
+  <data name="Display_Bigger" xml:space="preserve"><value>A+</value></data>
+  <data name="Display_ShowNotes" xml:space="preserve"><value>メモを表示</value></data>
+  <data name="Display_HideControls" xml:space="preserve"><value>操作ボタンを隠す（H）</value></data>
+  <data name="Display_Heading" xml:space="preserve"><value>キャラクターデザインのお題</value></data>
+  <data name="Display_Waiting" xml:space="preserve"><value>お題を待っています…</value></data>
+  <data name="Display_SlotTip" xml:space="preserve"><value>クリックでロック／解除</value></data>
+  <data name="Editor_StatusDisabled" xml:space="preserve"><value>無効</value></data>
+  <data name="Editor_StatusEnabled" xml:space="preserve"><value>有効</value></data>
+  <data name="Editor_StatusCategoryOff" xml:space="preserve"><value>カテゴリ無効</value></data>
+  <data name="Editor_CountSummary" xml:space="preserve"><value>表示 {0} 個／全 {1} 個</value></data>
+  <data name="Editor_NewEntryTitle" xml:space="preserve"><value>ワードを追加</value></data>
+  <data name="Editor_EditEntryTitle" xml:space="preserve"><value>ワードを編集</value></data>
+  <data name="Editor_Add" xml:space="preserve"><value>➕ 追加</value></data>
+  <data name="Editor_SaveChanges" xml:space="preserve"><value>💾 変更を保存</value></data>
+  <data name="Editor_EmojiFffd" xml:space="preserve"><value>⚠ U+FFFD 置換文字が含まれています（元の文字は失われています）。絵文字を入力し直してください。</value></data>
+  <data name="Editor_EmojiPack" xml:space="preserve"><value>✓ Fluent 3D 画像（{0}）</value></data>
+  <data name="Editor_EmojiOverride" xml:space="preserve"><value>✓ カスタム画像 EmojiOverrides\{0}（{1}）</value></data>
+  <data name="Editor_EmojiZwj" xml:space="preserve"><value>✓ この組み合わせの画像はないため、構成要素 {0} 個を並べて表示します（{1}）</value></data>
+  <data name="Editor_EmojiMissing" xml:space="preserve"><value>⚠ 画像がありません（{0}）。「?」で表示されます。EmojiOverrides\{1} を置くと画像を追加できます。</value></data>
+  <data name="Editor_EmojiNotEmoji" xml:space="preserve"><value>「{0}」は絵文字ではないため、文字として表示されます（{1}）</value></data>
+  <data name="Editor_DupWarning" xml:space="preserve"><value>⚠ このカテゴリにはすでに同じワード「{0}」があります</value></data>
+  <data name="Editor_NoneSelected" xml:space="preserve"><value>ワード未選択</value></data>
+  <data name="Editor_OneSelected" xml:space="preserve"><value>1 個選択中</value></data>
+  <data name="Editor_ManySelected" xml:space="preserve"><value>{0} 個選択中（まとめて操作できます）</value></data>
+  <data name="Editor_AllCategories" xml:space="preserve"><value>📚 すべてのカテゴリ</value></data>
+  <data name="Editor_NewCategoryTitle" xml:space="preserve"><value>カテゴリを追加</value></data>
+  <data name="Editor_CategoryNameLabel" xml:space="preserve"><value>カテゴリ名：</value></data>
+  <data name="Editor_DeleteEmptyCategory" xml:space="preserve"><value>カテゴリ「{0}」を削除しますか？</value></data>
+  <data name="Editor_DeleteCategory" xml:space="preserve"><value>カテゴリ「{0}」を削除すると、その中のワード {1} 個も一緒に削除されます。
+
+削除の前に自動でバックアップを取ります。必要なら「データとバックアップ」ページで復元できます。
+ワードを残したい場合は、先にワードを選択して「移動」してください。
+
+削除しますか？</value></data>
+  <data name="Editor_DeleteCategoryTitle" xml:space="preserve"><value>カテゴリの削除</value></data>
+  <data name="Editor_ChooseEntryCategory" xml:space="preserve"><value>先にワードのカテゴリを選んでください。</value></data>
+  <data name="Editor_DeleteEntry" xml:space="preserve"><value>ワード「{0}」を削除しますか？</value></data>
+  <data name="Editor_DeleteEntries" xml:space="preserve"><value>選択したワード {0} 個を削除しますか？</value></data>
+  <data name="Editor_DeleteEntriesNote" xml:space="preserve"><value>
+
+（既存の履歴とお気に入りには影響しません）</value></data>
+  <data name="Editor_DeleteEntryTitle" xml:space="preserve"><value>ワードの削除</value></data>
+  <data name="Editor_Moved" xml:space="preserve"><value>{0} 個移動しました。{1} 個は移動先に同じワードがあるためスキップしました。</value></data>
+  <data name="Editor_ChooseBulkCategory" xml:space="preserve"><value>先に左側で追加先のカテゴリを選んでください。</value></data>
+  <data name="Common_Category" xml:space="preserve"><value>カテゴリ</value></data>
+  <data name="Editor_AddCategory" xml:space="preserve"><value>＋ カテゴリを追加</value></data>
+  <data name="Editor_CategoryName" xml:space="preserve"><value>カテゴリ名</value></data>
+  <data name="Editor_Description" xml:space="preserve"><value>説明</value></data>
+  <data name="Editor_EnabledCheck" xml:space="preserve"><value>有効（抽選の対象）</value></data>
+  <data name="Editor_DefaultCount" xml:space="preserve"><value>既定の数</value></data>
+  <data name="Editor_SaveCategory" xml:space="preserve"><value>💾 カテゴリを保存</value></data>
+  <data name="Editor_MoveUp" xml:space="preserve"><value>上へ</value></data>
+  <data name="Editor_MoveDown" xml:space="preserve"><value>下へ</value></data>
+  <data name="Editor_CountTip" xml:space="preserve"><value>引ける数／全体の数</value></data>
+  <data name="Common_Import" xml:space="preserve"><value>📥 取り込む</value></data>
+  <data name="Editor_ExportJson" xml:space="preserve"><value>📤 JSON を書き出す</value></data>
+  <data name="Common_ExportCsv" xml:space="preserve"><value>📤 CSV を書き出す</value></data>
+  <data name="Editor_SearchName" xml:space="preserve"><value>ワードを検索</value></data>
+  <data name="Editor_ClearSearch" xml:space="preserve"><value>検索をクリア</value></data>
+  <data name="Editor_FilterAll" xml:space="preserve"><value>すべて</value></data>
+  <data name="Editor_FilterEnabled" xml:space="preserve"><value>有効のみ</value></data>
+  <data name="Editor_FilterDisabled" xml:space="preserve"><value>無効のみ</value></data>
+  <data name="Editor_Enable" xml:space="preserve"><value>有効にする</value></data>
+  <data name="Editor_Disable" xml:space="preserve"><value>無効にする</value></data>
+  <data name="Editor_MoveTargetTip" xml:space="preserve"><value>移動先のカテゴリ</value></data>
+  <data name="Editor_Move" xml:space="preserve"><value>移動</value></data>
+  <data name="Editor_DeleteSelected" xml:space="preserve"><value>🗑 選択を削除</value></data>
+  <data name="Common_Entry" xml:space="preserve"><value>ワード</value></data>
+  <data name="Common_Notes" xml:space="preserve"><value>メモ</value></data>
+  <data name="Common_Tags" xml:space="preserve"><value>タグ</value></data>
+  <data name="Editor_Status" xml:space="preserve"><value>状態</value></data>
+  <data name="Editor_TextLabel" xml:space="preserve"><value>ワード（必須）</value></data>
+  <data name="Editor_EmojiLabel" xml:space="preserve"><value>絵文字（任意・Win + . で絵文字パネル）</value></data>
+  <data name="Editor_EmojiInputName" xml:space="preserve"><value>絵文字の入力</value></data>
+  <data name="Editor_EmojiPreviewTip" xml:space="preserve"><value>プレビュー：お題の結果に実際に表示される画像</value></data>
+  <data name="Editor_EmojiPreviewName" xml:space="preserve"><value>絵文字のプレビュー</value></data>
+  <data name="Editor_TagsLabel" xml:space="preserve"><value>タグ（| またはカンマ区切り）</value></data>
+  <data name="Editor_NewEntry" xml:space="preserve"><value>クリア／新規追加</value></data>
+  <data name="Editor_BulkTitle" xml:space="preserve"><value>まとめて追加</value></data>
+  <data name="Editor_BulkHint" xml:space="preserve"><value>たくさんのワードを 1 行に 1 つずつ貼り付けて、左側で選んだカテゴリにまとめて追加します。</value></data>
+  <data name="Editor_BulkButton" xml:space="preserve"><value>📋 複数行を貼り付けて追加</value></data>
+  <data name="Editor_ImportHint" xml:space="preserve"><value>大量のワードは上の「取り込む」を使ってください。JSON / CSV / TXT に対応し、取り込む前にプレビューを表示して自動でバックアップを取ります。</value></data>
+  <data name="Bulk_WindowTitle" xml:space="preserve"><value>複数行を貼り付けてワードを追加</value></data>
+  <data name="Bulk_CategoryLabel" xml:space="preserve"><value>追加先のカテゴリ：</value></data>
+  <data name="Bulk_Hint" xml:space="preserve"><value>1 行に 1 つのワードを書きます。行全体がワードになります（絵文字もそのまま書けます）。空行はスキップし、このカテゴリに既にあるワードや、貼り付けた中で重複している行は追加しません。</value></data>
+  <data name="Bulk_Add" xml:space="preserve"><value>追加</value></data>
+  <data name="Common_Cancel" xml:space="preserve"><value>キャンセル</value></data>
+  <data name="Bulk_WillAdd" xml:space="preserve"><value>{0} 個追加します</value></data>
+  <data name="Bulk_DupExisting" xml:space="preserve"><value>⚠ 登録済みのためスキップ（{0} 個）：{1}</value></data>
+  <data name="Bulk_DupInput" xml:space="preserve"><value>⚠ 貼り付けた中で重複（{0} 個）：{1}</value></data>
+  <data name="Bulk_AddCount" xml:space="preserve"><value>{0} 個追加</value></data>
+  <data name="Bulk_Added" xml:space="preserve"><value>ワードを {0} 個追加しました。</value></data>
+  <data name="History_More" xml:space="preserve"><value>…（全 {0} 項目）</value></data>
+  <data name="History_SelectHint" xml:space="preserve"><value>左側の記録を選ぶと内容が表示されます。</value></data>
+  <data name="History_Summary" xml:space="preserve"><value>記録 {0} 件、うちお気に入り {1} 件。お気に入り以外の記録は最大 {2} 件まで保存されます。</value></data>
+  <data name="History_DeleteFavorite" xml:space="preserve"><value>この記録はお気に入りです。削除しますか？</value></data>
+  <data name="History_Clear" xml:space="preserve"><value>お気に入り以外の記録 {0} 件を削除しますか？お気に入りは残ります。</value></data>
+  <data name="History_Title" xml:space="preserve"><value>履歴とお気に入り</value></data>
+  <data name="History_FavoritesOnly" xml:space="preserve"><value>お気に入りのみ ⭐</value></data>
+  <data name="History_ClearButton" xml:space="preserve"><value>お気に入り以外を削除</value></data>
+  <data name="Common_Time" xml:space="preserve"><value>日時</value></data>
+  <data name="History_Content" xml:space="preserve"><value>内容</value></data>
+  <data name="History_Copy" xml:space="preserve"><value>📋 コピー</value></data>
+  <data name="History_ToggleFavorite" xml:space="preserve"><value>⭐ お気に入り登録／解除</value></data>
+  <data name="History_Load" xml:space="preserve"><value>↩ お題画面に読み込む</value></data>
+  <data name="History_LoadTip" xml:space="preserve"><value>読み込むとすべての項目がロックされます。一部を解除して引き直せます</value></data>
+  <data name="History_SnapshotNote" xml:space="preserve"><value>記録にはお題を引いた時点の文字がそのまま保存されます。後でワードを編集・削除しても、過去の記録は変わりません。</value></data>
+  <data name="Import_ReadError" xml:space="preserve"><value>ファイルの読み込み中にエラーが発生しました：{0}</value></data>
+  <data name="Import_FormatJson" xml:space="preserve"><value>JSON（ワードリスト全体の形式）</value></data>
+  <data name="Import_FormatCsv" xml:space="preserve"><value>CSV（category,text,emoji,notes,tags）</value></data>
+  <data name="Import_FormatTxt" xml:space="preserve"><value>TXT（[カテゴリ] ＋ 1 行に 1 ワード）</value></data>
+  <data name="Import_CannotImport" xml:space="preserve"><value>このファイルは取り込めません。</value></data>
+  <data name="Import_Summary" xml:space="preserve"><value>{0} 個のワードを読み込み → {1} 個を追加、新しいカテゴリ {2} 個を作成、{3} 個をスキップ（重複または許可されていないカテゴリ）、エラー {4} 行。</value></data>
+  <data name="Import_ReplaceWarning" xml:space="preserve"><value>⚠ 置き換えモードでは、現在のワードリストのワード {0} 個とすべてのカテゴリを削除し、ファイルの内容に置き換えます。適用前に自動でバックアップを取ります。</value></data>
+  <data name="Import_NotePrefix" xml:space="preserve"><value>（お知らせ）</value></data>
+  <data name="Import_NewCategoriesTab" xml:space="preserve"><value>新しいカテゴリ ({0})</value></data>
+  <data name="Import_AddedTab" xml:space="preserve"><value>追加予定 ({0})</value></data>
+  <data name="Import_SkippedTab" xml:space="preserve"><value>スキップ ({0})</value></data>
+  <data name="Import_ProblemsTab" xml:space="preserve"><value>エラーとお知らせ ({0})</value></data>
+  <data name="Import_ConfirmErrors" xml:space="preserve"><value>形式エラーの行が {0} 行あり、これらの行は取り込まれません。
+残りの {1} 個を取り込みますか？</value></data>
+  <data name="Import_ConfirmTitle" xml:space="preserve"><value>取り込みの確認</value></data>
+  <data name="Import_ConfirmReplace1" xml:space="preserve"><value>ワードリスト全体を置き換えますか？
+
+現在：カテゴリ {0} 個、ワード {1} 個
+置き換え後：カテゴリ {2} 個、ワード {3} 個</value></data>
+  <data name="Import_ConfirmReplace1Title" xml:space="preserve"><value>ワードリスト全体の置き換え（確認 1／2）</value></data>
+  <data name="Import_ConfirmReplace2" xml:space="preserve"><value>最終確認：現在のワードリストは自動でバックアップされた後、完全に置き換えられます。
+続けますか？</value></data>
+  <data name="Import_ConfirmReplace2Title" xml:space="preserve"><value>ワードリスト全体の置き換え（確認 2／2）</value></data>
+  <data name="Import_Failed" xml:space="preserve"><value>取り込みは完了しませんでした。ワードリストは変更されていません。
+
+{0}</value></data>
+  <data name="Import_Done" xml:space="preserve"><value>取り込みが完了しました！
+
+追加したワード：{0} 個
+作成したカテゴリ：{1} 個
+スキップ（重複など）：{2} 個
+失敗（形式エラー）：{3} 行
+
+</value></data>
+  <data name="Import_DoneBackup" xml:space="preserve"><value>取り込む前のワードリストは次の名前でバックアップしました：
+{0}
+
+</value></data>
+  <data name="Import_DoneTail" xml:space="preserve"><value>新しいワードはすぐに引けます。再起動は不要です。</value></data>
+  <data name="Import_DoneTitle" xml:space="preserve"><value>取り込み完了</value></data>
+  <data name="Import_WindowTitle" xml:space="preserve"><value>ワードリストの取り込み｜プレビュー</value></data>
+  <data name="Import_FormatLabel" xml:space="preserve"><value>形式：</value></data>
+  <data name="Import_Merge" xml:space="preserve"><value>追加で取り込む（おすすめ：今のワードリストを残し、新しいワードだけを追加）</value></data>
+  <data name="Import_Replace" xml:space="preserve"><value>ワードリスト全体を置き換える</value></data>
+  <data name="Import_AllowNewCategories" xml:space="preserve"><value>ファイルにある新しいカテゴリの作成を許可する（オフにすると、そのワードはスキップされます）</value></data>
+  <data name="Import_Parsing" xml:space="preserve"><value>解析中…</value></data>
+  <data name="Import_Fatal" xml:space="preserve"><value>❌ このファイルは取り込めません（ワードリストには影響ありません）</value></data>
+  <data name="Import_Apply" xml:space="preserve"><value>✔ 取り込みを適用</value></data>
+  <data name="Import_Line" xml:space="preserve"><value>行</value></data>
+  <data name="Import_NewCategoryColumn" xml:space="preserve"><value>新規</value></data>
+  <data name="Import_WillCreate" xml:space="preserve"><value>作成するカテゴリ</value></data>
+  <data name="Import_EntryCount" xml:space="preserve"><value>ワード数</value></data>
+  <data name="Common_Reason" xml:space="preserve"><value>理由</value></data>
+  <data name="Import_Message" xml:space="preserve"><value>詳細</value></data>
+  <data name="Common_Ok" xml:space="preserve"><value>OK</value></data>
+  <data name="Backup_Manual" xml:space="preserve"><value>手動バックアップ</value></data>
+  <data name="Backup_BeforeImport" xml:space="preserve"><value>追加取り込みの前</value></data>
+  <data name="Backup_BeforeReplace" xml:space="preserve"><value>ワードリスト置き換えの前</value></data>
+  <data name="Backup_BeforeRestore" xml:space="preserve"><value>バックアップ復元の前</value></data>
+  <data name="Backup_BeforeDeleteCategory" xml:space="preserve"><value>カテゴリ削除の前</value></data>
+  <data name="Backup_BeforeBulkDelete" xml:space="preserve"><value>まとめて削除の前</value></data>
+  <data name="Backup_BeforeBulkAdd" xml:space="preserve"><value>まとめて追加の前</value></data>
+  <data name="Backup_BeforeRepair" xml:space="preserve"><value>自動修復の前</value></data>
+  <data name="Data_ModePortable" xml:space="preserve"><value>ポータブルモード：データは EXE と同じ場所の Data フォルダーに保存されます。</value></data>
+  <data name="Data_ModeNormal" xml:space="preserve"><value>通常モード：データはユーザーの AppData フォルダーに保存されるため、プログラムを更新・移動してもワードリストに影響しません。</value></data>
+  <data name="Data_ToNormal" xml:space="preserve"><value>通常モード（AppData）に戻す</value></data>
+  <data name="Data_ToPortable" xml:space="preserve"><value>ポータブルモード（EXE と同じ場所の Data\）に切り替える</value></data>
+  <data name="Data_Stats" xml:space="preserve"><value>カテゴリ {0} 個・ワード {1} 個（有効 {2} 個）・プリセット {3} 個・履歴 {4} 件</value></data>
+  <data name="Data_EmojiFallback" xml:space="preserve"><value>
+現在、絵文字は「?」の代替画像で表示されています。</value></data>
+  <data name="Data_EmojiStatus" xml:space="preserve"><value>Microsoft Fluent Emoji 3D：画像 {0} 枚（MIT ライセンス、THIRD-PARTY-NOTICES.md を参照）。
+Windows のフォントを使わないため、Windows 10 と 11 で同じ見た目になります。</value></data>
+  <data name="Data_BackedUp" xml:space="preserve"><value>現在のワードリストをバックアップしました：
+{0}
+
+手動バックアップは自動で削除されません。</value></data>
+  <data name="Data_BackupFailed" xml:space="preserve"><value>バックアップに失敗しました：{0}</value></data>
+  <data name="Data_ConfirmRestore" xml:space="preserve"><value>このバックアップで現在のワードリストを置き換えますか？
+
+バックアップ日時：{0}（{1}）
+バックアップの内容：カテゴリ {2} 個、ワード {3} 個
+現在のワードリスト：カテゴリ {4} 個、ワード {5} 個
+
+復元の前に、現在のワードリストを自動でバックアップします。</value></data>
+  <data name="Data_RestoreTitle" xml:space="preserve"><value>バックアップの復元</value></data>
+  <data name="Data_Restored" xml:space="preserve"><value>復元しました。</value></data>
+  <data name="Data_RestoreFailed" xml:space="preserve"><value>復元に失敗しました。現在のワードリストは変更されていません：{0}</value></data>
+  <data name="Data_CannotWrite" xml:space="preserve"><value>{0} に書き込めません。
+プログラムが Program Files などの保護された場所にあるとポータブルモードは使えません。プログラムのフォルダーごと別の場所に移動してください。</value></data>
+  <data name="Data_SwitchToNormal" xml:space="preserve"><value>通常モードに戻します。
+</value></data>
+  <data name="Data_SwitchToPortable" xml:space="preserve"><value>ポータブルモードに切り替えます。
+</value></data>
+  <data name="Data_NewLocation" xml:space="preserve"><value>新しいデータの保存先：{0}
+
+</value></data>
+  <data name="Data_TargetHasData" xml:space="preserve"><value>新しい保存先にはすでにワードリストのデータがあるため、そのデータをそのまま使います（上書きしません）。現在の保存先のデータはそのまま残ります。</value></data>
+  <data name="Data_WillCopy" xml:space="preserve"><value>現在のワードリスト、プリセット、設定、履歴、バックアップをコピーします。現在の保存先のデータはそのまま残ります。</value></data>
+  <data name="Data_RestartNeeded" xml:space="preserve"><value>
+
+切り替え後はプログラムの再起動が必要です。続けますか？</value></data>
+  <data name="Data_SwitchTitle" xml:space="preserve"><value>データの保存先の切り替え</value></data>
+  <data name="Data_FlagContent" xml:space="preserve"><value>このファイルがあると、プログラムは同じ場所の Data フォルダーにデータを保存します。削除すると通常モードに戻ります。</value></data>
+  <data name="Data_SwitchFailed" xml:space="preserve"><value>切り替えに失敗しました：{0}</value></data>
+  <data name="Data_RestartNow" xml:space="preserve"><value>設定が完了しました。今すぐプログラムを再起動しますか？</value></data>
+  <data name="Data_OpenFolder" xml:space="preserve"><value>📂 フォルダーを開く</value></data>
+  <data name="Data_ImportExportTitle" xml:space="preserve"><value>ワードリストの取り込み／書き出し</value></data>
+  <data name="Data_FormatJson" xml:space="preserve"><value>JSON：ワードリスト全体（カテゴリ設定と ID を含む）。バックアップや別のパソコンとのやり取りに使います。</value></data>
+  <data name="Data_FormatCsv" xml:space="preserve"><value>CSV：見出しは category,text,emoji,notes,tags。表計算ソフトで編集できます。</value></data>
+  <data name="Data_FormatTxt" xml:space="preserve"><value>TXT：[カテゴリ名] の行の下に 1 行に 1 つずつワードを書きます。# で始まる行はコメントです。</value></data>
+  <data name="Data_ImportNote" xml:space="preserve"><value>取り込む前にプレビューと重複チェックを行い、適用前に自動でバックアップを取ります。</value></data>
+  <data name="Data_ExportJson" xml:space="preserve"><value>📤 JSON（全体）を書き出す</value></data>
+  <data name="Data_EmojiTitle" xml:space="preserve"><value>絵文字の画像</value></data>
+  <data name="Data_EmojiHint" xml:space="preserve"><value>画像のない絵文字は「?」で表示されます。EmojiOverrides フォルダーに PNG を置くと、画像を追加・差し替えできます。ファイル名はコードポイントです（例：1fabc.png、詳しくは README を参照）。再起動後に反映されます。</value></data>
+  <data name="Data_OpenEmojiFolder" xml:space="preserve"><value>📂 EmojiOverrides フォルダーを開く</value></data>
+  <data name="Data_LoadNotesTitle" xml:space="preserve"><value>今回の起動時のデータのお知らせ</value></data>
+  <data name="Data_BackupsTitle" xml:space="preserve"><value>バックアップ</value></data>
+  <data name="Data_BackupsHint" xml:space="preserve"><value>取り込み・置き換え・復元・カテゴリ削除の前に自動でバックアップを取ります（自動バックアップは最新 40 件を保存）。手動バックアップはずっと残ります。</value></data>
+  <data name="Data_BackupNow" xml:space="preserve"><value>💾 今すぐバックアップ</value></data>
+  <data name="Data_Restore" xml:space="preserve"><value>↩ 選択したバックアップを復元</value></data>
+  <data name="Data_OpenBackupFolder" xml:space="preserve"><value>📂 バックアップのフォルダー</value></data>
+  <data name="Data_Refresh" xml:space="preserve"><value>更新</value></data>
+  <data name="Data_Size" xml:space="preserve"><value>サイズ</value></data>
+  <data name="Emoji_MissingTip" xml:space="preserve"><value>この絵文字の画像が見つかりません：{0}
+コードポイント：{1}
+PNG 画像を {2} という名前にして、EmojiOverrides\ フォルダーに置くと表示できます。</value></data>
+  <data name="Main_LanguageLabel" xml:space="preserve"><value>🌐 表示言語 / Language</value></data>
+  <data name="Main_LanguageTitle" xml:space="preserve"><value>表示言語</value></data>
+  <data name="Main_LanguageRestart" xml:space="preserve"><value>表示言語を保存しました。再起動後に反映されます。今すぐプログラムを再起動しますか？</value></data>
+  <data name="Draw_EmptyTitle" xml:space="preserve"><value>📥 ワードリストが空です</value></data>
+  <data name="Draw_EmptyHint" xml:space="preserve"><value>先にワードリストのファイル（CSV／JSON／TXT）を取り込んでから、お題を引いてください。GitHub Release から用意されたワードリストをダウンロードするか、「ワードリスト」ページで自分で追加することもできます。</value></data>
+  <data name="Data_Licenses" xml:space="preserve"><value>📄 サードパーティのライセンス</value></data>
+  <data name="Data_LicensesTitle" xml:space="preserve"><value>サードパーティのライセンス</value></data>
+  <data name="Mobile_AppName" xml:space="preserve"><value>キャラデザお題</value></data>
+  <data name="Mobile_TabDraw" xml:space="preserve"><value>お題</value></data>
+  <data name="Mobile_TabLibrary" xml:space="preserve"><value>ワード</value></data>
+  <data name="Mobile_TabHistory" xml:space="preserve"><value>履歴</value></data>
+  <data name="Mobile_TabSettings" xml:space="preserve"><value>設定</value></data>
+  <data name="Mobile_NoPreset" xml:space="preserve"><value>プリセット未選択</value></data>
+  <data name="Mobile_PresetLabel" xml:space="preserve"><value>プリセット：{0}</value></data>
+  <data name="Mobile_DrawSettings" xml:space="preserve"><value>⚙ 抽選の設定</value></data>
+  <data name="Mobile_DrawSettingsTitle" xml:space="preserve"><value>抽選の設定</value></data>
+  <data name="Mobile_ChoosePreset" xml:space="preserve"><value>選択</value></data>
+  <data name="Mobile_PresetActions" xml:space="preserve"><value>操作</value></data>
+  <data name="Mobile_NoPresetsYet" xml:space="preserve"><value>プリセットはまだありません。下のカテゴリと数を調整してから「新規保存」を押してください。</value></data>
+  <data name="Mobile_OverwritePreset" xml:space="preserve"><value>現在のカテゴリ設定でプリセット「{0}」を上書きしますか？</value></data>
+  <data name="Mobile_ResetDefaults" xml:space="preserve"><value>初期設定に戻す</value></data>
+  <data name="Mobile_ConfirmReset" xml:space="preserve"><value>すべてのカテゴリをワードリストの既定の数に戻しますか？現在のプリセットの選択は解除されます（プリセット自体は残ります）。</value></data>
+  <data name="Mobile_StatusEmpty" xml:space="preserve"><value>まだお題を引いていません。下の「お題を引く」を押して始めましょう。カテゴリと数を変えるには、右上の「抽選の設定」を押してください。</value></data>
+  <data name="Mobile_EmptyHint" xml:space="preserve"><value>ワードリストのファイル（CSV／JSON／TXT）を取り込むか、「ワード」タブで自分でワードを追加してください。</value></data>
+  <data name="Mobile_TapToLock" xml:space="preserve"><value>項目をタップするとロック／解除できます。</value></data>
+  <data name="Mobile_Locked" xml:space="preserve"><value>ロック中</value></data>
+  <data name="Mobile_Unlocked" xml:space="preserve"><value>ロックなし</value></data>
+  <data name="Mobile_Increase" xml:space="preserve"><value>数を増やす</value></data>
+  <data name="Mobile_Decrease" xml:space="preserve"><value>数を減らす</value></data>
+  <data name="Mobile_UnexpectedError" xml:space="preserve"><value>予期しないエラーが発生したため、操作を取り消しました：
+{0}</value></data>
+  <data name="FullBackup_NotBackup" xml:space="preserve"><value>キャラクターデザインお題ジェネレーターの完全バックアップのファイルではありません。</value></data>
+  <data name="FullBackup_Newer" xml:space="preserve"><value>このバックアップは新しいバージョンで作成されました（形式バージョン {0}）。このバージョンは {1} までしか対応していません。先にアプリを更新してください。</value></data>
+  <data name="FullBackup_Missing" xml:space="preserve"><value>バックアップに {0} がありません。</value></data>
+  <data name="FullBackup_BadFile" xml:space="preserve"><value>バックアップ内の {0} を読み込めません：{1}</value></data>
+  <data name="FullBackup_TooLarge" xml:space="preserve"><value>バックアップ内の {0} が大きすぎます（{1} MB 超）。</value></data>
+  <data name="Mobile_LibrarySummary" xml:space="preserve"><value>カテゴリ {0} 個・ワード {1} 個（引けるのは {2} 個）</value></data>
+  <data name="Mobile_CategoryCount" xml:space="preserve"><value>引ける {0}／全 {1}</value></data>
+  <data name="Mobile_NoCategories" xml:space="preserve"><value>カテゴリはまだありません。右上の「＋ カテゴリを追加」を押すか、「設定」タブでワードリストのファイルを取り込んでください。</value></data>
+  <data name="Mobile_AddEntry" xml:space="preserve"><value>＋</value></data>
+  <data name="Mobile_CategorySettings" xml:space="preserve"><value>カテゴリの設定</value></data>
+  <data name="Mobile_Select" xml:space="preserve"><value>選択</value></data>
+  <data name="Mobile_Done" xml:space="preserve"><value>完了</value></data>
+  <data name="Mobile_SelectAllShown" xml:space="preserve"><value>すべて選択</value></data>
+  <data name="Mobile_ChooseTargetCategory" xml:space="preserve"><value>どのカテゴリに移動しますか？</value></data>
+  <data name="Mobile_NoEntries" xml:space="preserve"><value>条件に合うワードはありません。</value></data>
+  <data name="Mobile_More" xml:space="preserve"><value>⋯</value></data>
+  <data name="Mobile_EmojiLabel" xml:space="preserve"><value>絵文字（任意・キーボードの絵文字で入力できます）</value></data>
+  <data name="Mobile_EntryAdded" xml:space="preserve"><value>「{0}」を追加しました。続けて次のワードを入力できます。</value></data>
+  <data name="Mobile_Saved" xml:space="preserve"><value>保存しました。</value></data>
+  <data name="Mobile_SettingsLibrary" xml:space="preserve"><value>ワードリストのデータ</value></data>
+  <data name="Mobile_FullBackupTitle" xml:space="preserve"><value>完全バックアップ（ワードリスト・プリセット・履歴・設定）</value></data>
+  <data name="Mobile_FullBackupHint" xml:space="preserve"><value>完全バックアップは 1 つの zip ファイルです。アプリの外（クラウドドライブ、「ファイル」アプリ、パソコンなど）に保存してください。アプリを削除すると、アプリ内のデータとバックアップも一緒に消えます。この zip は別のスマートフォンで復元でき、展開すれば Windows 版でも使えます。</value></data>
+  <data name="Mobile_ExportFullBackup" xml:space="preserve"><value>📦 完全バックアップを書き出す</value></data>
+  <data name="Mobile_RestoreFullBackup" xml:space="preserve"><value>↩ 完全バックアップから復元</value></data>
+  <data name="Mobile_LastFullBackup" xml:space="preserve"><value>最後に完全バックアップを書き出した日時：{0:yyyy-MM-dd HH:mm}</value></data>
+  <data name="Mobile_NeverFullBackup" xml:space="preserve"><value>⚠ まだ完全バックアップを書き出していません。</value></data>
+  <data name="Mobile_ConfirmRestoreFull" xml:space="preserve"><value>この完全バックアップで現在のすべてのデータを置き換えますか？
+
+バックアップ日時：{0:yyyy-MM-dd HH:mm}
+バックアップの内容：カテゴリ {1} 個、ワード {2} 個、プリセット {3} 個、履歴 {4} 件
+現在のデータ：カテゴリ {5} 個、ワード {6} 個、プリセット {7} 個、履歴 {8} 件
+
+復元の前に、現在のすべてのデータをアプリ内に保存します。</value></data>
+  <data name="Mobile_RestoredFull" xml:space="preserve"><value>完全バックアップを復元しました。</value></data>
+  <data name="Mobile_Exported" xml:space="preserve"><value>書き出しました：{0}</value></data>
+  <data name="Mobile_ExportFailed" xml:space="preserve"><value>書き出しに失敗しました：{0}</value></data>
+  <data name="Mobile_PickFailed" xml:space="preserve"><value>選択したファイルを読み込めませんでした：{0}</value></data>
+  <data name="Mobile_InternalBackups" xml:space="preserve"><value>アプリ内のバックアップ</value></data>
+  <data name="Mobile_InternalBackupsCount" xml:space="preserve"><value>🗂 アプリ内のバックアップ（{0} 件）</value></data>
+  <data name="Mobile_NoBackups" xml:space="preserve"><value>バックアップはまだありません。</value></data>
+  <data name="Mobile_BackedUp" xml:space="preserve"><value>現在のワードリストをバックアップしました。手動バックアップは自動で削除されません。</value></data>
+  <data name="Mobile_TapToRestore" xml:space="preserve"><value>バックアップをタップすると復元できます。</value></data>
+  <data name="Mobile_LanguageSystem" xml:space="preserve"><value>システムに合わせる</value></data>
+  <data name="Mobile_AboutTitle" xml:space="preserve"><value>このアプリについて</value></data>
+  <data name="Mobile_AppVersion" xml:space="preserve"><value>アプリのバージョン：{0}</value></data>
+  <data name="Mobile_DataVersion" xml:space="preserve"><value>データ形式のバージョン：{0}</value></data>
+  <data name="Mobile_ImportFormats" xml:space="preserve"><value>JSON（ワードリスト全体）、CSV（category,text,emoji,notes,tags）、TXT（[カテゴリ] ＋ 1 行に 1 ワード）に対応しています。取り込む前にプレビューと重複チェックを行い、自動でバックアップを取ります。</value></data>
+  <data name="Mobile_ImportOptions" xml:space="preserve"><value>取り込み方法</value></data>
+  <data name="Mobile_DeleteCategory" xml:space="preserve"><value>カテゴリ「{0}」を削除すると、その中のワード {1} 個も一緒に削除されます。
+
+削除の前に自動でバックアップを取ります。必要なら「設定」→「アプリ内のバックアップ」で復元できます。ワードを残したい場合は、先にワード一覧で選択して「移動」してください。
+
+削除しますか？</value></data>
+  <data name="Mobile_FullBackupReason" xml:space="preserve"><value>📦 すべてのデータ（{0}）</value></data>
+  <data name="Mobile_Share" xml:space="preserve"><value>📤 共有</value></data>
+  <data name="Mobile_ShareTitle" xml:space="preserve"><value>キャラクターデザインのお題を共有</value></data>
+  <data name="Mobile_HistoryEmpty" xml:space="preserve"><value>まだ記録はありません。「お題」タブで引いたお題は自動でここに記録されます。</value></data>
+  <data name="Mobile_AllRecords" xml:space="preserve"><value>すべて</value></data>
+  <data name="Mobile_TapForActions" xml:space="preserve"><value>記録をタップすると、コピー・共有・お気に入り・読み込みができます。</value></data>
+</root>
