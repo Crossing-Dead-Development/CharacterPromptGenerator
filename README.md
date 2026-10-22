@@ -2,7 +2,7 @@
 
 **繁體中文** · [English](README.en.md)
 
-**Crossing Dead Development · v0.2.0** · 介面支援繁體中文／English／日本語
+**Crossing Dead Development · v0.3.0** · 介面支援繁體中文／English／日本語
 
 繪圖直播用的離線角色設計抽題工具：從可自訂的分類詞庫隨機抽出關鍵字與 Emoji，組成角色設計練習題目。可以鎖定喜歡的結果、局部重抽、自訂抽題方案、保存歷史與收藏，並透過程式介面或 JSON／CSV／TXT 檔案維護大型詞庫。
 
@@ -260,7 +260,7 @@ powershell -ExecutionPolicy Bypass -File build.ps1
 
 產出：
 - `publish\CharacterPromptGenerator.exe`（約 103 MB，**只有這一個檔案**）
-- `dist\CharacterPromptGenerator_v0.2.0_win-x64.exe`（同一個 EXE，發行用檔名）
+- `dist\CharacterPromptGenerator_v0.3.0_win-x64.exe`（同一個 EXE，發行用檔名）
 
 EXE 內嵌了 .NET runtime、英文語系資源、Fluent Emoji 圖庫、`THIRD-PARTY-NOTICES.md`（程式內「資料與備份 → 第三方授權」可檢視）與空白的預設資料。建置腳本會檢查輸出資料夾只有 EXE。
 

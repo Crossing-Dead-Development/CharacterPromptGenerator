@@ -14,7 +14,7 @@
 
     <ApplicationTitle>角色設計題目</ApplicationTitle>
     <ApplicationId>com.crossingdead.characterpromptgenerator</ApplicationId>
-    <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion>0.3.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
     <Product>Character Design Prompt Generator</Product>
     <Company>Crossing Dead Development</Company>

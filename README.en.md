@@ -2,7 +2,7 @@
 
 [繁體中文](README.md) · **English**
 
-**Crossing Dead Development · v0.2.0** · UI available in English / Traditional Chinese / Japanese
+**Crossing Dead Development · v0.3.0** · UI available in English / Traditional Chinese / Japanese
 
 An offline character-design prompt roller for drawing streams. It randomly draws keywords and emoji from a customizable, categorized word bank and combines them into a character-design practice prompt. You can lock results you like, reroll parts of a prompt, save your own presets, keep a history with favorites, and maintain large word banks in the app or through JSON / CSV / TXT files.
 
@@ -260,7 +260,7 @@ powershell -ExecutionPolicy Bypass -File build.ps1
 
 Output:
 - `publish\CharacterPromptGenerator.exe` (about 103 MB, **the only file**)
-- `dist\CharacterPromptGenerator_v0.2.0_win-x64.exe` (the same EXE with the release file name)
+- `dist\CharacterPromptGenerator_v0.3.0_win-x64.exe` (the same EXE with the release file name)
 
 The EXE embeds the .NET runtime, the English language resources, the Fluent Emoji pack, `THIRD-PARTY-NOTICES.md` (viewable in the app under "Data & backup → Third-party licenses") and the empty default data. The build script checks that the output folder contains only the EXE.
 
