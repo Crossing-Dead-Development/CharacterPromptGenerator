@@ -475,7 +475,6 @@ You can name a PNG image {2} and put it in the EmojiOverrides\ folder.</value></
   <data name="Mobile_TabLibrary" xml:space="preserve"><value>Word bank</value></data>
   <data name="Mobile_TabHistory" xml:space="preserve"><value>History</value></data>
   <data name="Mobile_TabSettings" xml:space="preserve"><value>Settings</value></data>
-  <data name="Mobile_ComingSoon" xml:space="preserve"><value>This tab will be completed in the next development phase.</value></data>
   <data name="Mobile_NoPreset" xml:space="preserve"><value>No preset selected</value></data>
   <data name="Mobile_PresetLabel" xml:space="preserve"><value>Preset: {0}</value></data>
   <data name="Mobile_DrawSettings" xml:space="preserve"><value>⚙ Roll settings</value></data>
@@ -503,14 +502,14 @@ You can name a PNG image {2} and put it in the EmojiOverrides\ folder.</value></
   <data name="Mobile_LibrarySummary" xml:space="preserve"><value>{0} categories · {1} entries ({2} can be drawn)</value></data>
   <data name="Mobile_CategoryCount" xml:space="preserve"><value>{0} of {1} can be drawn</value></data>
   <data name="Mobile_NoCategories" xml:space="preserve"><value>No categories yet. Tap "+ Add category" at the top right, or import a word bank file on the "Settings" tab.</value></data>
-  <data name="Mobile_AddEntry" xml:space="preserve"><value>+ Entry</value></data>
+  <data name="Mobile_AddEntry" xml:space="preserve"><value>＋</value></data>
   <data name="Mobile_CategorySettings" xml:space="preserve"><value>Category settings</value></data>
   <data name="Mobile_Select" xml:space="preserve"><value>Select</value></data>
   <data name="Mobile_Done" xml:space="preserve"><value>Done</value></data>
   <data name="Mobile_SelectAllShown" xml:space="preserve"><value>Select all</value></data>
   <data name="Mobile_ChooseTargetCategory" xml:space="preserve"><value>Move to which category?</value></data>
   <data name="Mobile_NoEntries" xml:space="preserve"><value>No matching entries.</value></data>
-  <data name="Mobile_More" xml:space="preserve"><value>More</value></data>
+  <data name="Mobile_More" xml:space="preserve"><value>⋯</value></data>
   <data name="Mobile_EmojiLabel" xml:space="preserve"><value>Emoji (optional, use the emoji keyboard)</value></data>
   <data name="Mobile_EntryAdded" xml:space="preserve"><value>Added "{0}". You can enter the next one.</value></data>
   <data name="Mobile_Saved" xml:space="preserve"><value>Saved.</value></data>
@@ -549,4 +548,9 @@ The word bank is backed up first; you can restore it from "Settings" → "Backup
 
 Delete it?</value></data>
   <data name="Mobile_FullBackupReason" xml:space="preserve"><value>📦 All data ({0})</value></data>
+  <data name="Mobile_Share" xml:space="preserve"><value>📤 Share</value></data>
+  <data name="Mobile_ShareTitle" xml:space="preserve"><value>Share character prompt</value></data>
+  <data name="Mobile_HistoryEmpty" xml:space="preserve"><value>No history yet. Prompts you generate on the "Roll" tab are recorded here automatically.</value></data>
+  <data name="Mobile_AllRecords" xml:space="preserve"><value>All</value></data>
+  <data name="Mobile_TapForActions" xml:space="preserve"><value>Tap a record to copy, share, favorite or load it.</value></data>
 </root>

@@ -9,6 +9,9 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{l:T Mobile_DrawSettings}" Command="{Binding OpenSettingsCommand}" />
+        <!-- 較少用的動作放在 ⋮ 選單，讓小螢幕的結果區保有足夠空間 -->
+        <ToolbarItem Text="{l:T Draw_RegenerateAll}" Command="{Binding RegenerateAllCommand}" Order="Secondary" />
+        <ToolbarItem Text="{l:T Draw_UnlockAll}" Command="{Binding UnlockAllCommand}" Order="Secondary" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto,*,Auto">
@@ -105,14 +108,14 @@
 
         <!-- 底部操作：主要按鈕放在拇指最容易按到的位置 -->
         <Border Grid.Row="2" BackgroundColor="{StaticResource BgBar}" StrokeThickness="0" Padding="12,10,12,12">
-            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*" RowSpacing="8" ColumnSpacing="8">
-                <Button Grid.Row="0" Grid.Column="0" Text="{l:T Draw_RegenerateAll}" Command="{Binding RegenerateAllCommand}" />
-                <Button Grid.Row="0" Grid.Column="1" Text="{l:T Draw_UnlockAll}" Command="{Binding UnlockAllCommand}" />
-                <Button Grid.Row="1" Grid.Column="0" Text="{l:T Draw_Copy}" Command="{Binding CopyCommand}" />
-                <Button Grid.Row="1" Grid.Column="1" Text="{Binding FavoriteText}" Command="{Binding FavoriteCommand}" />
-                <Button Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding PrimaryText}" Command="{Binding PrimaryCommand}"
-                        Style="{StaticResource PrimaryButton}" />
-            </Grid>
+            <VerticalStackLayout Spacing="8">
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <Button Text="{l:T History_Copy}" Command="{Binding CopyCommand}" />
+                    <Button Grid.Column="1" Text="{l:T Mobile_Share}" Command="{Binding ShareCommand}" />
+                    <Button Grid.Column="2" Text="{Binding FavoriteText}" Command="{Binding FavoriteCommand}" />
+                </Grid>
+                <Button Text="{Binding PrimaryText}" Command="{Binding PrimaryCommand}" Style="{StaticResource PrimaryButton}" />
+            </VerticalStackLayout>
         </Border>
 
     </Grid>

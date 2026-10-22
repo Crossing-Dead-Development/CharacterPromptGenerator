@@ -58,5 +58,9 @@ public static class FileExchange
         throw result.Exception;
     }
 
+    /// <summary>用系統分享面板分享文字（傳訊息、存到備忘錄…）。</summary>
+    public static Task ShareText(string text) =>
+        Share.Default.RequestAsync(new ShareTextRequest { Text = text, Title = L.T("Mobile_ShareTitle") });
+
     static bool IsCancellation(Exception ex) => ex.Message.Contains("cancel", StringComparison.OrdinalIgnoreCase);
 }

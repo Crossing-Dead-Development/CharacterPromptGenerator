@@ -24,11 +24,13 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
         _loadMessages = loadMessages.Count > 0 ? loadMessages : null;
+        // Shell 本身在啟動時不會觸發 OnAppearing，改在畫面載入完成後顯示
+        Loaded += OnLoaded;
     }
 
-    protected override async void OnAppearing()
+    async void OnLoaded(object? sender, EventArgs e)
     {
-        base.OnAppearing();
+        Loaded -= OnLoaded;
         // 載入時修復、從備份還原等狀況：主畫面出現後告知一次
         if (_loadMessages is not { } messages) return;
         _loadMessages = null;

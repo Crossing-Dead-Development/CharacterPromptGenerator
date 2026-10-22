@@ -94,9 +94,17 @@ public sealed partial class DrawViewModel : ObservableObject
     public string PrimaryText => HasResult ? L.T("Draw_RerollUnlocked") : L.T("Draw_Generate");
     public string FavoriteText => Draw.IsFavorite ? L.T("Draw_Unfavorite") : L.T("Draw_Favorite");
 
-    /// <summary>畫面出現時呼叫：設定頁、詞庫可能已經改過。</summary>
+    IReadOnlyList<string>? _shownWarnings;
+
+    /// <summary>畫面出現時呼叫：設定頁、詞庫可能已經改過，也可能剛從歷史載入。</summary>
     public void Refresh()
     {
+        // 抽題工作階段有新的提示（例如從歷史分頁載入）時顯示出來
+        if (!ReferenceEquals(_shownWarnings, Draw.Warnings))
+        {
+            _shownWarnings = Draw.Warnings;
+            Message = string.Join("\n", Draw.Warnings);
+        }
         RebuildGroups();
         NotifyAll();
     }
@@ -123,7 +131,6 @@ public sealed partial class DrawViewModel : ObservableObject
     async Task Run(Action draw)
     {
         await _app.TryAsync(draw, L.T("What_History"));
-        Message = string.Join("\n", Draw.Warnings);
         Refresh();
     }
 
@@ -142,6 +149,9 @@ public sealed partial class DrawViewModel : ObservableObject
         await Clipboard.Default.SetTextAsync(Draw.ToText());
         Message = L.T("Draw_Copied");
     }
+
+    [RelayCommand(CanExecute = nameof(HasResult))]
+    Task Share() => FileExchange.ShareText(Draw.ToText());
 
     [RelayCommand(CanExecute = nameof(HasResult))]
     async Task Favorite()
@@ -179,6 +189,7 @@ public sealed partial class DrawViewModel : ObservableObject
         RegenerateAllCommand.NotifyCanExecuteChanged();
         UnlockAllCommand.NotifyCanExecuteChanged();
         CopyCommand.NotifyCanExecuteChanged();
+        ShareCommand.NotifyCanExecuteChanged();
         FavoriteCommand.NotifyCanExecuteChanged();
     }
 }

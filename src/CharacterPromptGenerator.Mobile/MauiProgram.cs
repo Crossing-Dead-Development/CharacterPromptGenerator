@@ -24,6 +24,7 @@ public static class MauiProgram
         Page<SettingsPage, SettingsViewModel>(builder);
         Page<ImportPreviewPage, ImportPreviewViewModel>(builder);
         Page<BackupsPage, BackupsViewModel>(builder);
+        Page<HistoryPage, HistoryViewModel>(builder);
 
         return builder.Build();
     }

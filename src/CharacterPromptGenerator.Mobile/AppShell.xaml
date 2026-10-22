@@ -12,7 +12,7 @@
         <ShellContent Title="{l:T Mobile_TabLibrary}" Route="library"
                       ContentTemplate="{DataTemplate views:LibraryPage}" />
         <ShellContent Title="{l:T Mobile_TabHistory}" Route="history"
-                      ContentTemplate="{DataTemplate views:ComingSoonPage}" />
+                      ContentTemplate="{DataTemplate views:HistoryPage}" />
         <ShellContent Title="{l:T Mobile_TabSettings}" Route="settings"
                       ContentTemplate="{DataTemplate views:SettingsPage}" />
     </TabBar>

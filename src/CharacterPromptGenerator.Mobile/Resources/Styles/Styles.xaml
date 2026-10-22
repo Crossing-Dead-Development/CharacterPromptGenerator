@@ -42,7 +42,9 @@
         <Setter Property="BorderWidth" Value="1" />
         <Setter Property="CornerRadius" Value="12" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="Padding" Value="8,6" />
+        <!-- 系統字體放大或螢幕較窄時換行，而不是把字截掉 -->
+        <Setter Property="LineBreakMode" Value="WordWrap" />
         <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="MinimumWidthRequest" Value="44" />
         <Setter Property="VisualStateManager.VisualStateGroups">

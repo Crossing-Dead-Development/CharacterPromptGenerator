@@ -26,14 +26,14 @@
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnCategoryTapped" />
                     </Border.GestureRecognizers>
-                    <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
                         <VerticalStackLayout VerticalOptions="Center" Spacing="2">
                             <Label Text="{Binding Name}" FontSize="17" FontAttributes="Bold" LineBreakMode="WordWrap" />
                             <Label Text="{Binding Description}" IsVisible="{Binding HasDescription}"
                                    Style="{StaticResource Muted}" LineBreakMode="WordWrap" />
+                            <Label Text="{Binding CountText}" Style="{StaticResource Muted}" TextColor="{StaticResource Accent}" />
                         </VerticalStackLayout>
-                        <Label Grid.Column="1" Text="{Binding CountText}" Style="{StaticResource Muted}" VerticalOptions="Center" />
-                        <Label Grid.Column="2" Text="›" FontSize="24" TextColor="{StaticResource TextMuted}" VerticalOptions="Center" />
+                        <Label Grid.Column="1" Text="›" FontSize="24" TextColor="{StaticResource TextMuted}" VerticalOptions="Center" />
                     </Grid>
                 </Border>
             </DataTemplate>

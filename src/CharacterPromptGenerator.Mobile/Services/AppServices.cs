@@ -37,6 +37,7 @@ public sealed class AppServices
         Store = store;
         Draw = new DrawSession(store);
         Presets = new PresetManager(store);
+        History = new HistoryManager(store);
         store.LibraryChanged += (_, e) => MainThread.BeginInvokeOnMainThread(() => _dataChanged.HandleEvent(this, e, nameof(DataChanged)));
     }
 
@@ -53,6 +54,7 @@ public sealed class AppServices
     public AppStore Store { get; }
     public DrawSession Draw { get; }
     public PresetManager Presets { get; }
+    public HistoryManager History { get; }
 
     public static string DataDir => FileSystem.AppDataDirectory;
 

@@ -39,22 +39,24 @@
                     <VerticalStackLayout BindableLayout.ItemsSource="{Binding Rows}" Spacing="0">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="vm:CategoryRowViewModel">
-                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" Padding="0,6">
-                                    <Switch IsToggled="{Binding IsChecked}" VerticalOptions="Center"
+                                <!-- 名稱與說明用滿整行；數量控制放在下一行，窄螢幕或大字體時文字不會被擠壓 -->
+                                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" ColumnSpacing="8" Padding="0,6">
+                                    <Switch IsToggled="{Binding IsChecked}" VerticalOptions="Start"
                                             SemanticProperties.Description="{Binding Name}" />
                                     <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="1">
                                         <Label Text="{Binding Name}" FontSize="16" LineBreakMode="WordWrap" />
                                         <Label Text="{Binding Description}" IsVisible="{Binding HasDescription}"
                                                Style="{StaticResource Muted}" LineBreakMode="WordWrap" />
-                                        <Label Text="{Binding AvailabilityText}" Style="{StaticResource Muted}">
-                                            <Label.Triggers>
-                                                <DataTrigger TargetType="Label" Binding="{Binding IsShort}" Value="True">
-                                                    <Setter Property="TextColor" Value="{StaticResource Warning}" />
-                                                </DataTrigger>
-                                            </Label.Triggers>
-                                        </Label>
                                     </VerticalStackLayout>
-                                    <HorizontalStackLayout Grid.Column="2" Spacing="4" VerticalOptions="Center">
+                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding AvailabilityText}" Style="{StaticResource Muted}"
+                                           VerticalOptions="Center" LineBreakMode="WordWrap">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsShort}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource Warning}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Spacing="4" HorizontalOptions="End">
                                         <Button Text="−" WidthRequest="44" Padding="0" FontSize="20"
                                                 Command="{Binding DecreaseCommand}"
                                                 SemanticProperties.Description="{l:T Mobile_Decrease}" />

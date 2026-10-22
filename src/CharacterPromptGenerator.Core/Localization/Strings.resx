@@ -475,7 +475,6 @@ Emoji 目前以「?」替代圖示顯示。</value></data>
   <data name="Mobile_TabLibrary" xml:space="preserve"><value>詞庫</value></data>
   <data name="Mobile_TabHistory" xml:space="preserve"><value>歷史</value></data>
   <data name="Mobile_TabSettings" xml:space="preserve"><value>設定</value></data>
-  <data name="Mobile_ComingSoon" xml:space="preserve"><value>這個分頁的功能會在下一個開發階段完成。</value></data>
   <data name="Mobile_NoPreset" xml:space="preserve"><value>未選擇方案</value></data>
   <data name="Mobile_PresetLabel" xml:space="preserve"><value>方案：{0}</value></data>
   <data name="Mobile_DrawSettings" xml:space="preserve"><value>⚙ 抽題設定</value></data>
@@ -503,14 +502,14 @@ Emoji 目前以「?」替代圖示顯示。</value></data>
   <data name="Mobile_LibrarySummary" xml:space="preserve"><value>{0} 個分類 · {1} 筆詞條（可抽 {2} 筆）</value></data>
   <data name="Mobile_CategoryCount" xml:space="preserve"><value>可抽 {0} / 共 {1}</value></data>
   <data name="Mobile_NoCategories" xml:space="preserve"><value>還沒有任何分類。按右上角「＋ 新增分類」，或到「設定」匯入詞庫檔。</value></data>
-  <data name="Mobile_AddEntry" xml:space="preserve"><value>＋ 詞條</value></data>
+  <data name="Mobile_AddEntry" xml:space="preserve"><value>＋</value></data>
   <data name="Mobile_CategorySettings" xml:space="preserve"><value>分類設定</value></data>
   <data name="Mobile_Select" xml:space="preserve"><value>選取</value></data>
   <data name="Mobile_Done" xml:space="preserve"><value>完成</value></data>
   <data name="Mobile_SelectAllShown" xml:space="preserve"><value>全選</value></data>
   <data name="Mobile_ChooseTargetCategory" xml:space="preserve"><value>移到哪個分類？</value></data>
   <data name="Mobile_NoEntries" xml:space="preserve"><value>沒有符合條件的詞條。</value></data>
-  <data name="Mobile_More" xml:space="preserve"><value>更多</value></data>
+  <data name="Mobile_More" xml:space="preserve"><value>⋯</value></data>
   <data name="Mobile_EmojiLabel" xml:space="preserve"><value>Emoji（選填，可以用鍵盤的表情符號輸入）</value></data>
   <data name="Mobile_EntryAdded" xml:space="preserve"><value>已新增「{0}」，可以繼續輸入下一筆。</value></data>
   <data name="Mobile_Saved" xml:space="preserve"><value>已儲存。</value></data>
@@ -549,4 +548,9 @@ Emoji 目前以「?」替代圖示顯示。</value></data>
 
 確定要刪除嗎？</value></data>
   <data name="Mobile_FullBackupReason" xml:space="preserve"><value>📦 全部資料（{0}）</value></data>
+  <data name="Mobile_Share" xml:space="preserve"><value>📤 分享</value></data>
+  <data name="Mobile_ShareTitle" xml:space="preserve"><value>分享角色設計題目</value></data>
+  <data name="Mobile_HistoryEmpty" xml:space="preserve"><value>還沒有任何紀錄。在「抽題」分頁產生題目後會自動記錄在這裡。</value></data>
+  <data name="Mobile_AllRecords" xml:space="preserve"><value>全部紀錄</value></data>
+  <data name="Mobile_TapForActions" xml:space="preserve"><value>點一下紀錄可以複製、分享、收藏或載入。</value></data>
 </root>
