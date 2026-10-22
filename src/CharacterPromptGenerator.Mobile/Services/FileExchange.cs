@@ -15,13 +15,11 @@ public static class FileExchange
     static readonly FilePickerFileType WordBankTypes = new(new Dictionary<DevicePlatform, IEnumerable<string>>
     {
         [DevicePlatform.Android] = ["*/*"],
-        [DevicePlatform.iOS] = ["public.json", "public.comma-separated-values-text", "public.plain-text"],
     });
 
     static readonly FilePickerFileType ZipTypes = new(new Dictionary<DevicePlatform, IEnumerable<string>>
     {
         [DevicePlatform.Android] = ["application/zip", "application/x-zip-compressed", "application/octet-stream"],
-        [DevicePlatform.iOS] = ["public.zip-archive"],
     });
 
     public sealed record PickedFile(string FileName, byte[] Bytes);

@@ -1,12 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!--
-      Android 一律建置。iOS 只在 macOS（或明確指定 IncludeIos=true）時加入：
-      Windows 上沒有安裝 maui-ios workload 時，加入 iOS 目標會連 restore 都失敗。
-    -->
+    <!-- 行動版只支援 Android（iOS 已於 2026-10-22 取消） -->
     <TargetFrameworks>net10.0-android</TargetFrameworks>
-    <TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('windows')) Or '$(IncludeIos)' == 'true'">$(TargetFrameworks);net10.0-ios</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <RootNamespace>CharacterPromptGenerator.Mobile</RootNamespace>
@@ -23,7 +19,6 @@
     <Product>Character Design Prompt Generator</Product>
     <Company>Crossing Dead Development</Company>
 
-    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 

@@ -8,6 +8,8 @@ An offline character-design prompt roller for drawing streams. It randomly draws
 
 > This is not an AI image generator or story writer. The program only rolls prompts; the interpretation is entirely up to the artist. Fully offline: no account, no network connection.
 
+> 📱 **Android version**: same rolling rules and data formats; word banks move freely between computer and phone. Installing, moving data, building and signing are covered in [docs/Android.md](docs/Android.md) (Traditional Chinese).
+
 ---
 
 ## Contents
@@ -320,11 +322,14 @@ CharacterPromptGenerator.slnx
 │  ├─ Themes/Dark.xaml
 │  ├─ Emoji/         fluent-emoji-3d.zip, LICENSE-fluentui-emoji.txt (embedded in the EXE)
 │  └─ SeedData/      default_library.json, default_presets.json (empty defaults, embedded in the EXE)
-├─ tests/CharacterPromptGenerator.Tests/   xUnit tests (115); Fixtures/ is the test word bank (2,111 entries)
+├─ src/CharacterPromptGenerator.Mobile/    Android version (.NET MAUI), see docs/Android.md
+├─ tests/CharacterPromptGenerator.Tests/   xUnit tests (182, including the Core features added for mobile); Fixtures/ is the test word bank (2,111 entries)
 ├─ samples/                                 Sample JSON / CSV / TXT import files and broken examples
 ├─ tools/BuildEmojiPack.cs                  Tool that builds the emoji pack
 ├─ THIRD-PARTY-NOTICES.md                   Third-party license notices
-└─ build.ps1
+├─ build.ps1                               Windows EXE
+├─ build-android.ps1                       Android APK
+└─ CharacterPromptGenerator.Mobile.slnx    Core + Android + tests (the Windows .slnx excludes Android and needs no MAUI workload)
 ```
 
 Inspired by Aurora's BnS Material Tracker: sidebar navigation with a dark theme, a built-in data editor, JSON data kept separate from the program, and user data in AppData. The original project was not modified.
@@ -357,7 +362,7 @@ Where the specification was ambiguous, the option that cannot damage data was pr
 
 ## 8. Testing
 
-### 8.1 Automated tests (`dotnet test`, all 115 pass)
+### 8.1 Automated tests (`dotnet test`, all 182 pass; the 115 original Windows tests are listed below, the ones added for mobile are in [docs/Android.md](docs/Android.md#7-測試清單))
 
 | Area | What is verified |
 |---|---|

@@ -6,7 +6,7 @@ using CharacterPromptGenerator.Core.Models;
 namespace CharacterPromptGenerator.Core.Storage;
 
 /// <summary>
-/// 編譯期產生的序列化程式碼。行動版（iOS AOT、Android 裁剪）不能依賴反射，
+/// 編譯期產生的序列化程式碼。Android 版 Release 會裁剪未使用的程式碼，不能依賴反射，
 /// 所有資料檔型別都要列在這裡；沒列到的型別序列化時會直接丟例外，而不是悄悄改走反射。
 /// </summary>
 [JsonSerializable(typeof(LibraryData))]

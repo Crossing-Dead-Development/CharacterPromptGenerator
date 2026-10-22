@@ -1,8 +1,12 @@
 # Build (and optionally install) the Android app of Character Design Prompt Generator.
 # Usage:  powershell -ExecutionPolicy Bypass -File build-android.ps1 [-Configuration Release] [-SkipTests] [-Install]
-# Output: dist\CharacterPromptGenerator_v<version>_android.apk  (Release only; signed with the debug key unless
-#         AndroidSigningKeyStore etc. are passed through -SigningArgs)
-# Needs:  dotnet workload maui-android, Microsoft OpenJDK 21, Android SDK (see README).
+# Output: dist\CharacterPromptGenerator_v<version>_android.apk         (Release, signed with the release key)
+#         dist\CharacterPromptGenerator_v<version>_android_debug.apk   (Debug, signed with the .NET debug key)
+# Release signing: -Keystore <file> (default %USERPROFILE%\.crossingdead\cpg-release.keystore, alias "cpg");
+#         the password is read from CPG_KEYSTORE_PASS or from "<keystore>.password.txt" next to the keystore.
+#         Android only accepts updates signed with the same key: keep a backup of the keystore and its password,
+#         or users will have to uninstall (losing their data) to install a new version.
+# Needs:  dotnet workload maui-android, Microsoft OpenJDK 21, Android SDK (see docs\Android.md).
 # The Windows build (build.ps1) is not affected and does not need the MAUI workload.
 param(
     [ValidateSet('Debug', 'Release')][string]$Configuration = 'Release',
@@ -10,7 +14,8 @@ param(
     [switch]$Install,
     [string]$JavaSdk = $env:CPG_JAVA_SDK,
     [string]$AndroidSdk = $env:CPG_ANDROID_SDK,
-    [string[]]$SigningArgs = @()
+    [string]$Keystore = $(if ($env:CPG_KEYSTORE) { $env:CPG_KEYSTORE } else { "$env:USERPROFILE\.crossingdead\cpg-release.keystore" }),
+    [string]$KeyAlias = 'cpg'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -44,7 +49,16 @@ $version = ([xml](Get-Content $project -Raw)).Project.PropertyGroup.ApplicationD
 $out = "src\CharacterPromptGenerator.Mobile\bin\$Configuration\net10.0-android"
 
 if ($Configuration -eq 'Release') {
-    Invoke-Step 'Publish APK (Release)' { dotnet publish $project @common -p:AndroidPackageFormats=apk @SigningArgs }
+    if (-not (Test-Path $Keystore)) { throw "Release signing keystore not found: $Keystore (see docs\Android.md, section on signing)." }
+    $passwordFile = "$Keystore.password.txt"
+    if (-not $env:CPG_KEYSTORE_PASS) {
+        if (-not (Test-Path $passwordFile)) { throw "No keystore password: set CPG_KEYSTORE_PASS or create $passwordFile" }
+        # Only for this process. (apksigner reads "file:" passwords line by line, so one file cannot serve both passwords.)
+        $env:CPG_KEYSTORE_PASS = (Get-Content $passwordFile -Raw).Trim()
+    }
+    $signing = @('-p:AndroidKeyStore=true', "-p:AndroidSigningKeyStore=$((Resolve-Path $Keystore).Path)", "-p:AndroidSigningKeyAlias=$KeyAlias",
+                 '-p:AndroidSigningStorePass=env:CPG_KEYSTORE_PASS', '-p:AndroidSigningKeyPass=env:CPG_KEYSTORE_PASS')
+    Invoke-Step 'Publish APK (Release)' { dotnet publish $project @common -p:AndroidPackageFormats=apk @signing }
     $apk = Get-ChildItem "$out\publish\*-Signed.apk" | Select-Object -First 1
 } else {
     # Debug normally uses Fast Deployment (assemblies are not inside the APK), so a standalone install would crash
@@ -61,6 +75,7 @@ Write-Host ''
 Write-Host ("APK: {0} ({1:N1} MB)" -f $target, ((Get-Item $target).Length / 1MB)) -ForegroundColor Green
 
 if ($Install) {
-    # -r keeps the app's data (word bank, presets, history) when updating
+    # -r keeps the app's data (word bank, presets, history) when updating.
+    # It fails with INSTALL_FAILED_UPDATE_INCOMPATIBLE if the installed app was signed with a different key.
     Invoke-Step 'Install on device' { & "$AndroidSdk\platform-tools\adb.exe" install -r $target }
 }

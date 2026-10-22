@@ -181,8 +181,26 @@ public class FullBackupTests
         Assert.Equal(L.T("FullBackup_NotBackup"), ReadError(Encoding.UTF8.GetBytes(GoodLibrary)));
 
     [Fact]
-    public void ZipWithoutManifest_IsRejected() =>
-        Assert.Equal(L.T("FullBackup_NotBackup"), ReadError(Zip(("library.json", GoodLibrary))));
+    public void ZipWithoutManifestOrLibrary_IsRejected() =>
+        Assert.Equal(L.T("FullBackup_NotBackup"), ReadError(Zip(("photo.json", "{}"), ("presets.json", """{ "presets": [] }"""))));
+
+    [Fact]
+    public void WindowsDataFolderZippedByHand_IsAccepted()
+    {
+        // Windows 版沒有完整備份：使用者在 %AppData% 資料夾選取 JSON 檔 →「傳送到 → 壓縮的資料夾」
+        using var dir = new TempDir();
+        var windows = Populated(dir);
+        var bytes = Zip(
+            ("library.json", File.ReadAllText(windows.Paths.LibraryFile)),
+            ("presets.json", File.ReadAllText(windows.Paths.PresetsFile)),
+            ("history.json", File.ReadAllText(windows.Paths.HistoryFile)),
+            ("settings.json", File.ReadAllText(windows.Paths.SettingsFile)));
+        var content = FullBackup.Read(new MemoryStream(bytes));
+        Assert.Equal("manual", content.Manifest.Platform);
+        Assert.Equal(windows.Library.Entries.Count, content.Library.Entries.Count);
+        Assert.Equal(windows.Presets.Select(p => p.Name), content.Presets.Select(p => p.Name));
+        Assert.Equal(windows.History.Count, content.History.Count);
+    }
 
     [Fact]
     public void NewerBackupFormat_IsRejected() =>

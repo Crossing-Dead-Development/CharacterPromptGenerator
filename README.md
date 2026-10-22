@@ -8,6 +8,8 @@
 
 > 這不是 AI 生圖或自動寫故事的工具。程式只負責抽題，詮釋完全交給畫師。完全離線、無帳號、無網路連線。
 
+> 📱 **Android 版**：同一套抽題規則與資料格式，詞庫可以在電腦與手機之間互相搬移。安裝、搬資料、建置與簽署請見 [docs/Android.md](docs/Android.md)。
+
 ---
 
 ## 目錄
@@ -320,11 +322,14 @@ CharacterPromptGenerator.slnx
 │  ├─ Themes/Dark.xaml
 │  ├─ Emoji/         fluent-emoji-3d.zip、LICENSE-fluentui-emoji.txt（內嵌進 EXE）
 │  └─ SeedData/      default_library.json、default_presets.json（空白預設資料，內嵌進 EXE）
-├─ tests/CharacterPromptGenerator.Tests/   xUnit 測試（115 項）；Fixtures/ 是測試用詞庫（2111 筆）
+├─ src/CharacterPromptGenerator.Mobile/    Android 版（.NET MAUI），見 docs/Android.md
+├─ tests/CharacterPromptGenerator.Tests/   xUnit 測試（182 項，含行動版新增的 Core 功能）；Fixtures/ 是測試用詞庫（2111 筆）
 ├─ samples/                                 JSON／CSV／TXT 範例匯入檔與錯誤範例
 ├─ tools/BuildEmojiPack.cs                  產生 Emoji 圖庫的工具
 ├─ THIRD-PARTY-NOTICES.md                   第三方素材授權聲明
-└─ build.ps1
+├─ build.ps1                               Windows EXE
+├─ build-android.ps1                       Android APK
+└─ CharacterPromptGenerator.Mobile.slnx    Core + Android + 測試（Windows 版的 .slnx 不含 Android，不需要 MAUI workload）
 ```
 
 參考了 Aurora's BnS Material Tracker 的做法：側邊欄導覽＋深色主題、內建資料編輯器、JSON 資料與程式分離、使用者資料放 AppData。原專案未做任何修改。
@@ -357,7 +362,7 @@ CharacterPromptGenerator.slnx
 
 ## 8. 測試狀況
 
-### 8.1 自動化測試（`dotnet test`，115 項全部通過）
+### 8.1 自動化測試（`dotnet test`，182 項全部通過；以下是 Windows 版原有的 115 項，行動版新增的見 [docs/Android.md](docs/Android.md#7-測試清單)）
 
 | 範圍 | 驗證內容 |
 |---|---|

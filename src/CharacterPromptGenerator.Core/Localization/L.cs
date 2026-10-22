@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Resources;
 
 namespace CharacterPromptGenerator.Core.Localization;
@@ -30,15 +30,19 @@ public static class L
     /// <summary>目前使用的語言代碼（zh-TW 或 en）。</summary>
     public static string Current => Culture.Name;
 
-    /// <summary>沒有設定或設定值不認識時：Windows 顯示語言是中文就用中文，其他一律英文。</summary>
-    public static string Resolve(string? code)
+    /// <summary>沒有設定或設定值不認識時，依系統顯示語言決定（Windows 與 Android 相同規則）。</summary>
+    public static string Resolve(string? code) =>
+        Resolve(code, [CultureInfo.InstalledUICulture.Name, CultureInfo.CurrentUICulture.Name]);
+
+    /// <summary>
+    /// <paramref name="code"/> 是支援的語言就直接使用；否則看系統語言：
+    /// 任何一個是中文（繁體、簡體、香港、新加坡…都算）就用繁體中文，其他一律英文。
+    /// </summary>
+    public static string Resolve(string? code, IEnumerable<string> systemCultures)
     {
-        if (Languages.Any(l => string.Equals(l.Code, code, StringComparison.OrdinalIgnoreCase)))
-            return Languages.First(l => string.Equals(l.Code, code, StringComparison.OrdinalIgnoreCase)).Code;
-        return CultureInfo.InstalledUICulture.Name.StartsWith("zh", StringComparison.OrdinalIgnoreCase)
-               || CultureInfo.CurrentUICulture.Name.StartsWith("zh", StringComparison.OrdinalIgnoreCase)
-            ? Chinese
-            : English;
+        if (Languages.FirstOrDefault(l => string.Equals(l.Code, code, StringComparison.OrdinalIgnoreCase)) is { } chosen)
+            return chosen.Code;
+        return systemCultures.Any(c => c.StartsWith("zh", StringComparison.OrdinalIgnoreCase)) ? Chinese : English;
     }
 
     public static void Use(string? code)

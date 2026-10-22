@@ -15,7 +15,7 @@ public sealed class BackupManifest
     public string Format { get; set; } = FormatName;
     public int SchemaVersion { get; set; } = CurrentSchemaVersion;
     public DateTime CreatedAt { get; set; }
-    /// <summary>建立備份的平台（android／ios／windows），僅供參考。</summary>
+    /// <summary>建立備份的平台（android／windows），僅供參考。</summary>
     public string Platform { get; set; } = "";
     public string AppVersion { get; set; } = "";
     public int Categories { get; set; }
@@ -87,20 +87,7 @@ public static class FullBackup
 
         using (zip)
         {
-            var manifestJson = ReadText(zip, "manifest.json") ?? throw new LibraryValidationException(L.T("FullBackup_NotBackup"));
-            BackupManifest? manifest;
-            try
-            {
-                manifest = JsonOptions.Deserialize<BackupManifest>(manifestJson);
-            }
-            catch
-            {
-                manifest = null;
-            }
-            if (manifest?.Format != BackupManifest.FormatName)
-                throw new LibraryValidationException(L.T("FullBackup_NotBackup"));
-            if (manifest.SchemaVersion > BackupManifest.CurrentSchemaVersion)
-                throw new LibraryValidationException(L.F("FullBackup_Newer", manifest.SchemaVersion, BackupManifest.CurrentSchemaVersion));
+            var manifest = ReadManifest(zip);
 
             var libraryJson = ReadText(zip, "library.json") ?? throw new LibraryValidationException(L.F("FullBackup_Missing", "library.json"));
             LibraryData? library;
@@ -127,6 +114,39 @@ public static class FullBackup
                 Settings = ReadOptional<AppSettings>(zip, "settings.json"),
             };
         }
+    }
+
+    /// <summary>
+    /// 讀取 manifest.json。沒有 manifest 時，只要最上層有 library.json 也接受：
+    /// Windows 版沒有匯出完整備份的功能，使用者可以直接把資料夾中的 JSON 檔壓成 zip 帶到手機。
+    /// </summary>
+    static BackupManifest ReadManifest(ZipArchive zip)
+    {
+        var json = ReadText(zip, "manifest.json");
+        if (json is null)
+        {
+            if (zip.GetEntry("library.json") is null) throw new LibraryValidationException(L.T("FullBackup_NotBackup"));
+            return new BackupManifest
+            {
+                Platform = "manual",
+                CreatedAt = zip.Entries.Max(e => e.LastWriteTime).LocalDateTime,
+            };
+        }
+
+        BackupManifest? manifest;
+        try
+        {
+            manifest = JsonOptions.Deserialize<BackupManifest>(json);
+        }
+        catch
+        {
+            manifest = null;
+        }
+        if (manifest?.Format != BackupManifest.FormatName)
+            throw new LibraryValidationException(L.T("FullBackup_NotBackup"));
+        if (manifest.SchemaVersion > BackupManifest.CurrentSchemaVersion)
+            throw new LibraryValidationException(L.F("FullBackup_Newer", manifest.SchemaVersion, BackupManifest.CurrentSchemaVersion));
+        return manifest;
     }
 
     static T? ReadOptional<T>(ZipArchive zip, string name) where T : class

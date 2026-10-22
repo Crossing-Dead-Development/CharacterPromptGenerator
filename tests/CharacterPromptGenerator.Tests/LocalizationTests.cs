@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using CharacterPromptGenerator.Core.Import;
@@ -82,6 +82,29 @@ public class LocalizationTests
     [InlineData("ZH-tw", "zh-TW")]
     [InlineData("en", "en")]
     public void Resolve_KnownCodes(string code, string expected) => Assert.Equal(expected, L.Resolve(code));
+
+    [Theory]
+    [InlineData("zh-TW", "zh-TW")]
+    [InlineData("zh-CN", "zh-TW")]   // 簡體中文系統也顯示中文介面
+    [InlineData("zh-Hans-CN", "zh-TW")]
+    [InlineData("zh-HK", "zh-TW")]
+    [InlineData("zh-SG", "zh-TW")]
+    [InlineData("zh", "zh-TW")]
+    [InlineData("en-US", "en")]
+    [InlineData("ja-JP", "en")]      // 非中文一律英文
+    [InlineData("ko-KR", "en")]
+    [InlineData("fr-FR", "en")]
+    [InlineData("", "en")]           // 不變文化（例如精簡環境）
+    public void Resolve_FollowsSystemLanguage_WhenNotSet(string system, string expected) =>
+        Assert.Equal(expected, L.Resolve(null, [system]));
+
+    [Fact]
+    public void Resolve_SavedChoice_WinsOverSystemLanguage()
+    {
+        Assert.Equal(L.English, L.Resolve("en", ["zh-TW"]));
+        Assert.Equal(L.Chinese, L.Resolve("zh-tw", ["ja-JP"]));
+        Assert.Equal(L.English, L.Resolve("xx", ["ja-JP"])); // 不認識的設定值當作沒有設定
+    }
 
     [Fact]
     public void Resolve_UnknownCode_FallsBackToASupportedLanguage()
